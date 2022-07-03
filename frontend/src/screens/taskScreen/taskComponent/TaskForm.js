@@ -21,8 +21,10 @@ import {
   useDetailTaskQuery,
   useEditTaskMutation,
 } from "../../../state/taskSlice";
+import { useAddCommentMutation } from "../../../state/taskCommentSlice";
 
 import { useListUserQuery } from "../../../state/userSlice";
+import { TaskComment } from "./TaskComment";
 
 export const TaskForm = (taskId) => {
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
@@ -31,15 +33,6 @@ export const TaskForm = (taskId) => {
     isLoading: loadingTask,
     error: error,
   } = useDetailTaskQuery(taskId.taskId);
-
-  if (!loadingTask) {
-    console.log(detailTask, "detailTas");
-    //   const {
-    //     data: detailUser = [],
-    //     isLoading: loadingDetailUser,
-    //     error: error,
-    //   } = useDetailUserQuery(detailTask.);
-  }
 
   const [task, setTask] = useState("");
   const [description, setDescription] = useState();
@@ -58,13 +51,8 @@ export const TaskForm = (taskId) => {
     setEndDate(detailTask.dateDue);
   }, [loadingTask]);
 
-  // if (!loadingTask) {
-  //   setTask(rawList.name);
-  //   setDescription(rawList.description);
-  //   setPriority(rawList.priority);
-  // }
-
   const [editTask] = useEditTaskMutation();
+  const [addComment] = useAddCommentMutation();
 
   const handleSubmit = () => {
     const updatedTask = {
@@ -81,6 +69,17 @@ export const TaskForm = (taskId) => {
     };
     console.log(updatedTask);
     editTask(updatedTask);
+  };
+
+  const handleComment = () => {
+    const commentObj = {
+      name: "John",
+      comment: comment,
+      taskId: taskId.taskId,
+    };
+
+    console.log(commentObj, "comment");
+    addComment(commentObj);
   };
 
   const handleEndDateChange = (newValue) => {
@@ -142,7 +141,7 @@ export const TaskForm = (taskId) => {
                     label="progress"
                     onChange={(e) => setProgress(e.target.value)}
                   >
-                    <MenuItem value={"NotStarted"}>Not Started</MenuItem>
+                    <MenuItem value={"Not started"}>Not Started</MenuItem>
                     <MenuItem value={"Ongoing"}>Ongoing</MenuItem>
                     <MenuItem value={"Completed"}>Completed</MenuItem>
                   </Select>
@@ -209,7 +208,19 @@ export const TaskForm = (taskId) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <Stack
+                  display={"flex"}
+                  direction={"row-reverse"}
+                  spacing={2}
+                  mt={2}
+                  padding={2}
+                >
+                  <Button variant="outlined" onClick={handleSubmit}>
+                    Update
+                  </Button>
+                </Stack>
               </Grid>
+
               <Divider></Divider>
               <Grid item xs={12}>
                 <Typography
@@ -229,19 +240,23 @@ export const TaskForm = (taskId) => {
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
+                <Stack
+                  display={"flex"}
+                  direction={"row-reverse"}
+                  spacing={2}
+                  mt={2}
+                  padding={2}
+                >
+                  <Button variant="outlined" onClick={handleComment}>
+                    Add comment
+                  </Button>
+                </Stack>
               </Grid>
+              {/* <Grid item xs={12}>
+                <TaskComment data={detailTask}></TaskComment>
+              </Grid> */}
             </Grid>
-            <Stack
-              display={"flex"}
-              direction={"row-reverse"}
-              spacing={2}
-              mt={2}
-              padding={2}
-            >
-              <Button variant="outlined" onClick={handleSubmit}>
-                Update
-              </Button>
-            </Stack>
+            <TaskComment data={taskId.taskId}></TaskComment>
           </Box>
         </Box>
       )}

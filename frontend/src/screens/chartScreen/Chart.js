@@ -12,6 +12,7 @@ export const Chart = () => {
   var newHighArrayOfObj = [];
   var newMediumArrayOfObj = [];
   var userGroup = [];
+  var taskCompletion = [];
 
   var datas = {};
 
@@ -28,7 +29,7 @@ export const Chart = () => {
 
     const result = groupBy(rawList, "priority");
     userGroup = groupBy(rawList, "assignedTo");
-    // console.log(userGroup, "userGroup");
+    taskCompletion = groupBy(rawList, "progress");
 
     if (result.Low) {
       const low = [result.Low];
@@ -93,7 +94,7 @@ export const Chart = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <Box>
-                    <PieChart></PieChart>
+                    <PieChart data={taskCompletion}></PieChart>
                   </Box>
                 </Grid>
                 <Grid item xs={12}>

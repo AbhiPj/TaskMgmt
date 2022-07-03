@@ -31,8 +31,8 @@ export const priorityOption = {
       position: "top",
     },
     title: {
-      display: false,
-      // text: "User Chart",
+      display: true,
+      text: "User Chart",
     },
   },
 };
@@ -46,6 +46,19 @@ export const taskOption = {
     title: {
       display: true,
       text: " Task Completion Chart",
+    },
+  },
+};
+
+export const userOption = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: " User Task Chart",
     },
   },
 };
@@ -83,7 +96,6 @@ export const BarChart = (datas) => {
 
 export const BarChart2 = (userGroup) => {
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
-  var userArray = [];
   const labels = [];
   var data = {};
   var userTask = [];
@@ -93,9 +105,9 @@ export const BarChart2 = (userGroup) => {
       labels.push(item.name);
     });
 
-    const i = userGroup.data;
+    // const i = userGroup.data;
 
-    Object.entries(i).map(([key, value]) => {
+    Object.entries(userGroup.data).map(([key, value]) => {
       userTask.push(value.length);
     });
 
@@ -123,12 +135,7 @@ export const BarChart2 = (userGroup) => {
         <>
           <Paper elevation={3}>
             <Box sx={{ padding: 3 }}>
-              <Bar
-                height={400}
-                width={800}
-                data={data}
-                options={priorityOption}
-              />
+              <Bar height={400} width={800} data={data} options={userOption} />
             </Box>
           </Paper>
         </>
@@ -164,12 +171,46 @@ export const pieData = {
   ],
 };
 
-export const PieChart = () => {
+export const PieChart = (taskCompletion) => {
+  var completionArr = [];
+
+  console.log(taskCompletion, "taskcompletion");
+  Object.entries(taskCompletion.data).map(([key, value]) => {
+    completionArr.push(value.length);
+  });
+
+  var data = {
+    labels: ["Tasks Done", "Tasks Remaining", "In Progress"],
+    datasets: [
+      {
+        label: "#",
+        data: completionArr,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
+          // "rgba(255, 206, 86, 0.6)",
+          // "rgba(75, 192, 192, 0.6)",
+          "rgba(153, 102, 255, 0.6)",
+          // "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <>
       <Paper elevation={3}>
         <Box sx={{ padding: 4, height: 460 }}>
-          <Doughnut data={pieData} options={taskOption} />
+          <Doughnut data={data} options={taskOption} />
         </Box>
       </Paper>
     </>

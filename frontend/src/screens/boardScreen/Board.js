@@ -153,7 +153,7 @@ export const Boards = () => {
       <Box
         sx={{
           width: 880,
-          marginLeft: 45,
+          marginLeft: 40,
         }}
       >
         <Stack

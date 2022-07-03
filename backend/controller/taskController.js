@@ -62,6 +62,7 @@ export const editTask = (req, res) => {
     dateDue,
     startDate,
     progress,
+    // comment,
   } = req.body.body;
 
   Task.findById(req.params.id)
@@ -73,12 +74,22 @@ export const editTask = (req, res) => {
       task.dateDue = dateDue || task.dateDue;
       task.startDate = startDate || task.startDate;
       task.progress = progress || task.progress;
+      // task.comment = comment || task.comment;
       task
         .save()
         .then(() => res.json("task updated"))
         .catch((err) => res.status(400).json("error" + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
+};
+
+export const addComment = (req, res) => {
+  const { name, comment } = req.body.comment;
+
+  Task.findById(req.params.id).then((task) => {
+    task.name = name || task.name;
+    task.comment = comment || task.comment;
+  });
 };
 
 export const deleteTask = (req, res) => {

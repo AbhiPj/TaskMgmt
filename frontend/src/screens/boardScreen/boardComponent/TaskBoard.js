@@ -10,6 +10,7 @@ import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import styled from "@emotion/styled";
+import { Dialog } from "@mui/material";
 
 export const TaskBoard = () => {
   const {
@@ -30,46 +31,9 @@ export const TaskBoard = () => {
 
   const [taskId, setTaskId] = React.useState();
 
-  // const handleEditClose = () => {
-  //   setEditOpen(false);
-  // };
-
-  // const handleDetailClose = () => {
-  //   setDetailOpen(false);
-  // };
-
-  const CustomeDrawer = styled(Drawer)(({ theme }) => ({
-    //   height: "100%",
-    "& .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorBottom.css-9emuhu-MuiPaper-root-MuiDrawer-paper":
-      {
-        width: "600px",
-        borderRadius: "10px 10px 0 0",
-        overflow: "auto",
-        margin: "auto",
-        // backgroundColor: "black",
-        height: "520px",
-      },
-  }));
-
-  const list = (id) => (
-    <Box
-      sx={{
-        width: "auto",
-        height: 400,
-        // backgroundColor: "black",
-      }}
-      role="presentation"
-    >
-      <TaskForm taskId={id}></TaskForm>
-    </Box>
-  );
-
-  // useEffect(() => {
-  //   if (!loadingTask) {
-  //     setData(rawList);
-  //   }
-  // }, [taskId]);
-  // console.log(data, "newData");
+  const handleEditClose = () => {
+    setEditOpen(false);
+  };
 
   var board;
 
@@ -99,7 +63,6 @@ export const TaskBoard = () => {
     var emptyArr = [];
 
     priority.map((value, key) => {
-      // console.log(filteredResult[value], "val");
       if (filteredResult[value]) {
         emptyArr.push({
           id: key + 1,
@@ -114,7 +77,6 @@ export const TaskBoard = () => {
         });
       }
     });
-    // console.log("emptyArr", emptyArr);
 
     board = {
       lanes: emptyArr,
@@ -166,7 +128,7 @@ export const TaskBoard = () => {
             onCardClick={(id) => {
               setDetailOpen(true);
               setTaskId(id);
-              setDrawer(true);
+              setEditOpen(true);
             }}
             handleDragEnd={(
               cardId,
@@ -188,19 +150,9 @@ export const TaskBoard = () => {
               editTask(updatedTask);
             }}
           />
-          <Box>
-            <React.Fragment key={"bottom"}>
-              <CustomeDrawer
-                anchor="bottom"
-                open={drawer}
-                onClose={() => {
-                  setDrawer(false);
-                }}
-              >
-                {list(taskId)}
-              </CustomeDrawer>
-            </React.Fragment>
-          </Box>
+          <Dialog open={editOpen} onClose={handleEditClose}>
+            <TaskForm taskId={taskId}></TaskForm>
+          </Dialog>
         </>
       )}
     </Box>
