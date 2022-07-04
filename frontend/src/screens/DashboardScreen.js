@@ -5,6 +5,7 @@ import {
   useListTaskQuery,
   useAddTaskMutation,
   useDeleteTaskMutation,
+  useListDepartmentTaskQuery,
 } from "../state/taskSlice";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { blue } from "@mui/material/colors";
@@ -59,7 +60,15 @@ export const DashboardScreen = () => {
     { title: "Date Due", field: "dateDue", type: "date", width: 130 },
   ];
 
-  const { data: rawList = [] } = useListTaskQuery();
+  // const { data: rawList = [] } = useListTaskQuery();
+
+  const dept = "IT";
+
+  const {
+    data: rawList = [],
+    isLoading: loadingTask,
+    error: error,
+  } = useListDepartmentTaskQuery(dept);
 
   return (
     <>

@@ -9,17 +9,13 @@ import Typography from "@mui/material/Typography";
 import { useListCommentQuery } from "../../../state/taskCommentSlice";
 
 export const TaskComment = (detailTask) => {
-  console.log(detailTask.data, "detail task comment");
+  // console.log(detailTask.data, "detail task comment");
 
   const {
     data: commentList = [],
     isLoading: loadingComment,
     error,
   } = useListCommentQuery(detailTask.data);
-
-  if (!loadingComment) {
-    console.log(commentList, "commentList");
-  }
 
   return (
     <>

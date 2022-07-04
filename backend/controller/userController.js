@@ -19,8 +19,9 @@ export const addUser = (req, res) => {
 
   const name = req.body.name;
   const age = req.body.age;
+  const department = req.body.department;
 
-  const newUser = new User({ name, age });
+  const newUser = new User({ name, age, department });
 
   newUser
     .save()
@@ -41,11 +42,14 @@ export const detailUser = (req, res) => {
 };
 
 export const editUser = (req, res) => {
-  const { name } = req.body;
+  const { name, age, department } = req.body;
 
   User.findById(req.params.id)
     .then((user) => {
       user.name = name || user.name;
+      user.age = age || user.age;
+      user.department = department || user.department;
+
       user
         .save()
         .then(() => res.json("user updated"))

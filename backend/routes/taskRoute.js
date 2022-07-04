@@ -7,6 +7,7 @@ import {
   editTask,
   deleteTask,
   addComment,
+  listDepartmentTask,
 } from "../controller/taskController.js";
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.route("/detail/:id").get(detailTask);
 router.route("/comment/:id").post(addComment);
 router.route("/edit/:id").put(editTask);
 router.route("/delete/:id").put(deleteTask);
+router.route("/list/:department").get(listDepartmentTask);
 
 export default router;

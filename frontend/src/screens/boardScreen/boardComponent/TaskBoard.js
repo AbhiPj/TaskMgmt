@@ -4,6 +4,7 @@ import {
   useAddTaskMutation,
   useDeleteTaskMutation,
   useListTaskQuery,
+  useListDepartmentTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
@@ -13,11 +14,19 @@ import styled from "@emotion/styled";
 import { Dialog } from "@mui/material";
 
 export const TaskBoard = () => {
+  //   const {
+  //     data: rawList = [],
+  //     isLoading: loadingTask,
+  //     error: error,
+  //   } = useListTaskQuery();
+
+  const dept = "IT";
+
   const {
     data: rawList = [],
     isLoading: loadingTask,
     error: error,
-  } = useListTaskQuery();
+  } = useListDepartmentTaskQuery(dept);
 
   const [addTask] = useAddTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();

@@ -16,7 +16,6 @@ import { Box } from "@mui/system";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import SelectUnstyled from "@mui/base/SelectUnstyled";
 
 import {
   useDetailTaskQuery,
@@ -29,28 +28,34 @@ import { TaskComment } from "./TaskComment";
 import styled from "@emotion/styled";
 
 export const TaskForm = (taskId) => {
-  const CustomTextField = styled(TextField)(({ theme }) => ({
-    "& .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input": {
-      // font: "menu",
-      fontSize: "13px",
-    },
-    color: "black",
-  }));
+  if (taskId.date) {
+    console.log(taskId.date.startDate, "startdate");
+  }
+  // const CustomTextField = styled(TextField)(({ theme }) => ({
+  //   "& .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input": {
+  //     // font: "menu",
+  //     fontSize: "13px",
+  //   },
+  //   color: "black",
+  // }));
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+
   const {
     data: detailTask = [],
     isLoading: loadingTask,
     error: error,
-  } = useDetailTaskQuery(taskId.taskId);
+  } = useDetailTaskQuery(taskId?.taskId);
 
   const [task, setTask] = useState("");
   const [description, setDescription] = useState();
+  const [department, setDepartment] = useState();
+
   const [comment, setComment] = useState("");
   const [priority, setPriority] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
-  const [startDate, setStartDate] = React.useState(Date.now());
+  const [startDate, setStartDate] = React.useState(new Date(Date.now()));
   const [endDate, setEndDate] = React.useState();
 
   useEffect(() => {
@@ -67,20 +72,24 @@ export const TaskForm = (taskId) => {
   const [addComment] = useAddCommentMutation();
 
   const handleSubmit = () => {
-    const updatedTask = {
-      id: taskId.taskId,
-      body: {
-        name: task,
-        description: description,
-        priority: priority,
-        assignedTo: assignedTo,
-        dateDue: endDate,
-        startDate: startDate,
-        progress: progress,
-      },
-    };
-    console.log(updatedTask);
-    editTask(updatedTask);
+    if (taskId.taskId) {
+      const updatedTask = {
+        id: taskId.taskId,
+        body: {
+          name: task,
+          description: description,
+          priority: priority,
+          assignedTo: assignedTo,
+          dateDue: endDate,
+          startDate: startDate,
+          progress: progress,
+          department: department,
+        },
+      };
+      editTask(updatedTask);
+    } else if (taskId.date) {
+      console.log("add");
+    }
   };
 
   const handleComment = () => {
@@ -122,7 +131,7 @@ export const TaskForm = (taskId) => {
                   onChange={(e) => setTask(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Assigned To
@@ -147,7 +156,29 @@ export const TaskForm = (taskId) => {
                   </Select>
                 </FormControl>
               </Grid>
-
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Department
+                  </InputLabel>
+                  <Select
+                    sx={{
+                      height: 40,
+                      fontSize: 14,
+                    }}
+                    variant="filled"
+                    labelId="demo-simple-select-label"
+                    size="small"
+                    id="demo-simple-select"
+                    value={department}
+                    label="Priority"
+                    onChange={(e) => setDepartment(e.target.value)}
+                  >
+                    <MenuItem value={"IT"}>IT</MenuItem>
+                    <MenuItem value={"Finance"}>Finance</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">

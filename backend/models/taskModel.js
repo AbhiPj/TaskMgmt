@@ -17,8 +17,10 @@ const taskSchema = mongoose.Schema(
     priority: { type: String },
     progress: { type: String },
     assignedTo: { type: String },
+    department: { type: String },
     startDate: { type: Date },
     dateDue: { type: Date },
+
     // comment: [commentSchema],
   },
   {

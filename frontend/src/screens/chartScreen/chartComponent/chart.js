@@ -66,16 +66,22 @@ export const userOption = {
 export const BarChart = (datas) => {
   const labels = ["High", "Medium", "Low"];
 
-  const high = datas.datas.high.length;
-  const medium = datas.datas.medium.length;
-  const low = datas.datas.low.length;
+  var priorityData = [];
+
+  // const high = datas.datas.high.length;
+  // const medium = datas.datas.medium.length;
+  // const low = datas.datas.low.length;
+
+  Object.entries(datas.datas).map(([key, value]) => {
+    priorityData.push(value.length);
+  });
 
   const data = {
     labels,
     datasets: [
       {
         label: "Task Priority",
-        data: [high, medium, low],
+        data: priorityData,
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderRadius: 8,
         barPercentage: 0.7,

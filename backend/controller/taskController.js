@@ -10,12 +10,14 @@ export const addTask = (req, res) => {
     startDate,
     progress,
     comment,
+    department,
   } = req.body;
 
   const task = new Task({
     name,
     description,
     priority,
+    department,
     assignedTo,
     dateDue,
     startDate,
@@ -47,6 +49,14 @@ export const listTask = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
+export const listDepartmentTask = (req, res) => {
+  Task.find({
+    department: req.params.department,
+  })
+    .then((task) => res.status(201).json(task))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
 export const detailTask = (req, res) => {
   Task.findById(req.params.id)
     .then((task) => res.json(task))
@@ -62,6 +72,7 @@ export const editTask = (req, res) => {
     dateDue,
     startDate,
     progress,
+    department,
     // comment,
   } = req.body.body;
 
@@ -74,6 +85,8 @@ export const editTask = (req, res) => {
       task.dateDue = dateDue || task.dateDue;
       task.startDate = startDate || task.startDate;
       task.progress = progress || task.progress;
+      task.department = department || task.department;
+
       // task.comment = comment || task.comment;
       task
         .save()
