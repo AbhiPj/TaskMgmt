@@ -16,6 +16,7 @@ import { Box } from "@mui/system";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import SelectUnstyled from "@mui/base/SelectUnstyled";
 
 import {
   useDetailTaskQuery,
@@ -25,8 +26,17 @@ import { useAddCommentMutation } from "../../../state/taskCommentSlice";
 
 import { useListUserQuery } from "../../../state/userSlice";
 import { TaskComment } from "./TaskComment";
+import styled from "@emotion/styled";
 
 export const TaskForm = (taskId) => {
+  const CustomTextField = styled(TextField)(({ theme }) => ({
+    "& .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input": {
+      // font: "menu",
+      fontSize: "13px",
+    },
+    color: "black",
+  }));
+
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const {
     data: detailTask = [],
@@ -39,13 +49,15 @@ export const TaskForm = (taskId) => {
   const [comment, setComment] = useState("");
   const [priority, setPriority] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
-  const [progress, setProgress] = useState("NotStarted");
+  const [progress, setProgress] = useState("");
   const [startDate, setStartDate] = React.useState(Date.now());
   const [endDate, setEndDate] = React.useState();
 
   useEffect(() => {
     setTask(detailTask.name);
     setDescription(detailTask.description);
+    setProgress(detailTask.progress);
+
     setPriority(detailTask.priority);
     setAssignedTo(detailTask.assignedTo);
     setEndDate(detailTask.dateDue);
@@ -95,14 +107,16 @@ export const TaskForm = (taskId) => {
       {loadingTask ? (
         "Loading... "
       ) : (
-        <Box sx={{ padding: 6, marginTop: 1 }}>
+        <Box sx={{ padding: 3, marginTop: 1 }}>
           <Box width={500} margin={"auto"}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
+                  variant="filled"
+                  inputProps={{ style: { fontSize: 14 } }}
+                  InputLabelProps={{ style: { fontSize: 13 } }}
                   fullWidth
                   label="Task"
-                  // variant="standard"
                   size="small"
                   value={task}
                   onChange={(e) => setTask(e.target.value)}
@@ -114,10 +128,16 @@ export const TaskForm = (taskId) => {
                     Assigned To
                   </InputLabel>
                   <Select
+                    sx={{
+                      // backgroundColor: "rgba(230,230,230,0.6)",
+                      height: 40,
+                      fontSize: 14,
+                    }}
                     labelId="demo-simple-select-label"
-                    size="small"
                     id="demo-simple-select"
+                    variant="filled"
                     value={assignedTo}
+                    size="small"
                     label="assignedTo"
                     onChange={(e) => setAssignedTo(e.target.value)}
                   >
@@ -134,8 +154,14 @@ export const TaskForm = (taskId) => {
                     Progress
                   </InputLabel>
                   <Select
+                    sx={{
+                      // backgroundColor: "rgba(230,230,230,0.6)",
+                      height: 40,
+                      fontSize: 14,
+                    }}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
+                    variant="filled"
                     value={progress}
                     size="small"
                     label="progress"
@@ -153,6 +179,11 @@ export const TaskForm = (taskId) => {
                     Priority
                   </InputLabel>
                   <Select
+                    sx={{
+                      height: 40,
+                      fontSize: 14,
+                    }}
+                    variant="filled"
                     labelId="demo-simple-select-label"
                     size="small"
                     id="demo-simple-select"
@@ -174,7 +205,14 @@ export const TaskForm = (taskId) => {
                     inputFormat="MM/dd/yyyy"
                     value={startDate}
                     onChange={handleStartDateChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      <TextField
+                        variant="filled"
+                        inputProps={{ style: { fontSize: 15 } }}
+                        InputLabelProps={{ style: { fontSize: 13 } }}
+                        {...params}
+                      />
+                    )}
                   />
                 </LocalizationProvider>
               </Grid>
@@ -186,14 +224,20 @@ export const TaskForm = (taskId) => {
                     inputFormat="MM/dd/yyyy"
                     value={endDate}
                     onChange={handleEndDateChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => (
+                      <TextField
+                        variant="filled"
+                        InputLabelProps={{ style: { fontSize: 13 } }}
+                        {...params}
+                      />
+                    )}
                   />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
                 <Typography
                   variant="body2"
-                  sx={{ marginTop: 3, marginBottom: 2 }}
+                  sx={{ marginTop: 1, marginBottom: 1 }}
                 >
                   Notes :
                 </Typography>
@@ -202,6 +246,8 @@ export const TaskForm = (taskId) => {
                     width: "100%",
                     height: "100px",
                     fontFamily: "Helvetica",
+                    backgroundColor: "rgba(230,230,230,0.6)",
+                    border: "none",
                   }}
                   fullWidth
                   label="Description"
@@ -213,15 +259,16 @@ export const TaskForm = (taskId) => {
                   direction={"row-reverse"}
                   spacing={2}
                   mt={2}
+                  mb={3}
                   padding={2}
                 >
                   <Button variant="outlined" onClick={handleSubmit}>
                     Update
                   </Button>
                 </Stack>
+                <Divider variant="middle" />
               </Grid>
 
-              <Divider></Divider>
               <Grid item xs={12}>
                 <Typography
                   variant="body2"
@@ -234,6 +281,8 @@ export const TaskForm = (taskId) => {
                     width: "100%",
                     height: "100px",
                     fontFamily: "Helvetica",
+                    backgroundColor: "rgba(230,230,230,0.6)",
+                    border: "none",
                   }}
                   fullWidth
                   label="Description"

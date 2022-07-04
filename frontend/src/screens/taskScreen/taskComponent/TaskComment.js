@@ -28,7 +28,11 @@ export const TaskComment = (detailTask) => {
       ) : (
         <>
           <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            sx={{
+              width: "100%",
+              maxWidth: "none",
+              bgcolor: "background.paper",
+            }}
           >
             {commentList.map((item) => {
               return (
