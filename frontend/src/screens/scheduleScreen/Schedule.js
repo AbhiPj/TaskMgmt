@@ -15,6 +15,7 @@ import {
   useListTaskQuery,
 } from "../../state/taskSlice";
 import { TaskForm } from "../taskScreen/taskComponent/TaskForm";
+import { AddTaskForm } from "../taskScreen/taskComponent/addTaskForm";
 
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -22,7 +23,6 @@ const DnDCalendar = withDragAndDrop(Calendar);
 export const Schedule = () => {
   const [editOpen, setEditOpen] = React.useState(false);
   const [addOpen, setAddOpen] = React.useState(false);
-
   const [taskId, setTaskId] = React.useState();
 
   const handleEditClose = () => {
@@ -107,7 +107,7 @@ export const Schedule = () => {
             <TaskForm taskId={taskId}></TaskForm>
           </Dialog>
           <Dialog open={addOpen} onClose={handleAddClose}>
-            <TaskForm date={date}></TaskForm>
+            <AddTaskForm date={date}></AddTaskForm>
           </Dialog>
         </>
       )}

@@ -149,17 +149,15 @@ export const Boards = () => {
         </ThemeProvider>
       </Box>
 
-      {/* <Box sx={{ color: blue, marginRight: 4 }}></Box> */}
       <Box
         sx={{
           width: 880,
           marginLeft: 40,
         }}
       >
-        <Stack
-          direction="row-reverse"
-          sx={{ marginTop: 1, marginBottom: 1 }}
-        ></Stack>
+        {/* <Stack direction="row-reverse" sx={{ marginTop: 1, marginBottom: 1 }}>
+          <Box>aaa</Box>
+        </Stack> */}
         {/* <TaskBoard></TaskBoard> */}
         {/* <UserBoard></UserBoard> */}
         {renderBoard()}

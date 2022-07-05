@@ -12,7 +12,6 @@ import { blue } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TaskForm } from "./taskScreen/taskComponent/TaskForm";
-import { TaskDetail } from "./taskScreen/taskComponent/TaskDetail";
 import { CustomAppbar } from "../components/Appbar";
 export const DashboardScreen = () => {
   const [addTask] = useAddTaskMutation();
@@ -54,6 +53,13 @@ export const DashboardScreen = () => {
       field: "priority",
       width: 130,
       lookup: { Low: "Low", Medium: "Medium", High: "High" },
+      validate: (row) => (row.priority || "").length !== 0,
+    },
+    {
+      title: "Department",
+      field: "department",
+      width: 130,
+      lookup: { IT: "IT", Finance: "Finance" },
       validate: (row) => (row.priority || "").length !== 0,
     },
     { title: "Assigned to", field: "assignedTo", width: 200 },
@@ -142,9 +148,6 @@ export const DashboardScreen = () => {
 
       <Dialog open={editOpen} onClose={handleEditClose}>
         <TaskForm taskId={taskId}></TaskForm>
-      </Dialog>
-      <Dialog open={detailOpen} onClose={handleDetailClose}>
-        <TaskDetail taskId={taskId}></TaskDetail>
       </Dialog>
     </>
   );
