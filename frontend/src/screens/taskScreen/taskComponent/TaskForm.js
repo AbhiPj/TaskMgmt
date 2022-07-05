@@ -20,6 +20,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {
   useDetailTaskQuery,
   useEditTaskMutation,
+  useAddTaskMutation,
 } from "../../../state/taskSlice";
 import { useAddCommentMutation } from "../../../state/taskCommentSlice";
 
@@ -40,6 +41,7 @@ export const TaskForm = (taskId) => {
   // }));
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+  const [addTask] = useAddTaskMutation();
 
   const {
     data: detailTask = [],
@@ -88,7 +90,17 @@ export const TaskForm = (taskId) => {
       };
       editTask(updatedTask);
     } else if (taskId.date) {
-      console.log("add");
+      const addTaskObj = {
+        name: task,
+        description: description,
+        priority: priority,
+        assignedTo: assignedTo,
+        dateDue: endDate,
+        startDate: startDate,
+        progress: progress,
+        department: department,
+      };
+      addTask(addTaskObj);
     }
   };
 
@@ -294,7 +306,7 @@ export const TaskForm = (taskId) => {
                   padding={2}
                 >
                   <Button variant="outlined" onClick={handleSubmit}>
-                    Update
+                    Submit
                   </Button>
                 </Stack>
                 <Divider variant="middle" />

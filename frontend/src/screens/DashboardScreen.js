@@ -93,7 +93,9 @@ export const DashboardScreen = () => {
           }}
           onRowClick={(e, data) => {
             console.log(data);
-            setDetailOpen(true);
+            // setDetailOpen(true);
+            setEditOpen(true);
+
             var id = data._id;
             setTaskId(id);
           }}

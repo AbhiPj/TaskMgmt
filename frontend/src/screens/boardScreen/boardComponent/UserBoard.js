@@ -4,6 +4,7 @@ import {
   useAddTaskMutation,
   useDeleteTaskMutation,
   useListTaskQuery,
+  useListDepartmentTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { useListUserQuery } from "../../../state/userSlice";
@@ -12,19 +13,28 @@ import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import styled from "@emotion/styled";
 
 export const UserBoard = () => {
+  // const {
+  //   data: rawList = [],
+  //   isLoading: loadingTask,
+  //   error: error,
+  // } = useListTaskQuery();
+
+  var userArray = [];
+  const dept = "IT";
+
   const {
     data: rawList = [],
     isLoading: loadingTask,
     error: error,
-  } = useListTaskQuery();
+  } = useListDepartmentTaskQuery(dept);
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
 
-  var userArray = [];
-
   if (!loadingUser) {
     userList.map((item) => {
-      userArray.push(item.name);
+      if (item.department == "IT") {
+        userArray.push(item.name);
+      }
     });
   }
 
@@ -84,7 +94,7 @@ export const UserBoard = () => {
 
   return (
     <>
-      {loadingUser ? (
+      {loadingUser && loadingTask ? (
         "Loading... "
       ) : (
         <>

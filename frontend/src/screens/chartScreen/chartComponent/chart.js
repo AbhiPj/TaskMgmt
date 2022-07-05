@@ -64,15 +64,19 @@ export const userOption = {
 };
 
 export const BarChart = (datas) => {
-  const labels = ["High", "Medium", "Low"];
-
+  const priorityArr = ["High", "Medium", "Low"];
   var priorityData = [];
 
-  // const high = datas.datas.high.length;
-  // const medium = datas.datas.medium.length;
-  // const low = datas.datas.low.length;
+  priorityArr.map((item) => {
+    if (!datas.datas[item]) {
+      datas.datas[item] = [];
+    }
+  });
+
+  var labels = [];
 
   Object.entries(datas.datas).map(([key, value]) => {
+    labels.push(key);
     priorityData.push(value.length);
   });
 
@@ -106,15 +110,16 @@ export const BarChart2 = (userGroup) => {
   var data = {};
   var userTask = [];
 
+  userList.map((item) => {
+    if (!userGroup.data[item.name]) {
+      userGroup.data[item.name] = [];
+    }
+  });
+
   if (!loadingUser) {
-    userList.map((item) => {
-      labels.push(item.name);
-    });
-
-    // const i = userGroup.data;
-
     Object.entries(userGroup.data).map(([key, value]) => {
       userTask.push(value.length);
+      labels.push(key);
     });
 
     data = {
@@ -179,14 +184,23 @@ export const pieData = {
 
 export const PieChart = (taskCompletion) => {
   var completionArr = [];
+  var labels = [];
 
-  console.log(taskCompletion, "taskcompletion");
+  var taskCompletionList = ["Completed", "Ongoing", "Not started"];
+
+  taskCompletionList.map((item) => {
+    if (!taskCompletion.data[item]) {
+      taskCompletion.data[item] = [];
+    }
+  });
+
   Object.entries(taskCompletion.data).map(([key, value]) => {
     completionArr.push(value.length);
+    labels.push(key);
   });
 
   var data = {
-    labels: ["Tasks Done", "Tasks Remaining", "In Progress"],
+    labels,
     datasets: [
       {
         label: "#",

@@ -101,38 +101,24 @@ export const TaskBoard = () => {
           <Board
             data={board}
             style={{
-              // boxShadow:
-              //   "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
               boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
               border: "2px solid #e6e6e6",
               borderRadius: "10px",
               backgroundColor: "white",
               overflowX: "auto",
               height: "85vh",
-              // backgroundColor: "#ededed",
-              // backgroundColor: "#e8e6eb",
-              // backgroundColor: "#f5f5f5",
-
               width: "1200px",
               marginLeft: "-60px",
               marginTop: "-55px",
-              // overflowY: "scroll",
             }}
             cardStyle={{
               backgroundColor: "#ededed",
-              // borderRadius: "2px",
-              // backgroundColor: "#f5f5f5",
-              // boxShadow:
-              //   "1px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)",
-              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
               boxShadow: "2px 1px 4px #888888",
               border: "1px solid #e8e6eb",
               width: "1900px",
             }}
             laneStyle={{
               backgroundColor: "white",
-              // backgroundColor: "#f8f6fb",
-              // backgroundColor: "#f3f0f8",
             }}
             onCardClick={(id) => {
               setDetailOpen(true);
