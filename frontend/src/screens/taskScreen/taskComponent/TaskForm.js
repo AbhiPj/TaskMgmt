@@ -23,6 +23,8 @@ import {
   useAddTaskMutation,
 } from "../../../state/taskSlice";
 
+import { useListBucketQuery } from "../../../state/bucketSlice";
+
 import { useAddCommentMutation } from "../../../state/taskCommentSlice";
 import { useListUserQuery } from "../../../state/userSlice";
 import { TaskComment } from "./TaskComment";
@@ -41,6 +43,9 @@ export const TaskForm = (taskId) => {
   // }));
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+  const { data: bucketList = [], isLoading: loadingBucket } =
+    useListBucketQuery();
+
   const [addTask] = useAddTaskMutation();
 
   const {
@@ -55,6 +60,8 @@ export const TaskForm = (taskId) => {
 
   const [comment, setComment] = useState("");
   const [priority, setPriority] = useState("");
+  const [bucket, setBucket] = useState("");
+
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
   const [startDate, setStartDate] = React.useState(new Date(Date.now()));
@@ -86,6 +93,7 @@ export const TaskForm = (taskId) => {
           startDate: startDate,
           progress: progress,
           department: department,
+          bucket: bucket,
         },
       };
       editTask(updatedTask);
@@ -125,7 +133,7 @@ export const TaskForm = (taskId) => {
 
   return (
     <>
-      {loadingTask ? (
+      {loadingTask && loadingBucket && loadingUser ? (
         "Loading... "
       ) : (
         <Box sx={{ padding: 3, marginTop: 1 }}>
@@ -191,7 +199,7 @@ export const TaskForm = (taskId) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Progress
@@ -216,7 +224,7 @@ export const TaskForm = (taskId) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Priority
@@ -237,6 +245,28 @@ export const TaskForm = (taskId) => {
                     <MenuItem value={"Low"}>Low</MenuItem>
                     <MenuItem value={"Medium"}>Medium</MenuItem>
                     <MenuItem value={"High"}>High</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Bucket</InputLabel>
+                  <Select
+                    sx={{
+                      height: 40,
+                      fontSize: 14,
+                    }}
+                    variant="filled"
+                    labelId="demo-simple-select-label"
+                    size="small"
+                    id="demo-simple-select"
+                    value={bucket}
+                    label="Bucket"
+                    onChange={(e) => setBucket(e.target.value)}
+                  >
+                    {bucketList.map((item) => {
+                      return <MenuItem value={item.name}>{item.name}</MenuItem>;
+                    })}
                   </Select>
                 </FormControl>
               </Grid>

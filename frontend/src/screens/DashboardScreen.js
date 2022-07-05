@@ -64,6 +64,7 @@ export const DashboardScreen = () => {
     },
     { title: "Assigned to", field: "assignedTo", width: 200 },
     { title: "Date Due", field: "dateDue", type: "date", width: 130 },
+    { title: "bucket", field: "bucket", width: 130 },
   ];
 
   // const { data: rawList = [] } = useListTaskQuery();

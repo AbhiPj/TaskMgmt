@@ -9,8 +9,8 @@ export const addTask = (req, res) => {
     dateDue,
     startDate,
     progress,
-    comment,
     department,
+    bucket,
   } = req.body;
 
   const task = new Task({
@@ -22,7 +22,7 @@ export const addTask = (req, res) => {
     dateDue,
     startDate,
     progress,
-    comment,
+    bucket,
   });
 
   const addedTask = task.save();

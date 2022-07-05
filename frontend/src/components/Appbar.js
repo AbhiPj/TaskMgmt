@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 // import { Button } from "@mui/material";
 import { Button } from "@material-ui/core";
 
-export const CustomAppbar = () => {
+export const CustomAppbar = (props) => {
   let navigate = useNavigate();
 
   const listRoute = (a) => {

@@ -20,6 +20,7 @@ const taskSchema = mongoose.Schema(
     department: { type: String },
     startDate: { type: Date },
     dateDue: { type: Date },
+    bucket: { type: mongoose.Schema.Types.ObjectId, ref: "Bucket" },
 
     // comment: [commentSchema],
   },
