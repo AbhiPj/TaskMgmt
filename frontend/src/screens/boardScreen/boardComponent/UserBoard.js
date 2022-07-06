@@ -133,8 +133,6 @@ export const UserBoard = () => {
               cardDetails,
               e
             ) => {
-              console.log(board.lanes, "board Lanes");
-
               const laneArr = board.lanes;
               var userArr = [];
 

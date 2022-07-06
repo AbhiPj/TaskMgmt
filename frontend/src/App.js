@@ -25,7 +25,6 @@ export const App = () => {
             <Route path="board" element={<Boards />} />
             <Route path="chart" element={<Chart />} />
             <Route path="schedule" element={<Schedule />} />
-
             <Route path="drawer" element={<BottomDrawer />} />
           </Route>
         </Routes>

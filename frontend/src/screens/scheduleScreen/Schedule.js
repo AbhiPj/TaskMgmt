@@ -11,6 +11,7 @@ import { Box, Dialog } from "@mui/material";
 import { CustomAppbar } from "../../components/Appbar";
 
 import {
+  useEditTaskMutation,
   useListDepartmentTaskQuery,
   useListTaskQuery,
 } from "../../state/taskSlice";
@@ -24,7 +25,7 @@ export const Schedule = () => {
   const [editOpen, setEditOpen] = React.useState(false);
   const [addOpen, setAddOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
-
+  const [editTask] = useEditTaskMutation();
   const handleEditClose = () => {
     setEditOpen(false);
   };
@@ -55,10 +56,6 @@ export const Schedule = () => {
       end: new Date(end),
     })
   );
-
-  const onEventDrop = (data) => {
-    console.log(data, "drop");
-  };
 
   const onSelectEvent = (data) => {
     console.log(data, "select");
@@ -91,12 +88,29 @@ export const Schedule = () => {
               defaultView="month"
               events={filteredTask}
               localizer={localizer}
-              onEventDrop={onEventDrop}
+              onEventDrop={(data) => {
+                const { start, end, event } = data;
+                const updatedTask = {
+                  id: event.id,
+                  body: {
+                    startDate: start,
+                    dateDue: end,
+                  },
+                };
+                editTask(updatedTask);
+              }}
               onSelectEvent={onSelectEvent}
               onSelectSlot={onSelectSlot}
               onEventResize={(data) => {
-                const { start, end } = data;
-                console.log(start, "start");
+                const { start, end, event } = data;
+                const updatedTask = {
+                  id: event.id,
+                  body: {
+                    startDate: start,
+                    dateDue: end,
+                  },
+                };
+                editTask(updatedTask);
               }}
               resizable
               selectable

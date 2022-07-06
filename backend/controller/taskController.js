@@ -53,12 +53,14 @@ export const listDepartmentTask = (req, res) => {
   Task.find({
     department: req.params.department,
   })
+    .populate("bucket")
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 export const detailTask = (req, res) => {
   Task.findById(req.params.id)
+    .populate("bucket")
     .then((task) => res.json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
@@ -73,6 +75,7 @@ export const editTask = (req, res) => {
     startDate,
     progress,
     department,
+    bucket,
     // comment,
   } = req.body.body;
 
@@ -86,6 +89,7 @@ export const editTask = (req, res) => {
       task.startDate = startDate || task.startDate;
       task.progress = progress || task.progress;
       task.department = department || task.department;
+      task.bucket = bucket || task.bucket;
 
       // task.comment = comment || task.comment;
       task

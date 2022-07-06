@@ -23,6 +23,8 @@ import {
   useAddTaskMutation,
 } from "../../../state/taskSlice";
 
+import { useListBucketQuery } from "../../../state/bucketSlice";
+
 import { useAddCommentMutation } from "../../../state/taskCommentSlice";
 import { useListUserQuery } from "../../../state/userSlice";
 import { TaskComment } from "./TaskComment";
@@ -32,6 +34,8 @@ export const AddTaskForm = (data) => {
   console.log(data.date.endDate, "enddate");
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+  const { data: bucketList = [], isLoading: loadingBucket } =
+    useListBucketQuery();
   const [addTask] = useAddTaskMutation();
 
   //   const {
@@ -43,6 +47,7 @@ export const AddTaskForm = (data) => {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState();
   const [department, setDepartment] = useState();
+  const [bucket, setBucket] = useState("");
   const [priority, setPriority] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
@@ -64,6 +69,7 @@ export const AddTaskForm = (data) => {
       startDate: startDate,
       progress: progress,
       department: department,
+      bucket: bucket,
     };
     addTask(addTaskObj);
   };
@@ -103,7 +109,6 @@ export const AddTaskForm = (data) => {
                 </InputLabel>
                 <Select
                   sx={{
-                    // backgroundColor: "rgba(230,230,230,0.6)",
                     height: 40,
                     fontSize: 14,
                   }}
@@ -144,12 +149,11 @@ export const AddTaskForm = (data) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Progress</InputLabel>
                 <Select
                   sx={{
-                    // backgroundColor: "rgba(230,230,230,0.6)",
                     height: 40,
                     fontSize: 14,
                   }}
@@ -167,7 +171,31 @@ export const AddTaskForm = (data) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Bucket</InputLabel>
+                <Select
+                  sx={{
+                    height: 40,
+                    fontSize: 14,
+                  }}
+                  variant="filled"
+                  labelId="demo-simple-select-label"
+                  size="small"
+                  id="demo-simple-select"
+                  value={bucket}
+                  label="Bucket"
+                  onChange={(e) => setBucket(e.target.value)}
+                >
+                  {bucketList.map((item) => {
+                    return <MenuItem value={item._id}>{item.name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={4}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Priority</InputLabel>
                 <Select

@@ -14,6 +14,7 @@ import { Button } from "@material-ui/core";
 import { UserBoard } from "./boardComponent/UserBoard";
 import { ButtonGroup } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { BucketBoard } from "./boardComponent/BucketBoard";
 
 export const Boards = () => {
   let navigate = useNavigate();
@@ -54,11 +55,13 @@ export const Boards = () => {
   };
 
   function renderBoard() {
-    console.log(group, "grou");
+    // console.log(group, "grou");
     if (group == "priority") {
       return <TaskBoard></TaskBoard>;
     } else if (group == "assignedTo") {
       return <UserBoard></UserBoard>;
+    } else if (group == "bucket") {
+      return <BucketBoard></BucketBoard>;
     }
   }
   const theme = createTheme({
@@ -140,6 +143,8 @@ export const Boards = () => {
                   >
                     <MenuItem value={"priority"}>Priority</MenuItem>
                     <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
+                    <MenuItem value={"bucket"}> Bucket</MenuItem>
+
                     {/* <MenuItem value={"High"}>High</MenuItem> */}
                   </Select>
                 </FormControl>

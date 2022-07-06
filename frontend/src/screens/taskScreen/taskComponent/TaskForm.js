@@ -57,11 +57,9 @@ export const TaskForm = (taskId) => {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState();
   const [department, setDepartment] = useState();
-
   const [comment, setComment] = useState("");
   const [priority, setPriority] = useState("");
   const [bucket, setBucket] = useState("");
-
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
   const [startDate, setStartDate] = React.useState(new Date(Date.now()));
@@ -71,6 +69,7 @@ export const TaskForm = (taskId) => {
     setTask(detailTask.name);
     setDescription(detailTask.description);
     setProgress(detailTask.progress);
+    setBucket(detailTask.bucket?.name);
 
     setPriority(detailTask.priority);
     setAssignedTo(detailTask.assignedTo);
@@ -265,7 +264,7 @@ export const TaskForm = (taskId) => {
                     onChange={(e) => setBucket(e.target.value)}
                   >
                     {bucketList.map((item) => {
-                      return <MenuItem value={item.name}>{item.name}</MenuItem>;
+                      return <MenuItem value={item._id}>{item.name}</MenuItem>;
                     })}
                   </Select>
                 </FormControl>
