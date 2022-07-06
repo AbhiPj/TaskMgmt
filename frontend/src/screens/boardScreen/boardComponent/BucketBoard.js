@@ -1,21 +1,15 @@
 import React from "react";
 import {
   useEditTaskMutation,
-  useAddTaskMutation,
-  useDeleteTaskMutation,
-  useListTaskQuery,
   useListDepartmentTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import { useListBucketQuery } from "../../../state/bucketSlice";
-import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import styled from "@emotion/styled";
 import { Dialog } from "@mui/material";
-import { current } from "@reduxjs/toolkit";
 
-export const BucketBoard = () => {
+export const BucketBoard = (data) => {
   //   const {
   //     data: rawList = [],
   //     isLoading: loadingTask,
@@ -74,11 +68,14 @@ export const BucketBoard = () => {
 
     const filteredResult = groupBy(filteredList, "bucket");
     var bucketArr = [];
+
     if (!loadingBucket) {
       bucketList.map((item) => {
         bucketArr.push(item.name);
       });
     }
+
+    var newArr = bucketList.filter((item) => !data.data.includes(item));
 
     var emptyArr = [];
 

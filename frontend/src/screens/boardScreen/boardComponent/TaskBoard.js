@@ -8,7 +8,7 @@ import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
 
-export const TaskBoard = () => {
+export const TaskBoard = (data) => {
   //   const {
   //     data: rawList = [],
   //     isLoading: loadingTask,
@@ -54,11 +54,15 @@ export const TaskBoard = () => {
     );
 
     const filteredResult = groupBy(filteredList, "priority");
+    console.log(filteredResult, "filtered result");
 
     const priority = ["Low", "Medium", "High"]; //replace this with dynamic priority list later
     var emptyArr = [];
 
-    priority.map((value, key) => {
+    var newArr = priority.filter((item) => !data.data.includes(item));
+    console.log(newArr, "New arr");
+
+    newArr.map((value, key) => {
       if (filteredResult[value]) {
         emptyArr.push({
           id: key + 1,
