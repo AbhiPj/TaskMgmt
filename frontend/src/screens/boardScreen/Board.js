@@ -39,23 +39,9 @@ export const Boards = () => {
     navigate(path);
   };
 
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
-  );
-
   const [group, setGroup] = React.useState("priority");
 
-  const handleChange = (event) => {
-    setGroup(event.target.value);
-  };
-
   function renderBoard() {
-    // console.log(group, "grou");
     if (group == "priority") {
       return <TaskBoard></TaskBoard>;
     } else if (group == "assignedTo") {

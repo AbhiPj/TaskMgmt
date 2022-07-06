@@ -129,13 +129,11 @@ export const BarChart2 = (userGroup) => {
           label: "Users",
           data: userTask,
           backgroundColor: "rgba(153, 102, 255, 0.6)",
-          // backgroundColor: "rgba(255, 99, 132, 0.6)",
           borderRadius: 10,
           barPercentage: 0.06,
         },
       ],
     };
-    // console.log(data, "barc2 data");
   }
 
   return (

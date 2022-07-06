@@ -13,79 +13,29 @@ export const Chart = () => {
 
   const dept = "IT";
 
+  var userGroup = [];
+  var taskCompletion = [];
+  var result = [];
+
   const {
     data: rawList = [],
     isLoading: loadingTask,
     error: error,
   } = useListDepartmentTaskQuery(dept);
 
-  var newLowArrayOfObj = [];
-  var newHighArrayOfObj = [];
-  var newMediumArrayOfObj = [];
-  var userGroup = [];
-  var taskCompletion = [];
-
-  var datas = {};
-  var result = [];
-
   if (!loadingTask) {
     const groupBy = (array, key) => {
-      // Return the end result
       return array.reduce((result, currentValue) => {
         (result[currentValue[key]] = result[currentValue[key]] || []).push(
           currentValue
         );
         return result;
-      }, {}); // empty object is the initial value for result object
+      }, {}); //
     };
 
     result = groupBy(rawList, "priority");
     userGroup = groupBy(rawList, "assignedTo");
     taskCompletion = groupBy(rawList, "progress");
-
-    // if (result.Low) {
-    //   const low = [result.Low];
-    //   const lowArrayOfObj = low[0];
-
-    //   newLowArrayOfObj = lowArrayOfObj.map(
-    //     ({ name: title, _id: id, description }) => ({
-    //       title,
-    //       id,
-    //       description,
-    //     })
-    //   );
-    //   // }
-    // }
-
-    // if (result.Medium) {
-    //   const medium = [result.Medium];
-    //   const mediumArrayOfObj = medium[0];
-
-    //   newMediumArrayOfObj = mediumArrayOfObj.map(
-    //     ({ name: title, _id: id, description }) => ({
-    //       title,
-    //       id,
-    //       description,
-    //     })
-    //   );
-    // }
-    // if (result.High) {
-    //   const high = [result.High];
-    //   const highArrayOfObj = high[0];
-    //   newHighArrayOfObj = highArrayOfObj.map(
-    //     ({ name: title, _id: id, description }) => ({
-    //       title,
-    //       id,
-    //       description,
-    //     })
-    //   );
-
-    //   datas = {
-    //     high: newHighArrayOfObj,
-    //     medium: newMediumArrayOfObj,
-    //     low: newLowArrayOfObj,
-    //   };
-    // }
   }
   return (
     <>
@@ -96,6 +46,7 @@ export const Chart = () => {
           <Box sx={{ marginTop: 8 }}>
             <CustomAppbar></CustomAppbar>
           </Box>
+
           <Container>
             <Box sx={{ flexGrow: 1, marginTop: 10, marginLeft: 15 }}>
               <Grid container spacing={2}>
@@ -104,11 +55,13 @@ export const Chart = () => {
                     <BarChart datas={result}></BarChart>
                   </Box>
                 </Grid>
+
                 <Grid item xs={12} md={4}>
                   <Box>
                     <PieChart data={taskCompletion}></PieChart>
                   </Box>
                 </Grid>
+
                 <Grid item xs={12}>
                   <Box>
                     <BarChart2 data={userGroup}></BarChart2>

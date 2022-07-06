@@ -1,16 +1,11 @@
 import React from "react";
 import {
   useEditTaskMutation,
-  useAddTaskMutation,
-  useDeleteTaskMutation,
-  useListTaskQuery,
   useListDepartmentTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
-import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import styled from "@emotion/styled";
 import { Dialog } from "@mui/material";
 
 export const TaskBoard = () => {
@@ -28,16 +23,8 @@ export const TaskBoard = () => {
     error: error,
   } = useListDepartmentTaskQuery(dept);
 
-  const [addTask] = useAddTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
   const [editTask] = useEditTaskMutation();
-
   const [editOpen, setEditOpen] = React.useState(false);
-  // const [editOpen, setEditOpen] = React.useState(false);
-  const [detailOpen, setDetailOpen] = React.useState(false);
-  const [drawer, setDrawer] = React.useState(false);
-  const [data, setData] = React.useState({});
-
   const [taskId, setTaskId] = React.useState();
 
   const handleEditClose = () => {
@@ -121,7 +108,6 @@ export const TaskBoard = () => {
               backgroundColor: "white",
             }}
             onCardClick={(id) => {
-              setDetailOpen(true);
               setTaskId(id);
               setEditOpen(true);
             }}

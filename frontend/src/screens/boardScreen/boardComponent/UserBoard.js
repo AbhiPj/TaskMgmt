@@ -1,16 +1,12 @@
 import React from "react";
 import {
   useEditTaskMutation,
-  useAddTaskMutation,
-  useDeleteTaskMutation,
-  useListTaskQuery,
   useListDepartmentTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { useListUserQuery } from "../../../state/userSlice";
-import { Box, Dialog, Drawer } from "@mui/material";
+import { Dialog } from "@mui/material";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
-import styled from "@emotion/styled";
 
 export const UserBoard = () => {
   // const {
@@ -67,7 +63,6 @@ export const UserBoard = () => {
     );
 
     const filteredResult = groupBy(filteredList, "assignedTo");
-    // const user = ["Ram", "John", "Joseph", "Tchaikovsky"];
     var emptyArr = [];
 
     userArray.map((value, key) => {
@@ -122,7 +117,6 @@ export const UserBoard = () => {
             }}
             onCardClick={(id) => {
               setTaskId(id);
-              // setDrawer(true);
               setEditOpen(true);
             }}
             handleDragEnd={(
@@ -140,7 +134,6 @@ export const UserBoard = () => {
                 userArr.push(item.title);
               });
               console.log(userArr, "userArr");
-
               var assignedCol = targetLaneId - 1;
               var newAssigned = userArray[assignedCol];
               console.log(userArray[assignedCol], "user target");

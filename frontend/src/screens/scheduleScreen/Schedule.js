@@ -1,7 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import HTML5Backend from "react-dnd-html5-backend";
-import { DragDropContext } from "react-dnd";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import moment from "moment";
@@ -13,7 +10,6 @@ import { CustomAppbar } from "../../components/Appbar";
 import {
   useEditTaskMutation,
   useListDepartmentTaskQuery,
-  useListTaskQuery,
 } from "../../state/taskSlice";
 import { TaskForm } from "../taskScreen/taskComponent/TaskForm";
 import { AddTaskForm } from "../taskScreen/taskComponent/addTaskForm";
@@ -22,10 +18,15 @@ const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
 export const Schedule = () => {
+  const dept = "IT";
+
   const [editOpen, setEditOpen] = React.useState(false);
   const [addOpen, setAddOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
+  const [date, setDate] = React.useState({});
+
   const [editTask] = useEditTaskMutation();
+
   const handleEditClose = () => {
     setEditOpen(false);
   };
@@ -34,13 +35,10 @@ export const Schedule = () => {
     setAddOpen(false);
   };
 
-  // const {
-  //   data: rawList = [],
-  //   isLoading: loadingTask,
-  //   error: error,
-  // } = useListTaskQuery();
-
-  const dept = "IT";
+  const onSelectEvent = (data) => {
+    setEditOpen(true);
+    setTaskId(data.id);
+  };
 
   const {
     data: rawList = [],
@@ -57,20 +55,36 @@ export const Schedule = () => {
     })
   );
 
-  const onSelectEvent = (data) => {
-    console.log(data, "select");
-    setEditOpen(true);
-    setTaskId(data.id);
-  };
-
-  var [date, setDate] = React.useState({});
-
   const onSelectSlot = (data) => {
     setDate({
       startDate: data.start,
       endDate: data.end,
     });
     setAddOpen(true);
+  };
+
+  const onEventDrop = (data) => {
+    const { start, end, event } = data;
+    const updatedTask = {
+      id: event.id,
+      body: {
+        startDate: start,
+        dateDue: end,
+      },
+    };
+    editTask(updatedTask);
+  };
+
+  const onEventResize = (data) => {
+    const { start, end, event } = data;
+    const updatedTask = {
+      id: event.id,
+      body: {
+        startDate: start,
+        dateDue: end,
+      },
+    };
+    editTask(updatedTask);
   };
 
   return (
@@ -82,44 +96,27 @@ export const Schedule = () => {
           <Box sx={{ marginTop: 10 }}>
             <CustomAppbar></CustomAppbar>
           </Box>
+
           <Box sx={{ marginTop: 4, marginLeft: 30 }}>
             <DnDCalendar
               defaultDate={moment().toDate()}
               defaultView="month"
               events={filteredTask}
               localizer={localizer}
-              onEventDrop={(data) => {
-                const { start, end, event } = data;
-                const updatedTask = {
-                  id: event.id,
-                  body: {
-                    startDate: start,
-                    dateDue: end,
-                  },
-                };
-                editTask(updatedTask);
-              }}
+              onEventDrop={onEventDrop}
               onSelectEvent={onSelectEvent}
               onSelectSlot={onSelectSlot}
-              onEventResize={(data) => {
-                const { start, end, event } = data;
-                const updatedTask = {
-                  id: event.id,
-                  body: {
-                    startDate: start,
-                    dateDue: end,
-                  },
-                };
-                editTask(updatedTask);
-              }}
+              onEventResize={onEventResize}
               resizable
               selectable
               style={{ height: "100vh" }}
             />
           </Box>
+
           <Dialog open={editOpen} onClose={handleEditClose}>
             <TaskForm taskId={taskId}></TaskForm>
           </Dialog>
+
           <Dialog open={addOpen} onClose={handleAddClose}>
             <AddTaskForm date={date}></AddTaskForm>
           </Dialog>

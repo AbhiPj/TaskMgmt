@@ -22,16 +22,8 @@ export const BucketBoard = () => {
   //     error: error,
   //   } = useListTaskQuery();
 
-  const [addTask] = useAddTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
   const [editTask] = useEditTaskMutation();
-
   const [editOpen, setEditOpen] = React.useState(false);
-  // const [editOpen, setEditOpen] = React.useState(false);
-  const [detailOpen, setDetailOpen] = React.useState(false);
-  const [drawer, setDrawer] = React.useState(false);
-  const [data, setData] = React.useState({});
-
   const [taskId, setTaskId] = React.useState();
 
   const handleEditClose = () => {
@@ -80,14 +72,6 @@ export const BucketBoard = () => {
       })
     );
 
-    // console.log(filteredList, "filteredList");
-
-    // filteredList.reduce((result, currentValue) => {
-    //   console.log(result, "result");
-    //   // console.log(result[currentValue], "currentValue?");
-    //   // if(resut[currentValue[bucket]] == )
-    // }, {});
-
     const filteredResult = groupBy(filteredList, "bucket");
     var bucketArr = [];
     if (!loadingBucket) {
@@ -113,8 +97,6 @@ export const BucketBoard = () => {
         });
       }
     });
-
-    // console.log(emptyArr, "empty arr");
 
     board = {
       lanes: emptyArr,
@@ -150,7 +132,6 @@ export const BucketBoard = () => {
               backgroundColor: "white",
             }}
             onCardClick={(id) => {
-              setDetailOpen(true);
               setTaskId(id);
               setEditOpen(true);
             }}
@@ -168,8 +149,6 @@ export const BucketBoard = () => {
               laneArr.map((item) => {
                 bucketArr.push(item.title);
               });
-              // console.log(targetLaneId, "targetLaneId");
-
               const updatedBucket = {
                 id: cardDetails.id,
                 body: {

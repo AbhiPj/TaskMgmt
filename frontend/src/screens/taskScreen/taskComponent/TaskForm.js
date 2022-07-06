@@ -68,9 +68,8 @@ export const TaskForm = (taskId) => {
   useEffect(() => {
     setTask(detailTask.name);
     setDescription(detailTask.description);
+    setBucket(detailTask.bucket);
     setProgress(detailTask.progress);
-    setBucket(detailTask.bucket?.name);
-
     setPriority(detailTask.priority);
     setAssignedTo(detailTask.assignedTo);
     setEndDate(detailTask.dateDue);
@@ -80,24 +79,9 @@ export const TaskForm = (taskId) => {
   const [addComment] = useAddCommentMutation();
 
   const handleSubmit = () => {
-    if (taskId.taskId) {
-      const updatedTask = {
-        id: taskId.taskId,
-        body: {
-          name: task,
-          description: description,
-          priority: priority,
-          assignedTo: assignedTo,
-          dateDue: endDate,
-          startDate: startDate,
-          progress: progress,
-          department: department,
-          bucket: bucket,
-        },
-      };
-      editTask(updatedTask);
-    } else if (taskId.date) {
-      const addTaskObj = {
+    const updatedTask = {
+      id: taskId.taskId,
+      body: {
         name: task,
         description: description,
         priority: priority,
@@ -106,9 +90,10 @@ export const TaskForm = (taskId) => {
         startDate: startDate,
         progress: progress,
         department: department,
-      };
-      addTask(addTaskObj);
-    }
+        bucket: bucket,
+      },
+    };
+    editTask(updatedTask);
   };
 
   const handleComment = () => {
@@ -264,7 +249,7 @@ export const TaskForm = (taskId) => {
                     onChange={(e) => setBucket(e.target.value)}
                   >
                     {bucketList.map((item) => {
-                      return <MenuItem value={item._id}>{item.name}</MenuItem>;
+                      return <MenuItem value={item.name}>{item.name}</MenuItem>;
                     })}
                   </Select>
                 </FormControl>

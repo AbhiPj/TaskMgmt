@@ -13,21 +13,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TaskForm } from "./taskScreen/taskComponent/TaskForm";
 import { CustomAppbar } from "../components/Appbar";
+
 export const DashboardScreen = () => {
   const [addTask] = useAddTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
-
   const [editOpen, setEditOpen] = React.useState(false);
-  const [detailOpen, setDetailOpen] = React.useState(false);
-
   const [taskId, setTaskId] = React.useState();
+
+  const dept = "IT";
+
+  const {
+    data: rawList = [],
+    isLoading: loadingTask,
+    error: error,
+  } = useListDepartmentTaskQuery(dept);
 
   const handleEditClose = () => {
     setEditOpen(false);
-  };
-
-  const handleDetailClose = () => {
-    setDetailOpen(false);
   };
 
   const columns = [
@@ -35,7 +37,6 @@ export const DashboardScreen = () => {
       title: "Task",
       field: "name",
       width: 150,
-
       validate: (row) => (row.name || "").length !== 0,
     },
     {
@@ -43,10 +44,6 @@ export const DashboardScreen = () => {
       field: "description",
       validate: (row) => (row.description || "").length !== 0,
       width: 600,
-      // validate: (row) =>
-      // (row.description || "").length == 0
-      //   ? "Description is required"
-      //   : true,
     },
     {
       title: "Priority",
@@ -65,16 +62,6 @@ export const DashboardScreen = () => {
     { title: "Assigned to", field: "assignedTo", width: 200 },
     { title: "Date Due", field: "dateDue", type: "date", width: 130 },
   ];
-
-  // const { data: rawList = [] } = useListTaskQuery();
-
-  const dept = "IT";
-
-  const {
-    data: rawList = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useListDepartmentTaskQuery(dept);
 
   return (
     <>
@@ -99,9 +86,7 @@ export const DashboardScreen = () => {
           }}
           onRowClick={(e, data) => {
             console.log(data);
-            // setDetailOpen(true);
             setEditOpen(true);
-
             var id = data._id;
             setTaskId(id);
           }}
@@ -126,8 +111,6 @@ export const DashboardScreen = () => {
               icon: () => <DeleteIcon />,
               tooltip: "Delete",
               onClick: (e, data) => {
-                // console.log(data);
-                // setOpen(true);
                 var id = data._id;
                 deleteTask(id);
               },

@@ -7,13 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import {
-  ButtonGroup,
-  createTheme,
-  MenuItem,
-  Stack,
-  ThemeProvider,
-} from "@mui/material";
+import { ButtonGroup, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 // import { Button } from "@mui/material";
 import { Button } from "@material-ui/core";
@@ -76,9 +70,7 @@ export const CustomAppbar = (props) => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-            >
-              {/* <MenuIcon /> */}
-            </IconButton>
+            ></IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               TaskManager
             </Typography>
@@ -107,23 +99,3 @@ export const CustomAppbar = (props) => {
     </Box>
   );
 };
-
-{
-  /* <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-<InputLabel id="demo-select-small">Age</InputLabel>
-<Select
-  labelId="demo-select-small"
-  id="demo-select-small"
-  value={age}
-  label="Age"
-  onChange={handleChange}
->
-  <MenuItem value="">
-    <em>None</em>
-  </MenuItem>
-  <MenuItem value={10}>Ten</MenuItem>
-  <MenuItem value={20}>Twenty</MenuItem>
-  <MenuItem value={30}>Thirty</MenuItem>
-</Select>
-</FormControl> */
-}

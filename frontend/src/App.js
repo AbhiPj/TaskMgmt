@@ -12,7 +12,6 @@ import { Box } from "@mui/material";
 import { DashboardScreen } from "./screens/DashboardScreen";
 import { Boards } from "./screens/boardScreen/Board";
 import { Chart } from "./screens/chartScreen/Chart";
-import { BottomDrawer } from "./screens/boardScreen/boardComponent/BottomDrawer";
 import { Schedule } from "./screens/scheduleScreen/Schedule";
 
 export const App = () => {
@@ -25,7 +24,6 @@ export const App = () => {
             <Route path="board" element={<Boards />} />
             <Route path="chart" element={<Chart />} />
             <Route path="schedule" element={<Schedule />} />
-            <Route path="drawer" element={<BottomDrawer />} />
           </Route>
         </Routes>
       </Router>
