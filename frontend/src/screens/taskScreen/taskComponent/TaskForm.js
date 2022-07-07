@@ -30,23 +30,9 @@ import { useListUserQuery } from "../../../state/userSlice";
 import { TaskComment } from "./TaskComment";
 
 export const TaskForm = (taskId) => {
-  if (taskId.date) {
-    console.log(taskId.date.startDate, "startdate");
-    console.log(taskId.date.endDate, "enddate");
-  }
-  // const CustomTextField = styled(TextField)(({ theme }) => ({
-  //   "& .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input": {
-  //     // font: "menu",
-  //     fontSize: "13px",
-  //   },
-  //   color: "black",
-  // }));
-
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const { data: bucketList = [], isLoading: loadingBucket } =
     useListBucketQuery();
-
-  const [addTask] = useAddTaskMutation();
 
   const {
     data: detailTask = [],
@@ -55,7 +41,7 @@ export const TaskForm = (taskId) => {
   } = useDetailTaskQuery(taskId?.taskId);
 
   const [task, setTask] = useState("");
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState("");
   const [department, setDepartment] = useState();
   const [comment, setComment] = useState("");
   const [priority, setPriority] = useState("");
@@ -66,6 +52,9 @@ export const TaskForm = (taskId) => {
   const [endDate, setEndDate] = React.useState();
 
   useEffect(() => {
+    console.log(detailTask.priority, "priorityy");
+    console.log(detailTask.name, "name");
+
     setTask(detailTask.name);
     setDescription(detailTask.description);
     setBucket(detailTask.bucket);

@@ -60,7 +60,6 @@ export const TaskBoard = (data) => {
     var emptyArr = [];
 
     var newArr = priority.filter((item) => !data.data.includes(item));
-    console.log(newArr, "New arr");
 
     newArr.map((value, key) => {
       if (filteredResult[value]) {

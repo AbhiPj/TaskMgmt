@@ -8,7 +8,8 @@ import { useListUserQuery } from "../../../state/userSlice";
 import { Dialog } from "@mui/material";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 
-export const UserBoard = () => {
+export const UserBoard = (data) => {
+  console.log(data.data, "data");
   // const {
   //   data: rawList = [],
   //   isLoading: loadingTask,
@@ -33,6 +34,8 @@ export const UserBoard = () => {
       }
     });
   }
+
+  var newArr = userArray.filter((item) => !data.data.includes(item));
 
   const [editTask] = useEditTaskMutation();
   const [editOpen, setEditOpen] = React.useState(false);
@@ -65,7 +68,7 @@ export const UserBoard = () => {
     const filteredResult = groupBy(filteredList, "assignedTo");
     var emptyArr = [];
 
-    userArray.map((value, key) => {
+    newArr.map((value, key) => {
       if (filteredResult[value]) {
         emptyArr.push({
           id: key + 1,

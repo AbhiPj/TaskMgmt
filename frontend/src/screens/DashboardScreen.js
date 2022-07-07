@@ -85,7 +85,7 @@ export const DashboardScreen = () => {
             ),
           }}
           onRowClick={(e, data) => {
-            console.log(data);
+            // console.log(data);
             setEditOpen(true);
             var id = data._id;
             setTaskId(id);
@@ -119,7 +119,7 @@ export const DashboardScreen = () => {
               icon: () => <EditIcon />,
               tooltip: "Edit",
               onClick: (e, data) => {
-                console.log(data);
+                // console.log(data);
                 setEditOpen(true);
                 var id = data._id;
                 setTaskId(id);

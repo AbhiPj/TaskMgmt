@@ -10,12 +10,6 @@ import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
 
 export const BucketBoard = (data) => {
-  //   const {
-  //     data: rawList = [],
-  //     isLoading: loadingTask,
-  //     error: error,
-  //   } = useListTaskQuery();
-
   const [editTask] = useEditTaskMutation();
   const [editOpen, setEditOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
@@ -66,20 +60,19 @@ export const BucketBoard = (data) => {
       })
     );
 
+    // var newFilteredList = filteredList.filter(
+    //   (item) => !data.data.includes(item.bucket)
+    // );
+
     const filteredResult = groupBy(filteredList, "bucket");
-    var bucketArr = [];
 
-    if (!loadingBucket) {
-      bucketList.map((item) => {
-        bucketArr.push(item.name);
-      });
-    }
-
-    var newArr = bucketList.filter((item) => !data.data.includes(item));
+    var newBucketList = bucketList.filter(
+      (item) => !data.data.includes(item.name)
+    );
 
     var emptyArr = [];
 
-    bucketList.map((item) => {
+    newBucketList.map((item) => {
       if (filteredResult[item.name]) {
         emptyArr.push({
           id: item._id,
