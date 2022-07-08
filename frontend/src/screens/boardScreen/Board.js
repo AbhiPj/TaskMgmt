@@ -16,12 +16,16 @@ import { ButtonGroup } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BucketBoard } from "./boardComponent/BucketBoard";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { useTheme } from "@mui/material/styles";
 
 import { useListUserQuery } from "../../state/userSlice";
 import { useListBucketQuery } from "../../state/bucketSlice";
 
 export const Boards = () => {
+  const getTask = sessionStorage.getItem("taskType");
+  if (getTask == null) {
+    sessionStorage.setItem("taskType", "individual");
+  }
+
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const { data: bucketList = [], loadingBucket } = useListBucketQuery();
 
@@ -100,6 +104,7 @@ export const Boards = () => {
   };
 
   const [group, setGroup] = React.useState("priority");
+  const [taskType, setTaskType] = React.useState("individual");
 
   if (group == "priority") {
     // console.log("nice");
@@ -139,7 +144,6 @@ export const Boards = () => {
   return (
     <>
       <Box sx={{ marginTop: 16 }}>
-        {/* <CustomAppbar></CustomAppbar> */}
         <ThemeProvider theme={theme}>
           <AppBar
             color="neutral"
@@ -156,9 +160,41 @@ export const Boards = () => {
               >
                 {/* <MenuIcon /> */}
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Typography variant="h6" component="div">
                 TaskManager
               </Typography>
+              <FormControl
+                sx={{ m: 1, width: 150, marginRight: 50, marginLeft: 12 }}
+                size="small"
+              >
+                <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
+                  Task Type
+                </InputLabel>
+                <Select
+                  sx={{ color: "inherit" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-select-small"
+                  value={taskType}
+                  label="Priority"
+                  onChange={(e) => {
+                    setTaskType(e.target.value);
+                    if (e.target.value == "individual") {
+                      // setData(["High", "Medium", "Low"]);
+                      sessionStorage.setItem("taskType", "individual");
+                    } else if (e.target.value == "bucket") {
+                      // setData(userArr);
+                      sessionStorage.setItem("taskType", "bucket");
+                    } else if (e.target.value == "checklist") {
+                      // setData(bucketArr);
+                      sessionStorage.setItem("taskType", "checklist");
+                    }
+                  }}
+                >
+                  <MenuItem value={"individual"}>Individual</MenuItem>
+                  <MenuItem value={"bucket"}> Buckets</MenuItem>
+                  <MenuItem value={"checklist"}> Checklist</MenuItem>
+                </Select>
+              </FormControl>
               <Stack direction="row-reverse" color="#f5f5f5">
                 <ButtonGroup
                   variant="standard"
@@ -178,38 +214,7 @@ export const Boards = () => {
                   </Button>
                 </ButtonGroup>
                 <FormControl
-                  sx={{ m: 1, minWidth: 150, marginRight: 2 }}
-                  size="small"
-                >
-                  <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
-                    Group By
-                  </InputLabel>
-                  <Select
-                    sx={{ color: "inherit" }}
-                    labelId="demo-simple-select-label"
-                    id="demo-select-small"
-                    value={group}
-                    label="Priority"
-                    onChange={(e) => {
-                      setGroup(e.target.value);
-                      if (e.target.value == "priority") {
-                        setData(["High", "Medium", "Low"]);
-                      } else if (e.target.value == "assignedTo") {
-                        setData(userArr);
-                      } else if (e.target.value == "bucket") {
-                        setData(bucketArr);
-                      }
-                    }}
-                  >
-                    <MenuItem value={"priority"}>Priority</MenuItem>
-                    <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
-                    <MenuItem value={"bucket"}> Bucket</MenuItem>
-
-                    {/* <MenuItem value={"High"}>High</MenuItem> */}
-                  </Select>
-                </FormControl>
-                <FormControl
-                  sx={{ m: 1, width: 200, marginRight: 2 }}
+                  sx={{ m: 1, width: 150, marginRight: 2 }}
                   size="small"
                 >
                   <Select
@@ -241,6 +246,35 @@ export const Boards = () => {
                         {name}
                       </MenuItem>
                     ))}
+                  </Select>
+                </FormControl>
+                <FormControl
+                  sx={{ m: 1, minWidth: 150, marginRight: 2 }}
+                  size="small"
+                >
+                  <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
+                    Group By
+                  </InputLabel>
+                  <Select
+                    sx={{ color: "inherit" }}
+                    labelId="demo-simple-select-label"
+                    id="demo-select-small"
+                    value={group}
+                    label="Priority"
+                    onChange={(e) => {
+                      setGroup(e.target.value);
+                      if (e.target.value == "priority") {
+                        setData(["High", "Medium", "Low"]);
+                      } else if (e.target.value == "assignedTo") {
+                        setData(userArr);
+                      } else if (e.target.value == "bucket") {
+                        setData(bucketArr);
+                      }
+                    }}
+                  >
+                    <MenuItem value={"priority"}>Priority</MenuItem>
+                    <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
+                    <MenuItem value={"bucket"}> Bucket</MenuItem>
                   </Select>
                 </FormControl>
               </Stack>

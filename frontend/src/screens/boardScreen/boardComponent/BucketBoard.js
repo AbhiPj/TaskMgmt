@@ -2,6 +2,7 @@ import React from "react";
 import {
   useEditTaskMutation,
   useListDepartmentTaskQuery,
+  useListTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
@@ -10,6 +11,10 @@ import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
 
 export const BucketBoard = (data) => {
+  const taskType = sessionStorage.getItem("taskType");
+
+  const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
+
   const [editTask] = useEditTaskMutation();
   const [editOpen, setEditOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
@@ -26,12 +31,24 @@ export const BucketBoard = (data) => {
   const dept = "IT";
 
   const {
-    data: rawList = [],
-    isLoading: loadingTask,
+    data: deptTask = [],
+    isLoading: loadingDeptTask,
     error: error,
   } = useListDepartmentTaskQuery(dept);
 
-  if (!loadingTask) {
+  var rawList = [];
+
+  if (taskType == "individual") {
+    allList.map((item) => {
+      rawList.push(item);
+    });
+  } else if (taskType == "bucket") {
+    deptTask.map((item) => {
+      rawList.push(item);
+    });
+  }
+
+  if (!loadingAllTask && !loadingDeptTask) {
     const groupBy = (array, key) => {
       // Return the end result
 
@@ -95,7 +112,7 @@ export const BucketBoard = (data) => {
 
   return (
     <Box>
-      {loadingTask ? (
+      {loadingAllTask && loadingDeptTask ? (
         "Loading... "
       ) : (
         <>

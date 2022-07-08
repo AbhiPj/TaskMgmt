@@ -2,6 +2,7 @@ import React from "react";
 import {
   useEditTaskMutation,
   useListDepartmentTaskQuery,
+  useListTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { useListUserQuery } from "../../../state/userSlice";
@@ -9,23 +10,30 @@ import { Dialog } from "@mui/material";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 
 export const UserBoard = (data) => {
-  console.log(data.data, "data");
-  // const {
-  //   data: rawList = [],
-  //   isLoading: loadingTask,
-  //   error: error,
-  // } = useListTaskQuery();
+  const taskType = sessionStorage.getItem("taskType");
+
+  const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
   var userArray = [];
   const dept = "IT";
 
-  const {
-    data: rawList = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useListDepartmentTaskQuery(dept);
+  const { data: deptTask = [], isLoading: loadingDeptTask } =
+    useListDepartmentTaskQuery(dept);
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+
+  var rawList = [];
+
+  if (taskType == "individual") {
+    // setRawList(allList);
+    allList.map((item) => {
+      rawList.push(item);
+    });
+  } else if (taskType == "bucket") {
+    deptTask.map((item) => {
+      rawList.push(item);
+    });
+  }
 
   if (!loadingUser) {
     userList.map((item) => {
@@ -46,7 +54,7 @@ export const UserBoard = (data) => {
 
   var board;
 
-  if (!loadingTask) {
+  if (!loadingAllTask && !loadingDeptTask) {
     const groupBy = (array, key) => {
       return array.reduce((result, currentValue) => {
         (result[currentValue[key]] = result[currentValue[key]] || []).push(
@@ -92,7 +100,7 @@ export const UserBoard = (data) => {
 
   return (
     <>
-      {loadingUser && loadingTask ? (
+      {loadingUser && loadingAllTask && loadingDeptTask ? (
         "Loading... "
       ) : (
         <>
