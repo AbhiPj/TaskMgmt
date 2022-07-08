@@ -6,32 +6,37 @@ import {
   useAddTaskMutation,
   useDeleteTaskMutation,
   useListDepartmentTaskQuery,
-} from "../state/taskSlice";
+} from "../../state/taskSlice";
+import {
+  useDeleteBucketMutation,
+  useListBucketQuery,
+} from "../../state/bucketSlice";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { blue } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskForm } from "./taskScreen/taskComponent/TaskForm";
-import { CustomAppbar } from "../components/Appbar";
-import { AddTaskForm } from "./taskScreen/taskComponent/addTaskForm";
-import { BucketForm } from "./bucketScreen/BucketForm";
+import { TaskForm } from ".././taskScreen/taskComponent/TaskForm";
+import { CustomAppbar } from "../../components/Appbar";
+import { AddTaskForm } from ".././taskScreen/taskComponent/addTaskForm";
+import { BucketForm } from "./BucketForm";
+import { EditBucketForm } from "./EditBucket";
 
-export const DashboardScreen = () => {
+export const Bucket = () => {
   const [addTask] = useAddTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
+  const [deleteBucket] = useDeleteBucketMutation();
   const [addOpen, setAddOpen] = React.useState(false);
   const [addBucketOpen, setAddBucketOpen] = React.useState(false);
 
   const [editOpen, setEditOpen] = React.useState(false);
-  const [taskId, setTaskId] = React.useState();
+  const [bucketId, setBucketId] = React.useState();
 
   const dept = "IT";
 
   const {
     data: rawList = [],
-    isLoading: loadingTask,
+    isLoading: loadingBucket,
     error: error,
-  } = useListDepartmentTaskQuery(dept);
+  } = useListBucketQuery();
 
   const handleEditClose = () => {
     setEditOpen(false);
@@ -49,31 +54,9 @@ export const DashboardScreen = () => {
     {
       title: "Task",
       field: "name",
-      width: 150,
+      // width: 150,
       validate: (row) => (row.name || "").length !== 0,
     },
-    {
-      title: "Description",
-      field: "description",
-      validate: (row) => (row.description || "").length !== 0,
-      width: 600,
-    },
-    {
-      title: "Priority",
-      field: "priority",
-      width: 130,
-      lookup: { Low: "Low", Medium: "Medium", High: "High" },
-      validate: (row) => (row.priority || "").length !== 0,
-    },
-    {
-      title: "Department",
-      field: "department",
-      width: 130,
-      lookup: { IT: "IT", Finance: "Finance" },
-      validate: (row) => (row.priority || "").length !== 0,
-    },
-    { title: "Assigned to", field: "assignedTo", width: 200 },
-    { title: "Date Due", field: "dateDue", type: "date", width: 130 },
   ];
 
   return (
@@ -85,10 +68,10 @@ export const DashboardScreen = () => {
         <ButtonGroup>
           <Button
             onClick={() => {
-              setAddOpen(true);
+              setAddBucketOpen(true);
             }}
           >
-            Add Task
+            Add Bucket
           </Button>
         </ButtonGroup>
       </Box>
@@ -112,7 +95,7 @@ export const DashboardScreen = () => {
             // console.log(data);
             setEditOpen(true);
             var id = data._id;
-            setTaskId(id);
+            setBucketId(id);
           }}
           title=""
           columns={columns}
@@ -136,7 +119,7 @@ export const DashboardScreen = () => {
               tooltip: "Delete",
               onClick: (e, data) => {
                 var id = data._id;
-                deleteTask(id);
+                deleteBucket(id);
               },
             },
             {
@@ -146,7 +129,7 @@ export const DashboardScreen = () => {
                 // console.log(data);
                 setEditOpen(true);
                 var id = data._id;
-                setTaskId(id);
+                setBucketId(id);
               },
             },
           ]}
@@ -154,11 +137,7 @@ export const DashboardScreen = () => {
       </Box>
 
       <Dialog open={editOpen} onClose={handleEditClose}>
-        <TaskForm taskId={taskId}></TaskForm>
-      </Dialog>
-
-      <Dialog open={addOpen} onClose={handleAddClose}>
-        <AddTaskForm></AddTaskForm>
+        <EditBucketForm bucketId={bucketId}></EditBucketForm>
       </Dialog>
 
       <Dialog open={addBucketOpen} onClose={handleAddBucketClose}>

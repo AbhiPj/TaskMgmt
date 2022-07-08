@@ -33,6 +33,16 @@ export const taskSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: "Task", id: "LIST" }],
     }),
+    listBucketTask: build.query({
+      query: (id) => `/task/buckettask/${id}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Task", id })),
+              { type: "Task", id: "LIST" },
+            ]
+          : [{ type: "Task", id: "LIST" }],
+    }),
     detailTask: build.query({
       query: (id) => `/task/detail/${id}`,
       providesTags: (result, error, id) => [
@@ -74,6 +84,7 @@ export const {
   useAddTaskMutation,
   useListTaskQuery,
   useListDepartmentTaskQuery,
+  useListBucketTaskQuery,
   useDetailTaskQuery,
   useEditTaskMutation,
   useDeleteTaskMutation,

@@ -40,9 +40,9 @@ export const AddTaskForm = (data) => {
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
   const [startDate, setStartDate] = React.useState(
-    new Date(data.date.startDate)
+    new Date(data?.date?.startDate)
   );
-  const [endDate, setEndDate] = React.useState(new Date(data.date.endDate));
+  const [endDate, setEndDate] = React.useState(new Date(data.date?.endDate));
 
   const handleSubmit = () => {
     const addTaskObj = {

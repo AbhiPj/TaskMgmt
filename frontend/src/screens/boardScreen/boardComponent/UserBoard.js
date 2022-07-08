@@ -77,6 +77,8 @@ export const UserBoard = (data) => {
     var emptyArr = [];
 
     newArr.map((value, key) => {
+      var color = Math.floor(Math.random() * 16777215).toString(16);
+      console.log(color);
       if (filteredResult[value]) {
         emptyArr.push({
           id: key + 1,
@@ -88,6 +90,7 @@ export const UserBoard = (data) => {
           id: key + 1,
           title: value,
           cards: [],
+          cardStyle: { backgroundColor: { color } },
         });
       }
     });

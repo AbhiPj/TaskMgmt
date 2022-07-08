@@ -23,7 +23,38 @@ export const bucketSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: "Bucket", id: "LIST" }],
     }),
+    editBucket: build.mutation({
+      query(data) {
+        const { id, ...body } = data;
+        return {
+          url: `/bucket/edit/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Bucket", id },
+        { type: "Bucket", id: "LIST" },
+      ],
+    }),
+    deleteBucket: build.mutation({
+      query(id) {
+        return {
+          url: `/bucket/delete/${id}`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Bucket", id },
+        { type: "Bucket", id: "LIST" },
+      ],
+    }),
   }),
 });
 
-export const { useAddBucketMutation, useListBucketQuery } = bucketSlice;
+export const {
+  useAddBucketMutation,
+  useListBucketQuery,
+  useEditBucketMutation,
+  useDeleteBucketMutation,
+} = bucketSlice;

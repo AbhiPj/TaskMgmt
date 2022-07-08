@@ -8,8 +8,18 @@ import { ButtonGroup, createTheme, Stack, ThemeProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 // import { Button } from "@mui/material";
 import { Button } from "@material-ui/core";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 export const CustomAppbar = (props) => {
+  const getTask = sessionStorage.getItem("taskType");
+  if (getTask == null) {
+    sessionStorage.setItem("taskType", "individual");
+  }
+  const [taskType, setTaskType] = React.useState("individual");
+
   let navigate = useNavigate();
 
   const listRoute = (a) => {
@@ -71,14 +81,43 @@ export const CustomAppbar = (props) => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               TaskManager
             </Typography>
+            {/* <FormControl
+              sx={{ m: 1, width: 150, marginRight: 95, marginLeft: 12 }}
+              size="small"
+            >
+              <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
+                Task Type
+              </InputLabel>
+              <Select
+                sx={{ color: "inherit" }}
+                labelId="demo-simple-select-label"
+                id="demo-select-small"
+                value={taskType}
+                label="Priority"
+                onChange={(e) => {
+                  setTaskType(e.target.value);
+                  if (e.target.value == "individual") {
+                    sessionStorage.setItem("taskType", "individual");
+                  } else if (e.target.value == "bucket") {
+                    sessionStorage.setItem("taskType", "bucket");
+                  } else if (e.target.value == "checklist") {
+                    sessionStorage.setItem("taskType", "checklist");
+                  }
+                }}
+              >
+                <MenuItem value={"individual"}>Individual</MenuItem>
+                <MenuItem value={"bucket"}> Buckets</MenuItem>
+                <MenuItem value={"checklist"}> Checklist</MenuItem>
+              </Select>
+            </FormControl> */}
             <Stack direction="row-reverse" color="#f5f5f5">
               <ButtonGroup
                 variant="standard"
                 aria-label="outlined button group"
               >
-                <Button color="inherit" onClick={listRoute}>
+                {/* <Button color="inherit" onClick={listRoute}>
                   List
-                </Button>
+                </Button> */}
                 <Button color="inherit" onClick={boardRoute}>
                   Board
                 </Button>

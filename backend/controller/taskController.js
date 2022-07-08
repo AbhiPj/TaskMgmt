@@ -58,6 +58,15 @@ export const listDepartmentTask = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
+export const listBucketTask = (req, res) => {
+  Task.find({
+    bucket: req.params.id,
+  })
+    .populate("bucket")
+    .then((task) => res.status(201).json(task))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
 export const detailTask = (req, res) => {
   Task.findById(req.params.id)
     .populate("bucket")

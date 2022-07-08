@@ -1,49 +1,23 @@
 import React from "react";
-import { Button, ButtonGroup, Dialog } from "@mui/material";
 import Box from "@mui/material/Box";
-import {
-  useListTaskQuery,
-  useAddTaskMutation,
-  useDeleteTaskMutation,
-  useListDepartmentTaskQuery,
-} from "../state/taskSlice";
-import MaterialTable, { MTableToolbar } from "@material-table/core";
+import { Button, ButtonGroup, Dialog } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import MaterialTable, { MTableToolbar } from "@material-table/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskForm } from "./taskScreen/taskComponent/TaskForm";
-import { CustomAppbar } from "../components/Appbar";
-import { AddTaskForm } from "./taskScreen/taskComponent/addTaskForm";
-import { BucketForm } from "./bucketScreen/BucketForm";
+import { CustomAppbar } from "../../../components/Appbar";
+import {
+  useListBucketTaskQuery,
+  useListTaskQuery,
+} from "../../../state/taskSlice";
 
-export const DashboardScreen = () => {
-  const [addTask] = useAddTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
+export const TaskTable = (id) => {
   const [addOpen, setAddOpen] = React.useState(false);
-  const [addBucketOpen, setAddBucketOpen] = React.useState(false);
-
   const [editOpen, setEditOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
-
-  const dept = "IT";
-
-  const {
-    data: rawList = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useListDepartmentTaskQuery(dept);
-
-  const handleEditClose = () => {
-    setEditOpen(false);
-  };
-
-  const handleAddClose = () => {
-    setAddOpen(false);
-  };
-
-  const handleAddBucketClose = () => {
-    setAddBucketOpen(false);
-  };
+  // const { data: rawList = [], isLoading: loadingAllTask } = useListTaskQuery();
+  const { data: rawList = [], isLoading: loadingAllTask } =
+    useListBucketTaskQuery("62c41e0c24215b909b5a2a02");
 
   const columns = [
     {
@@ -82,7 +56,7 @@ export const DashboardScreen = () => {
         <CustomAppbar></CustomAppbar>
       </Box>
       <Box sx={{ marginLeft: 34, marginTop: 12 }}>
-        <ButtonGroup>
+        {/* <ButtonGroup>
           <Button
             onClick={() => {
               setAddOpen(true);
@@ -90,7 +64,7 @@ export const DashboardScreen = () => {
           >
             Add Task
           </Button>
-        </ButtonGroup>
+        </ButtonGroup> */}
       </Box>
       <Box sx={{ color: blue, marginRight: 4 }}></Box>
       <Box
@@ -109,7 +83,6 @@ export const DashboardScreen = () => {
             ),
           }}
           onRowClick={(e, data) => {
-            // console.log(data);
             setEditOpen(true);
             var id = data._id;
             setTaskId(id);
@@ -117,14 +90,6 @@ export const DashboardScreen = () => {
           title=""
           columns={columns}
           data={rawList}
-          // editable={{
-          //   onRowAdd: (newRow) =>
-          //     new Promise((resolve, reject) => {
-          //       console.log(newRow);
-          //       addTask(newRow);
-          //       resolve();
-          //     }),
-          // }}
           options={{
             search: false,
             addRowPosition: "first",
@@ -134,36 +99,23 @@ export const DashboardScreen = () => {
             {
               icon: () => <DeleteIcon />,
               tooltip: "Delete",
-              onClick: (e, data) => {
-                var id = data._id;
-                deleteTask(id);
-              },
+              // onClick: (e, data) => {
+              //   var id = data._id;
+              //   deleteTask(id);
+              // },
             },
             {
               icon: () => <EditIcon />,
               tooltip: "Edit",
-              onClick: (e, data) => {
-                // console.log(data);
-                setEditOpen(true);
-                var id = data._id;
-                setTaskId(id);
-              },
+              // onClick: (e, data) => {
+              //   setEditOpen(true);
+              //   var id = data._id;
+              //   setTaskId(id);
+              // },
             },
           ]}
         />
       </Box>
-
-      <Dialog open={editOpen} onClose={handleEditClose}>
-        <TaskForm taskId={taskId}></TaskForm>
-      </Dialog>
-
-      <Dialog open={addOpen} onClose={handleAddClose}>
-        <AddTaskForm></AddTaskForm>
-      </Dialog>
-
-      <Dialog open={addBucketOpen} onClose={handleAddBucketClose}>
-        <BucketForm></BucketForm>
-      </Dialog>
     </>
   );
 };

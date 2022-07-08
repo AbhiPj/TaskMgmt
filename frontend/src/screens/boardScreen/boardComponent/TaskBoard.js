@@ -74,11 +74,28 @@ export const TaskBoard = (data) => {
 
     newArr.map((value, key) => {
       if (filteredResult[value]) {
-        emptyArr.push({
-          id: key + 1,
-          title: value,
-          cards: filteredResult[value],
-        });
+        if (value == "Low") {
+          emptyArr.push({
+            id: key + 1,
+            title: value,
+            cards: filteredResult[value],
+            cardStyle: { backgroundColor: "#f8e8fa" },
+          });
+        } else if (value == "Medium") {
+          emptyArr.push({
+            id: key + 1,
+            title: value,
+            cards: filteredResult[value],
+            cardStyle: { backgroundColor: "#faf6e8" },
+          });
+        } else if (value == "High") {
+          emptyArr.push({
+            id: key + 1,
+            title: value,
+            cards: filteredResult[value],
+            cardStyle: { backgroundColor: "#e8faed" },
+          });
+        }
       } else {
         emptyArr.push({
           id: key + 1,

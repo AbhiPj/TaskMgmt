@@ -179,13 +179,10 @@ export const Boards = () => {
                   onChange={(e) => {
                     setTaskType(e.target.value);
                     if (e.target.value == "individual") {
-                      // setData(["High", "Medium", "Low"]);
                       sessionStorage.setItem("taskType", "individual");
                     } else if (e.target.value == "bucket") {
-                      // setData(userArr);
                       sessionStorage.setItem("taskType", "bucket");
                     } else if (e.target.value == "checklist") {
-                      // setData(bucketArr);
                       sessionStorage.setItem("taskType", "checklist");
                     }
                   }}
@@ -200,9 +197,9 @@ export const Boards = () => {
                   variant="standard"
                   aria-label="outlined button group"
                 >
-                  <Button color="inherit" onClick={listRoute}>
+                  {/* <Button color="inherit" onClick={listRoute}>
                     List
-                  </Button>
+                  </Button> */}
                   <Button color="inherit" onClick={boardRoute}>
                     Board
                   </Button>
