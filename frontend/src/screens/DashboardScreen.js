@@ -95,82 +95,88 @@ export const DashboardScreen = () => {
 
   return (
     <>
-      <Box sx={{ marginTop: 8 }}>
-        <CustomAppbar></CustomAppbar>
-      </Box>
-      <Box
-        sx={{
-          marginLeft: 34,
-          marginTop: 12,
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <FormControl
+      {/* {loadingAllTask ? (
+        "Loading... "
+      ) : ( */}
+      <>
+        <Box sx={{ marginTop: 8 }}>
+          <CustomAppbar></CustomAppbar>
+        </Box>
+        <Box
           sx={{
-            width: 180,
-            marginRight: 4,
-            color: "#1976d2",
+            marginLeft: 34,
+            marginTop: 12,
+            display: "flex",
+            justifyContent: "space-between",
           }}
-          size="small"
         >
-          <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
-            Task Type
-          </InputLabel>
-          <Select
-            sx={{ color: "inherit" }}
-            labelId="demo-simple-select-label"
-            id="demo-select-small"
-            value={taskType}
-            label="Priority"
-            onChange={(e) => {
-              setTaskType(e.target.value);
-              if (e.target.value == "unassigned") {
-                sessionStorage.setItem("taskType", "unassigned");
-              } else if (e.target.value == "bucket") {
-                sessionStorage.setItem("taskType", "bucket");
-              } else if (e.target.value == "checklist") {
-                sessionStorage.setItem("taskType", "checklist");
-              }
+          <FormControl
+            sx={{
+              width: 180,
+              marginRight: 4,
+              color: "#1976d2",
             }}
+            size="small"
           >
-            <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-            <MenuItem value={"bucket"}> Buckets</MenuItem>
-            <MenuItem value={"checklist"}> Checklist</MenuItem>
-          </Select>
-        </FormControl>
-        <ButtonGroup sx={{ marginRight: 4 }}>
-          <Button
-            onClick={() => {
-              setAddOpen(true);
-            }}
-          >
-            Add Task
-          </Button>
-        </ButtonGroup>
-      </Box>
-      <Box sx={{ color: blue, marginRight: 4 }}></Box>
-      <Box
-        sx={{
-          width: 1250,
-          marginLeft: 32,
-          marginTop: 3,
-        }}
-      >
-        {renderTable()}
-      </Box>
+            <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
+              Task Type
+            </InputLabel>
+            <Select
+              sx={{ color: "inherit" }}
+              labelId="demo-simple-select-label"
+              id="demo-select-small"
+              value={taskType}
+              label="Priority"
+              onChange={(e) => {
+                setTaskType(e.target.value);
+                if (e.target.value == "unassigned") {
+                  sessionStorage.setItem("taskType", "unassigned");
+                } else if (e.target.value == "bucket") {
+                  sessionStorage.setItem("taskType", "bucket");
+                } else if (e.target.value == "checklist") {
+                  sessionStorage.setItem("taskType", "checklist");
+                }
+              }}
+            >
+              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"bucket"}> Buckets</MenuItem>
+              <MenuItem value={"checklist"}> Checklist</MenuItem>
+            </Select>
+          </FormControl>
+          <ButtonGroup sx={{ marginRight: 4 }}>
+            <Button
+              onClick={() => {
+                setAddOpen(true);
+              }}
+            >
+              Add Task
+            </Button>
+          </ButtonGroup>
+        </Box>
+        <Box sx={{ color: blue, marginRight: 4 }}></Box>
+        <Box
+          sx={{
+            width: 1250,
+            marginLeft: 32,
+            marginTop: 3,
+          }}
+        >
+          {renderTable()}
+        </Box>
 
-      <Dialog open={editOpen} onClose={handleEditClose}>
-        <TaskForm taskId={taskId}></TaskForm>
-      </Dialog>
+        <Dialog open={editOpen} onClose={handleEditClose}>
+          <TaskForm taskId={taskId}></TaskForm>
+        </Dialog>
 
-      <Dialog open={addOpen} onClose={handleAddClose}>
-        <AddTaskForm></AddTaskForm>
-      </Dialog>
+        <Dialog open={addOpen} onClose={handleAddClose}>
+          <AddTaskForm></AddTaskForm>
+        </Dialog>
 
-      <Dialog open={addBucketOpen} onClose={handleAddBucketClose}>
-        <BucketForm></BucketForm>
-      </Dialog>
+        <Dialog open={addBucketOpen} onClose={handleAddBucketClose}>
+          <BucketForm></BucketForm>
+        </Dialog>
+      </>
+      {/* )} */};
     </>
   );
 };

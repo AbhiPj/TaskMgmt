@@ -82,7 +82,7 @@ export const Bucket = () => {
           </Button>
         </ButtonGroup>
       </Box>
-      <Box sx={{ color: blue, marginRight: 4 }}></Box>
+      {/* <Box sx={{ color: blue, marginRight: 4 }}></Box> */}
       <Box
         sx={{
           width: 1250,

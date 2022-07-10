@@ -16,6 +16,8 @@ import { Schedule } from "./screens/scheduleScreen/Schedule";
 import { Bucket } from "./screens/bucketScreen/Bucket";
 import { TaskBucket } from "./screens/taskScreen/taskComponent/TaskBucket";
 import { BucketTaskScreen } from "./screens/bucketScreen/BucketTaskScreen";
+import { Checklist } from "./screens/checklistScreen/Checklist";
+import { ChecklistTask } from "./screens/checklistScreen/ChecklistTask";
 // import { TaskTable } from "./screens/taskScreen/taskComponent/TaskTable";
 
 export const App = () => {
@@ -26,15 +28,15 @@ export const App = () => {
           <Route path="/*" element={<Layout />}>
             <Route path="dashboard" element={<DashboardScreen />} />
             <Route path="task/bucket" element={<TaskBucket />} />
-
             <Route path="board" element={<Boards />} />
             <Route path="chart" element={<Chart />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="bucket" element={<Bucket />} />
+            <Route path="checklist" element={<Checklist />} />
             <Route path="bucket/task/:id" element={<BucketTaskScreen />} />
+            <Route path="checklist/task/:id" element={<ChecklistTask />} />
 
             {/* <Route path="bucket/table" element={<TaskTable />} /> */}
-
             {/* <Route path="task/individual" element={<Bucket />} /> */}
           </Route>
         </Routes>

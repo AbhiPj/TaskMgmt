@@ -10,6 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import TaskIcon from "@mui/icons-material/Task";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { useNavigate } from "react-router-dom";
 
 export function Sidebar() {
@@ -23,6 +24,11 @@ export function Sidebar() {
 
   const bucketRoute = (a) => {
     let path = `/bucket`;
+    navigate(path);
+  };
+
+  const checklistRoute = (a) => {
+    let path = `/checklist`;
     navigate(path);
   };
 
@@ -63,6 +69,15 @@ export function Sidebar() {
                   <AccountTreeIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Buckets"} />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem key={"Checklist"} disablePadding onClick={checklistRoute}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <PlaylistAddCheckIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Checklist"} />
               </ListItemButton>
             </ListItem>
           </List>
