@@ -24,14 +24,19 @@ export const UserBoard = (data) => {
 
   var rawList = [];
 
-  if (taskType == "individual") {
-    // setRawList(allList);
+  if (taskType == "unassigned") {
     allList.map((item) => {
-      rawList.push(item);
+      if (!item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
   } else if (taskType == "bucket") {
-    deptTask.map((item) => {
-      rawList.push(item);
+    allList.map((item) => {
+      if (item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
   }
 
@@ -77,8 +82,8 @@ export const UserBoard = (data) => {
     var emptyArr = [];
 
     newArr.map((value, key) => {
-      var color = Math.floor(Math.random() * 16777215).toString(16);
-      console.log(color);
+      // var color = Math.floor(Math.random() * 16777215).toString(16);
+      // console.log(color);
       if (filteredResult[value]) {
         emptyArr.push({
           id: key + 1,
@@ -90,7 +95,6 @@ export const UserBoard = (data) => {
           id: key + 1,
           title: value,
           cards: [],
-          cardStyle: { backgroundColor: { color } },
         });
       }
     });

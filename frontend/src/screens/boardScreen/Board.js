@@ -23,7 +23,7 @@ import { useListBucketQuery } from "../../state/bucketSlice";
 export const Boards = () => {
   const getTask = sessionStorage.getItem("taskType");
   if (getTask == null) {
-    sessionStorage.setItem("taskType", "individual");
+    sessionStorage.setItem("taskType", "unassigned");
   }
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
@@ -104,13 +104,7 @@ export const Boards = () => {
   };
 
   const [group, setGroup] = React.useState("priority");
-  const [taskType, setTaskType] = React.useState("individual");
-
-  if (group == "priority") {
-    // console.log("nice");
-  } else if (group == "assignedTo") {
-    console.log("nice");
-  }
+  const [taskType, setTaskType] = React.useState(getTask);
 
   function renderBoard() {
     if (group == "priority") {
@@ -178,8 +172,8 @@ export const Boards = () => {
                   label="Priority"
                   onChange={(e) => {
                     setTaskType(e.target.value);
-                    if (e.target.value == "individual") {
-                      sessionStorage.setItem("taskType", "individual");
+                    if (e.target.value == "unassigned") {
+                      sessionStorage.setItem("taskType", "unassigned");
                     } else if (e.target.value == "bucket") {
                       sessionStorage.setItem("taskType", "bucket");
                     } else if (e.target.value == "checklist") {
@@ -187,7 +181,7 @@ export const Boards = () => {
                     }
                   }}
                 >
-                  <MenuItem value={"individual"}>Individual</MenuItem>
+                  <MenuItem value={"unassigned"}>unassigned</MenuItem>
                   <MenuItem value={"bucket"}> Buckets</MenuItem>
                   <MenuItem value={"checklist"}> Checklist</MenuItem>
                 </Select>
@@ -197,9 +191,9 @@ export const Boards = () => {
                   variant="standard"
                   aria-label="outlined button group"
                 >
-                  {/* <Button color="inherit" onClick={listRoute}>
+                  <Button color="inherit" onClick={listRoute}>
                     List
-                  </Button> */}
+                  </Button>
                   <Button color="inherit" onClick={boardRoute}>
                     Board
                   </Button>

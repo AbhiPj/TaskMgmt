@@ -11,7 +11,7 @@ import { Dialog } from "@mui/material";
 
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
-  console.log(taskType);
+  // console.log(taskType);
 
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
@@ -20,17 +20,23 @@ export const TaskBoard = (data) => {
   const { data: deptTask = [], isLoading: loadingTask } =
     useListDepartmentTaskQuery(dept);
 
-  // var [rawList, setRawList] = [];
   var rawList = [];
 
-  if (taskType == "individual") {
-    // setRawList(allList);
+  if (taskType == "unassigned") {
     allList.map((item) => {
-      rawList.push(item);
+      if (!item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
+
+    rawList.filter((item) => item.bucket == "");
   } else if (taskType == "bucket") {
-    deptTask.map((item) => {
-      rawList.push(item);
+    allList.map((item) => {
+      if (item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
   }
 
@@ -65,7 +71,7 @@ export const TaskBoard = (data) => {
     );
 
     const filteredResult = groupBy(filteredList, "priority");
-    console.log(filteredResult, "filtered result");
+    // console.log(filteredResult, "filtered result");
 
     const priority = ["Low", "Medium", "High"]; //replace this with dynamic priority list later
     var emptyArr = [];

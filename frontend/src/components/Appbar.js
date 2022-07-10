@@ -16,9 +16,9 @@ import MenuItem from "@mui/material/MenuItem";
 export const CustomAppbar = (props) => {
   const getTask = sessionStorage.getItem("taskType");
   if (getTask == null) {
-    sessionStorage.setItem("taskType", "individual");
+    sessionStorage.setItem("taskType", "unassigned");
   }
-  const [taskType, setTaskType] = React.useState("individual");
+  const [taskType, setTaskType] = React.useState(getTask);
 
   let navigate = useNavigate();
 
@@ -82,7 +82,7 @@ export const CustomAppbar = (props) => {
               TaskManager
             </Typography>
             {/* <FormControl
-              sx={{ m: 1, width: 150, marginRight: 95, marginLeft: 12 }}
+              sx={{ m: 1, width: 150, marginRight: 95, marginLeft: 10 }}
               size="small"
             >
               <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
@@ -96,8 +96,8 @@ export const CustomAppbar = (props) => {
                 label="Priority"
                 onChange={(e) => {
                   setTaskType(e.target.value);
-                  if (e.target.value == "individual") {
-                    sessionStorage.setItem("taskType", "individual");
+                  if (e.target.value == "unassigned") {
+                    sessionStorage.setItem("taskType", "unassigned");
                   } else if (e.target.value == "bucket") {
                     sessionStorage.setItem("taskType", "bucket");
                   } else if (e.target.value == "checklist") {
@@ -105,7 +105,7 @@ export const CustomAppbar = (props) => {
                   }
                 }}
               >
-                <MenuItem value={"individual"}>Individual</MenuItem>
+                <MenuItem value={"unassigned"}>Unassigned</MenuItem>
                 <MenuItem value={"bucket"}> Buckets</MenuItem>
                 <MenuItem value={"checklist"}> Checklist</MenuItem>
               </Select>
@@ -115,9 +115,9 @@ export const CustomAppbar = (props) => {
                 variant="standard"
                 aria-label="outlined button group"
               >
-                {/* <Button color="inherit" onClick={listRoute}>
+                <Button color="inherit" onClick={listRoute}>
                   List
-                </Button> */}
+                </Button>
                 <Button color="inherit" onClick={boardRoute}>
                   Board
                 </Button>

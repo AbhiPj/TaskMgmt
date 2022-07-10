@@ -45,6 +45,8 @@ export const listTask = (req, res) => {
   //   throw new Error("Task List Not Found. Try again.");
 
   Task.find()
+    .populate("bucket")
+
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };

@@ -20,6 +20,7 @@ import { CustomAppbar } from "../../components/Appbar";
 import { AddTaskForm } from ".././taskScreen/taskComponent/addTaskForm";
 import { BucketForm } from "./BucketForm";
 import { EditBucketForm } from "./EditBucket";
+import { useNavigate } from "react-router-dom";
 
 export const Bucket = () => {
   const [addTask] = useAddTaskMutation();
@@ -50,6 +51,11 @@ export const Bucket = () => {
     setAddBucketOpen(false);
   };
 
+  // const chartRoute = (a) => {
+  //   let path = `/bucket/task/${id}`;
+  //   navigate(path);
+  // };
+
   const columns = [
     {
       title: "Task",
@@ -58,6 +64,7 @@ export const Bucket = () => {
       validate: (row) => (row.name || "").length !== 0,
     },
   ];
+  const navigate = useNavigate();
 
   return (
     <>
@@ -93,9 +100,11 @@ export const Bucket = () => {
           }}
           onRowClick={(e, data) => {
             // console.log(data);
-            setEditOpen(true);
+            // setEditOpen(true);
             var id = data._id;
-            setBucketId(id);
+            // setBucketId(id);
+            let path = `/bucket/task/${id}`;
+            navigate(path);
           }}
           title=""
           columns={columns}

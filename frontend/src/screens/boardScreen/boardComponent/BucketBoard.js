@@ -38,15 +38,22 @@ export const BucketBoard = (data) => {
 
   var rawList = [];
 
-  if (taskType == "individual") {
+  if (taskType == "unassigned") {
     allList.map((item) => {
-      rawList.push(item);
+      if (!item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
   } else if (taskType == "bucket") {
-    deptTask.map((item) => {
-      rawList.push(item);
+    allList.map((item) => {
+      if (item.bucket) {
+        console.log(item, "if");
+        rawList.push(item);
+      }
     });
   }
+  console.log(rawList, "rawlist");
 
   if (!loadingAllTask && !loadingDeptTask) {
     const groupBy = (array, key) => {
