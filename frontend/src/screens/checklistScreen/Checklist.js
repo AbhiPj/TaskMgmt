@@ -5,6 +5,9 @@ import {
   Card,
   CardContent,
   Dialog,
+  FormControl,
+  InputLabel,
+  Select,
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -15,9 +18,15 @@ import { CustomAppbar } from "../../components/Appbar";
 import { useListChecklistQuery } from "../../state/checklistSlice";
 import { useNavigate } from "react-router-dom";
 import { AddChecklistForm } from "./checklistComponent/AddChecklistForm";
+import { GenerateChecklist } from "./checklistComponent/GenerateChecklist";
 
 export const Checklist = () => {
+  const getTask = sessionStorage.getItem("taskType");
+  if (getTask == null) {
+    sessionStorage.setItem("taskType", "unassigned");
+  }
   const [addChecklistOpen, setAddChecklistOpen] = React.useState(false);
+  const [generateOpen, setGenerateOpen] = React.useState(false);
 
   const {
     data: rawList = [],
@@ -44,6 +53,10 @@ export const Checklist = () => {
     setAddChecklistOpen(false);
   };
 
+  const handleGenerateClose = () => {
+    setGenerateOpen(false);
+  };
+
   const navigate = useNavigate();
   return (
     <>
@@ -55,9 +68,16 @@ export const Checklist = () => {
           <CustomAppbar></CustomAppbar>
         </Box>
 
-        <Box sx={{ marginLeft: 34, marginTop: 12 }}>
-          <ButtonGroup>
+        <Box sx={{ marginLeft: 30, marginTop: 12 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: 2,
+            }}
+          >
             <Button
+              variant="outlined"
               onClick={() => {
                 //   setAddBucketOpen(true);
                 setAddChecklistOpen(true);
@@ -65,7 +85,15 @@ export const Checklist = () => {
             >
               Add Checklist
             </Button>
-          </ButtonGroup>
+            <Button
+              onClick={() => {
+                setGenerateOpen(true);
+              }}
+              variant="outlined"
+            >
+              Generate
+            </Button>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -78,7 +106,7 @@ export const Checklist = () => {
             components={{
               Toolbar: (props) => (
                 <Box>
-                  <MTableToolbar {...props} showTitle={false} />
+                  {/* <MTableToolbar {...props} showTitle={false} /> */}
                 </Box>
               ),
             }}
@@ -102,6 +130,9 @@ export const Checklist = () => {
             //     }),
             // }}
             options={{
+              headerStyle: {
+                backgroundColor: "#Ccd3e6",
+              },
               search: false,
               addRowPosition: "first",
               actionsColumnIndex: -1,
@@ -130,6 +161,9 @@ export const Checklist = () => {
         </Box>
         <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
           <AddChecklistForm></AddChecklistForm>
+        </Dialog>
+        <Dialog open={generateOpen} onClose={handleGenerateClose}>
+          <GenerateChecklist></GenerateChecklist>
         </Dialog>
       </>
       {/* )} */}

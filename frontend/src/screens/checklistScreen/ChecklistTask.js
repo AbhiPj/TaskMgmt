@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Dialog,
+  Paper,
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -104,9 +105,7 @@ export const ChecklistTask = () => {
           <MaterialTable
             components={{
               Toolbar: (props) => (
-                <div style={{ backgroundColor: "green" }}>
-                  <MTableToolbar {...props} />
-                </div>
+                <div>{/* <MTableToolbar {...props} /> */}</div>
               ),
             }}
             onRowClick={(e, data) => {
@@ -120,15 +119,10 @@ export const ChecklistTask = () => {
             title=""
             columns={columns}
             data={rawList?.checklistTasks}
-            // editable={{
-            //   onRowAdd: (newRow) =>
-            //     new Promise((resolve, reject) => {
-            //       console.log(newRow);
-            //       addTask(newRow);
-            //       resolve();
-            //     }),
-            // }}
             options={{
+              headerStyle: {
+                backgroundColor: "#Ccd3e6",
+              },
               search: false,
               addRowPosition: "first",
               actionsColumnIndex: -1,

@@ -92,11 +92,7 @@ export const Bucket = () => {
       >
         <MaterialTable
           components={{
-            Toolbar: (props) => (
-              <div style={{ backgroundColor: "green" }}>
-                <MTableToolbar {...props} />
-              </div>
-            ),
+            Toolbar: (props) => <div>{/* <MTableToolbar {...props} /> */}</div>,
           }}
           onRowClick={(e, data) => {
             // console.log(data);
@@ -118,6 +114,9 @@ export const Bucket = () => {
           //     }),
           // }}
           options={{
+            headerStyle: {
+              backgroundColor: "#Ccd3e6",
+            },
             search: false,
             addRowPosition: "first",
             actionsColumnIndex: -1,

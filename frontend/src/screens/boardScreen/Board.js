@@ -79,8 +79,6 @@ export const Boards = () => {
     );
   };
 
-  // console.log(personName, "person state");
-
   let navigate = useNavigate();
 
   const listRoute = (a) => {
@@ -151,9 +149,7 @@ export const Boards = () => {
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
-              >
-                {/* <MenuIcon /> */}
-              </IconButton>
+              ></IconButton>
               <Typography variant="h6" component="div">
                 TaskManager
               </Typography>

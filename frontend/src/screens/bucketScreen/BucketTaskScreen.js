@@ -78,19 +78,14 @@ export const BucketTaskScreen = () => {
         sx={{
           width: 1250,
           marginLeft: 32,
-          marginTop: 3,
+          marginTop: 12,
         }}
       >
         <MaterialTable
           components={{
-            Toolbar: (props) => (
-              <div style={{ backgroundColor: "green" }}>
-                <MTableToolbar {...props} />
-              </div>
-            ),
+            Toolbar: (props) => <div>{/* <MTableToolbar {...props} /> */}</div>,
           }}
           onRowClick={(e, data) => {
-            // console.log(data);
             setEditOpen(true);
             var id = data._id;
             setTaskId(id);
@@ -98,15 +93,10 @@ export const BucketTaskScreen = () => {
           title=""
           columns={columns}
           data={data}
-          // editable={{
-          //   onRowAdd: (newRow) =>
-          //     new Promise((resolve, reject) => {
-          //       console.log(newRow);
-          //       addTask(newRow);
-          //       resolve();
-          //     }),
-          // }}
           options={{
+            headerStyle: {
+              backgroundColor: "#Ccd3e6",
+            },
             search: false,
             addRowPosition: "first",
             actionsColumnIndex: -1,
@@ -124,7 +114,6 @@ export const BucketTaskScreen = () => {
               icon: () => <EditIcon />,
               tooltip: "Edit",
               onClick: (e, data) => {
-                // console.log(data);
                 setEditOpen(true);
                 var id = data._id;
                 setTaskId(id);

@@ -6,6 +6,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import {
   useDeleteTaskMutation,
   useListBucketTaskQuery,
+  useListTaskQuery,
 } from "../../../state/taskSlice";
 
 import {
@@ -22,18 +23,44 @@ import { AddTaskForm } from "./addTaskForm";
 
 export const UngropuedTable = (data) => {
   const getTask = sessionStorage.getItem("taskType");
-
+  if (getTask == null) {
+    sessionStorage.setItem("taskType", "unassigned");
+  }
   const [deleteTask] = useDeleteTaskMutation();
-
   const [addOpen, setAddOpen] = React.useState(false);
   const [addBucketOpen, setAddBucketOpen] = React.useState(false);
   const [taskType, setTaskType] = React.useState(getTask);
-
   const [editOpen, setEditOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
-  // const { data: rawList = [], isLoading: loadingAllTask } = useListTaskQuery();
+
+  const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
   // const { data: rawList = [], isLoading: loadingAllTask } =
   //   useListBucketTaskQuery("62c41e0c24215b909b5a2a02");
+
+  // const renderTable = () => {
+  //   if (taskType == "unassigned") {
+  //     return <UngropuedTable data={rawList}></UngropuedTable>;
+  //   } else if (taskType == "bucket") {
+  //     return <UngropuedTable data={bucketList}></UngropuedTable>;
+  //   }
+  // };
+
+  var rawList = [];
+  var bucketList = [];
+
+  if (taskType == "unassigned") {
+    allList.map((item) => {
+      if (!item.bucket) {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "bucket") {
+    allList.map((item) => {
+      if (item.bucket) {
+        rawList.push(item);
+      }
+    });
+  }
 
   const handleEditClose = () => {
     setEditOpen(false);
@@ -46,6 +73,8 @@ export const UngropuedTable = (data) => {
   const handleAddBucketClose = () => {
     setAddBucketOpen(false);
   };
+
+  const handleFilter = () => {};
 
   const columns = [
     {
@@ -82,15 +111,17 @@ export const UngropuedTable = (data) => {
     <>
       <MaterialTable
         onRowClick={(e, data) => {
-          // console.log(data);
           setEditOpen(true);
           var id = data._id;
           setTaskId(id);
         }}
         title=""
         columns={columns}
-        data={data.data}
+        data={rawList}
         options={{
+          headerStyle: {
+            backgroundColor: "#Ccd3e6",
+          },
           // search: false,
           // filtering: true,
           addRowPosition: "first",
@@ -131,7 +162,7 @@ export const UngropuedTable = (data) => {
                 <Box sx={{ display: "flex", gap: "1rem" }}>
                   <FormControl
                     sx={{
-                      width: 200,
+                      width: 250,
                       // marginRight: 4,
                       color: "#1976d2",
                     }}
@@ -165,10 +196,10 @@ export const UngropuedTable = (data) => {
                       <MenuItem value={"checklist"}> Checklist</MenuItem>
                     </Select>
                   </FormControl>
-                  <Button variant="outlined">
+                  {/* <Button variant="outlined" onClick={handleFilter}>
                     <FilterListIcon />
                     Filter
-                  </Button>
+                  </Button> */}
                 </Box>
 
                 <MTableToolbar {...props} />

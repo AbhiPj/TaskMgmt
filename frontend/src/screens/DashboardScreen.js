@@ -15,7 +15,6 @@ import {
   useDeleteTaskMutation,
   useListDepartmentTaskQuery,
 } from "../state/taskSlice";
-import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { blue } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -54,7 +53,6 @@ export const DashboardScreen = () => {
   //   isLoading: loadingTask,
   //   error: error,
   // } = useListDepartmentTaskQuery(dept);
-  const [data, setData] = useState("Ss");
 
   if (taskType == "unassigned") {
     allList.map((item) => {
@@ -85,14 +83,6 @@ export const DashboardScreen = () => {
     setAddBucketOpen(false);
   };
 
-  const renderTable = () => {
-    if (taskType == "unassigned") {
-      return <UngropuedTable data={rawList}></UngropuedTable>;
-    } else if (taskType == "bucket") {
-      return <UngropuedTable data={bucketList}></UngropuedTable>;
-    }
-  };
-
   return (
     <>
       {/* {loadingAllTask ? (
@@ -110,39 +100,6 @@ export const DashboardScreen = () => {
             justifyContent: "space-between",
           }}
         >
-          {/* <FormControl
-            sx={{
-              width: 180,
-              marginRight: 4,
-              color: "#1976d2",
-            }}
-            size="small"
-          >
-            <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
-              Task Type
-            </InputLabel>
-            <Select
-              sx={{ color: "inherit" }}
-              labelId="demo-simple-select-label"
-              id="demo-select-small"
-              value={taskType}
-              label="Priority"
-              onChange={(e) => {
-                setTaskType(e.target.value);
-                if (e.target.value == "unassigned") {
-                  sessionStorage.setItem("taskType", "unassigned");
-                } else if (e.target.value == "bucket") {
-                  sessionStorage.setItem("taskType", "bucket");
-                } else if (e.target.value == "checklist") {
-                  sessionStorage.setItem("taskType", "checklist");
-                }
-              }}
-            >
-              <MenuItem value={"unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"bucket"}> Buckets</MenuItem>
-              <MenuItem value={"checklist"}> Checklist</MenuItem>
-            </Select>
-          </FormControl> */}
           <ButtonGroup sx={{ marginRight: 4 }}>
             <Button
               onClick={() => {
@@ -161,7 +118,8 @@ export const DashboardScreen = () => {
             marginTop: 3,
           }}
         >
-          {renderTable()}
+          {/* {renderTable()} */}
+          <UngropuedTable></UngropuedTable>
         </Box>
 
         <Dialog open={editOpen} onClose={handleEditClose}>
