@@ -99,18 +99,18 @@ export const DashboardScreen = () => {
         "Loading... "
       ) : ( */}
       <>
-        <Box sx={{ marginTop: 8 }}>
+        <Box>
           <CustomAppbar></CustomAppbar>
         </Box>
         <Box
           sx={{
             marginLeft: 34,
-            marginTop: 12,
+            marginTop: 11,
             display: "flex",
             justifyContent: "space-between",
           }}
         >
-          <FormControl
+          {/* <FormControl
             sx={{
               width: 180,
               marginRight: 4,
@@ -142,7 +142,7 @@ export const DashboardScreen = () => {
               <MenuItem value={"bucket"}> Buckets</MenuItem>
               <MenuItem value={"checklist"}> Checklist</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
           <ButtonGroup sx={{ marginRight: 4 }}>
             <Button
               onClick={() => {

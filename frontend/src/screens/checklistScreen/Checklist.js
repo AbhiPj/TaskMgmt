@@ -1,5 +1,12 @@
 import React from "react";
-import { Button, ButtonGroup, Dialog } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardContent,
+  Dialog,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CustomAppbar } from "../../components/Appbar";
 import { useListChecklistQuery } from "../../state/checklistSlice";
 import { useNavigate } from "react-router-dom";
-import { ChecklistTaskForm } from "./checklistComponent/ChecklistTaskForm";
+import { AddChecklistForm } from "./checklistComponent/AddChecklistForm";
 
 export const Checklist = () => {
   const [addChecklistOpen, setAddChecklistOpen] = React.useState(false);
@@ -40,91 +47,92 @@ export const Checklist = () => {
   const navigate = useNavigate();
   return (
     <>
-      {loadingChecklist ? (
+      {/* {loadingChecklist ? (
         "Loading..."
-      ) : (
-        <>
-          <Box sx={{ marginTop: 8 }}>
-            <CustomAppbar></CustomAppbar>
-          </Box>
-          <Box sx={{ marginLeft: 34, marginTop: 12 }}>
-            <ButtonGroup>
-              <Button
-                onClick={() => {
-                  //   setAddBucketOpen(true);
-                  setAddChecklistOpen(true);
-                }}
-              >
-                Add Checklist
-              </Button>
-            </ButtonGroup>
-          </Box>
-          <Box
-            sx={{
-              width: 1250,
-              marginLeft: 32,
-              marginTop: 3,
+      ) : ( */}
+      <>
+        <Box sx={{ marginTop: 8 }}>
+          <CustomAppbar></CustomAppbar>
+        </Box>
+
+        <Box sx={{ marginLeft: 34, marginTop: 12 }}>
+          <ButtonGroup>
+            <Button
+              onClick={() => {
+                //   setAddBucketOpen(true);
+                setAddChecklistOpen(true);
+              }}
+            >
+              Add Checklist
+            </Button>
+          </ButtonGroup>
+        </Box>
+        <Box
+          sx={{
+            width: 1250,
+            marginLeft: 32,
+            marginTop: 3,
+          }}
+        >
+          <MaterialTable
+            components={{
+              Toolbar: (props) => (
+                <Box>
+                  <MTableToolbar {...props} showTitle={false} />
+                </Box>
+              ),
             }}
-          >
-            <MaterialTable
-              components={{
-                Toolbar: (props) => (
-                  <div style={{ backgroundColor: "green" }}>
-                    <MTableToolbar {...props} />
-                  </div>
-                ),
-              }}
-              onRowClick={(e, data) => {
-                // console.log(data);
-                // setEditOpen(true);
-                var id = data._id;
-                // setBucketId(id);
-                let path = `/checklist/task/${id}`;
-                navigate(path);
-              }}
-              title=""
-              columns={columns}
-              data={rawList}
-              // editable={{
-              //   onRowAdd: (newRow) =>
-              //     new Promise((resolve, reject) => {
-              //       console.log(newRow);
-              //       addTask(newRow);
-              //       resolve();
-              //     }),
-              // }}
-              options={{
-                search: false,
-                addRowPosition: "first",
-                actionsColumnIndex: -1,
-              }}
-              actions={[
-                {
-                  icon: () => <DeleteIcon />,
-                  tooltip: "Delete",
-                  onClick: (e, data) => {
-                    var id = data._id;
-                    // deleteBucket(id);
-                  },
+            onRowClick={(e, data) => {
+              // console.log(data);
+              // setEditOpen(true);
+              var id = data._id;
+              // setBucketId(id);
+              let path = `/checklist/task/${id}`;
+              navigate(path);
+            }}
+            title=""
+            columns={columns}
+            data={rawList}
+            // editable={{
+            //   onRowAdd: (newRow) =>
+            //     new Promise((resolve, reject) => {
+            //       console.log(newRow);
+            //       addTask(newRow);
+            //       resolve();
+            //     }),
+            // }}
+            options={{
+              search: false,
+              addRowPosition: "first",
+              actionsColumnIndex: -1,
+            }}
+            actions={[
+              {
+                icon: () => <DeleteIcon />,
+                tooltip: "Delete",
+                onClick: (e, data) => {
+                  var id = data._id;
+                  // deleteBucket(id);
                 },
-                {
-                  icon: () => <EditIcon />,
-                  tooltip: "Edit",
-                  onClick: (e, data) => {
-                    // console.log(data);
-                    // setEditOpen(true);
-                    // var id = data._id;
-                    // setBucketId(id);
-                  },
+              },
+              {
+                icon: () => <EditIcon />,
+                tooltip: "Edit",
+                onClick: (e, data) => {
+                  // console.log(data);
+                  // setEditOpen(true);
+                  // var id = data._id;
+                  // setBucketId(id);
                 },
-              ]}
-            />
-          </Box>
-          <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
-            <ChecklistTaskForm></ChecklistTaskForm>
-          </Dialog>
-        </>
-      )}
+              },
+            ]}
+          />
+        </Box>
+        <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
+          <AddChecklistForm></AddChecklistForm>
+        </Dialog>
+      </>
+      {/* )} */}
     </>
   );
 };

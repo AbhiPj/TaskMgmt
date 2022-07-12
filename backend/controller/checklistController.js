@@ -47,24 +47,22 @@ export const detailChecklist = (req, res) => {
 
 export const editChecklist = (req, res) => {
   const {
-    // name,
-    // description,
-    // priority,
-    // assignedTo,
-    // dateDue,
-    // startDate,
-    // progress,
-    // department,
-    // bucket,
-    // comment,
+    entity,
+    scope,
+    name,
+    description,
+    type,
+    sections,
+    status,
+    checklistTasks,
   } = req.body.body;
 
   Checklist.findById(req.params.id)
     .then((checklist) => {
-      // task.name = name || task.name;
-      // task.description = description || task.description;
-      // task.priority = priority || task.priority;
-      // task.assignedTo = assignedTo || task.assignedTo;
+      // checklist.name = name || checklist.name;
+      // checklist.description = description || checklist.description;
+      // checklist.priority = priority || checklist.priority;
+      // checklist.assignedTo = assignedTo || task.assignedTo;
       // task.dateDue = dateDue || task.dateDue;
       // task.startDate = startDate || task.startDate;
       // task.progress = progress || task.progress;
@@ -72,6 +70,24 @@ export const editChecklist = (req, res) => {
       // task.bucket = bucket || task.bucket;
 
       // task.comment = comment || task.comment;
+      checklist
+        .save()
+        .then(() => res.json("checklist task added"))
+        .catch((err) => res.status(400).json("error" + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+export const addChecklistTask = (req, res) => {
+  const { checklistTasks } = req.body;
+
+  const checklist = Checklist.findById(req.params.id);
+
+  var checklistArr = checklist.checklistTasks;
+
+  Checklist.findById(req.params.id)
+    .then((checklist) => {
+      checklist.checklistTasks.push(checklistTasks);
       checklist
         .save()
         .then(() => res.json("checklist task added"))

@@ -19,8 +19,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { useListBucketQuery } from "../../../state/bucketSlice";
 import { useListUserQuery } from "../../../state/userSlice";
+import { useAddChecklistTaskMutation } from "../../../state/checklistSlice";
 
-export const ChecklistTaskForm = () => {
+export const AddChecklistTaskForm = (id) => {
+  const [addChecklistTask] = useAddChecklistTaskMutation();
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const { data: bucketList = [], isLoading: loadingBucket } =
     useListBucketQuery();
@@ -38,17 +40,20 @@ export const ChecklistTaskForm = () => {
 
   const handleSubmit = () => {
     const addTaskObj = {
-      name: task,
-      description: description,
-      priority: priority,
-      assignedTo: assignedTo,
-      dateDue: endDate,
-      startDate: startDate,
-      progress: progress,
-      department: department,
-      bucket: bucket,
+      id: id.id,
+      checklistTasks: {
+        name: task,
+        description: description,
+        priority: priority,
+        assignedTo: assignedTo,
+        dateDue: endDate,
+        startDate: startDate,
+        progress: progress,
+        department: department,
+        bucket: bucket,
+      },
     };
-    // addTask(addTaskObj);
+    addChecklistTask(addTaskObj);
   };
 
   const handleEndDateChange = (newValue) => {

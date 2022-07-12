@@ -2,25 +2,38 @@ import React from "react";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import {
   useDeleteTaskMutation,
   useListBucketTaskQuery,
 } from "../../../state/taskSlice";
-import { Dialog } from "@mui/material";
+
+import {
+  Box,
+  Button,
+  Dialog,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { TaskForm } from "./TaskForm";
 import { AddTaskForm } from "./addTaskForm";
 
 export const UngropuedTable = (data) => {
+  const getTask = sessionStorage.getItem("taskType");
+
   const [deleteTask] = useDeleteTaskMutation();
 
   const [addOpen, setAddOpen] = React.useState(false);
   const [addBucketOpen, setAddBucketOpen] = React.useState(false);
+  const [taskType, setTaskType] = React.useState(getTask);
 
   const [editOpen, setEditOpen] = React.useState(false);
   const [taskId, setTaskId] = React.useState();
   // const { data: rawList = [], isLoading: loadingAllTask } = useListTaskQuery();
-  const { data: rawList = [], isLoading: loadingAllTask } =
-    useListBucketTaskQuery("62c41e0c24215b909b5a2a02");
+  // const { data: rawList = [], isLoading: loadingAllTask } =
+  //   useListBucketTaskQuery("62c41e0c24215b909b5a2a02");
 
   const handleEditClose = () => {
     setEditOpen(false);
@@ -68,13 +81,6 @@ export const UngropuedTable = (data) => {
   return (
     <>
       <MaterialTable
-        components={{
-          Toolbar: (props) => (
-            <div style={{ backgroundColor: "green" }}>
-              <MTableToolbar {...props} />
-            </div>
-          ),
-        }}
         onRowClick={(e, data) => {
           // console.log(data);
           setEditOpen(true);
@@ -84,16 +90,9 @@ export const UngropuedTable = (data) => {
         title=""
         columns={columns}
         data={data.data}
-        // editable={{
-        //   onRowAdd: (newRow) =>
-        //     new Promise((resolve, reject) => {
-        //       console.log(newRow);
-        //       addTask(newRow);
-        //       resolve();
-        //     }),
-        // }}
         options={{
-          search: false,
+          // search: false,
+          // filtering: true,
           addRowPosition: "first",
           actionsColumnIndex: -1,
         }}
@@ -117,6 +116,66 @@ export const UngropuedTable = (data) => {
             },
           },
         ]}
+        components={{
+          Toolbar: (props) => (
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mt: 1,
+                  padding: "1rem",
+                }}
+              >
+                <Box sx={{ display: "flex", gap: "1rem" }}>
+                  <FormControl
+                    sx={{
+                      width: 200,
+                      // marginRight: 4,
+                      color: "#1976d2",
+                    }}
+                    size="small"
+                  >
+                    <InputLabel
+                      sx={{ color: "inherit" }}
+                      id="demo-select-small"
+                    >
+                      Task Type
+                    </InputLabel>
+                    <Select
+                      sx={{ color: "inherit" }}
+                      labelId="demo-simple-select-label"
+                      id="demo-select-small"
+                      value={taskType}
+                      label="Priority"
+                      onChange={(e) => {
+                        setTaskType(e.target.value);
+                        if (e.target.value == "unassigned") {
+                          sessionStorage.setItem("taskType", "unassigned");
+                        } else if (e.target.value == "bucket") {
+                          sessionStorage.setItem("taskType", "bucket");
+                        } else if (e.target.value == "checklist") {
+                          sessionStorage.setItem("taskType", "checklist");
+                        }
+                      }}
+                    >
+                      <MenuItem value={"unassigned"}>Unassigned</MenuItem>
+                      <MenuItem value={"bucket"}> Buckets</MenuItem>
+                      <MenuItem value={"checklist"}> Checklist</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button variant="outlined">
+                    <FilterListIcon />
+                    Filter
+                  </Button>
+                </Box>
+
+                <MTableToolbar {...props} />
+              </Box>
+            </>
+          ),
+        }}
       />
       <Dialog open={editOpen} onClose={handleEditClose}>
         <TaskForm taskId={taskId}></TaskForm>

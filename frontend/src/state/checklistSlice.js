@@ -24,8 +24,28 @@ export const checklistSlice = apiSlice.injectEndpoints({
           : [{ type: "Checklist", id: "LIST" }],
     }),
 
+    detailChecklistTask: build.query({
+      query: (id) => `/checklist/detail/${id}`,
+      providesTags: (result, error, id) => [
+        { type: "Checklist", id },
+        { type: "Checklist", id: "LIST" },
+      ],
+    }),
 
-
+    addChecklistTask: build.mutation({
+      query(data) {
+        const { id, ...checklistTasks } = data;
+        return {
+          url: `/checklist/addchecklisttask/${id}`,
+          method: "POST",
+          body: checklistTasks,
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Checklist", id },
+        { type: "Checklist", id: "LIST" },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
@@ -33,5 +53,6 @@ export const checklistSlice = apiSlice.injectEndpoints({
 export const {
   useAddChecklistMutation,
   useListChecklistQuery,
-
+  useAddChecklistTaskMutation,
+  useDetailChecklistTaskQuery,
 } = checklistSlice;

@@ -4,7 +4,7 @@ const checklistTaskSchema = mongoose.Schema(
   {
     type: { type: String }, // task type - case for now
     section: { type: String }, // milestone or any sub grouping
-    title: { type: String }, // task title
+    name: { type: String }, // task title
     description: { type: String }, // task title
     priority: { type: String }, // task priority
     progress: { type: String }, // task progress - not started, in progress, completed
