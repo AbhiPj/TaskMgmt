@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import taskCommentRoutes from "./routes/taskComment.js";
 import bucketRoute from "./routes/bucketRoute.js";
 import checklistRoute from "./routes/checklistRoute.js";
+import caseRoute from "./routes/caseRoute.js";
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use("/user", userRoutes);
 app.use("/comment", taskCommentRoutes);
 app.use("/bucket", bucketRoute);
 app.use("/checklist", checklistRoute);
+app.use("/case", caseRoute);
 
 const PORT = process.env.PORT || 5000;
 

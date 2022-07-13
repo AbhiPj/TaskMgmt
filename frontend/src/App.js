@@ -17,6 +17,8 @@ import { Bucket } from "./screens/bucketScreen/Bucket";
 import { BucketTaskScreen } from "./screens/bucketScreen/BucketTaskScreen";
 import { Checklist } from "./screens/checklistScreen/Checklist";
 import { ChecklistTask } from "./screens/checklistScreen/ChecklistTask";
+import { Case } from "./screens/caseScreen/Case";
+import { CaseTaskScreen } from "./screens/caseScreen/CaseTaskScreen";
 
 export const App = () => {
   return (
@@ -32,6 +34,9 @@ export const App = () => {
             <Route path="checklist" element={<Checklist />} />
             <Route path="bucket/task/:id" element={<BucketTaskScreen />} />
             <Route path="checklist/task/:id" element={<ChecklistTask />} />
+
+            <Route path="case" element={<Case />} />
+            <Route path="case/task/:id" element={<CaseTaskScreen />} />
           </Route>
         </Routes>
       </Router>

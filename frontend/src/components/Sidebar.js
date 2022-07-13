@@ -11,6 +11,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import TaskIcon from "@mui/icons-material/Task";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import WorkIcon from "@mui/icons-material/Work";
 import { useNavigate } from "react-router-dom";
 
 export function Sidebar() {
@@ -32,11 +33,17 @@ export function Sidebar() {
     navigate(path);
   };
 
+  const caseRoute = (a) => {
+    let path = `/case`;
+    navigate(path);
+  };
+
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
     setOpen(!open);
   };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -78,6 +85,15 @@ export function Sidebar() {
                   <PlaylistAddCheckIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Checklist"} />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem key={"Case"} disablePadding onClick={caseRoute}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <WorkIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Case"} />
               </ListItemButton>
             </ListItem>
           </List>
