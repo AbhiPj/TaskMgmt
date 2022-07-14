@@ -1,12 +1,13 @@
 import { Task } from "../models/taskModel.js";
+import asyncHandler from "express-async-handler";
 
-export const addTask = (req, res) => {
+export const addTask = asyncHandler(async (req, res) => {
   const {
     name,
     description,
     priority,
     assignedTo,
-    dateDue,
+    dueDate,
     startDate,
     progress,
     department,
@@ -21,7 +22,7 @@ export const addTask = (req, res) => {
     priority,
     department,
     assignedTo,
-    dateDue,
+    dueDate,
     startDate,
     progress,
     bucket,
@@ -29,7 +30,7 @@ export const addTask = (req, res) => {
     sourceModel,
   });
 
-  const addedTask = task.save();
+  const addedTask = await (await task.save()).populate("sourceInfo");
 
   if (addedTask) {
     res.status(201).json("addedTask");
@@ -37,7 +38,7 @@ export const addTask = (req, res) => {
     res.status(400);
     throw new Error("Task cannot be added. Try again.");
   }
-};
+});
 
 export const listTask = (req, res) => {
   // const taskExists = Task.find();
@@ -51,7 +52,7 @@ export const listTask = (req, res) => {
   const taskExists = Task.find();
 
   Task.find()
-    .populate("sourceInfo")
+    // .populate("sourceInfo")
 
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -61,16 +62,16 @@ export const listDepartmentTask = (req, res) => {
   Task.find({
     department: req.params.department,
   })
-    .populate("bucket")
+    // .populate("bucket")
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 export const listBucketTask = (req, res) => {
   Task.find({
-    bucket: req.params.id,
+    sourceInfo: req.params.id,
   })
-    .populate("bucket")
+    // .populate("bucket")
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
@@ -88,7 +89,7 @@ export const editTask = (req, res) => {
     description,
     priority,
     assignedTo,
-    dateDue,
+    dueDate,
     startDate,
     progress,
     department,
@@ -102,7 +103,7 @@ export const editTask = (req, res) => {
       task.description = description || task.description;
       task.priority = priority || task.priority;
       task.assignedTo = assignedTo || task.assignedTo;
-      task.dateDue = dateDue || task.dateDue;
+      task.dueDate = dueDate || task.dueDate;
       task.startDate = startDate || task.startDate;
       task.progress = progress || task.progress;
       task.department = department || task.department;

@@ -11,6 +11,7 @@ const checklistTaskSchema = mongoose.Schema(
     startDate: { type: Date }, // task title
     dueDate: { type: Date }, //policy cover from
     status: { type: String }, // task status - active, inactive
+    department: { type: String },
     // responsible: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "User",

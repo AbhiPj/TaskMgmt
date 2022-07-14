@@ -18,7 +18,7 @@ const taskSchema = mongoose.Schema(
     },
     sourceModel: {
       type: String,
-      enum: ["Checklist", "Bucket"],
+      enum: ["Checklist", "Bucket", "Unassigned"],
     },
     name: { type: String },
     description: { type: String },
@@ -27,8 +27,7 @@ const taskSchema = mongoose.Schema(
     assignedTo: { type: String },
     department: { type: String },
     startDate: { type: Date },
-    dateDue: { type: Date },
-    bucket: { type: mongoose.Schema.Types.ObjectId, ref: "Bucket" },
+    dueDate: { type: Date },
 
     // comment: [commentSchema],
   },

@@ -15,26 +15,28 @@ export const TaskBoard = (data) => {
 
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
-  const dept = "IT";
+  // const dept = "IT";
 
-  const { data: deptTask = [], isLoading: loadingTask } =
-    useListDepartmentTaskQuery(dept);
+  // const { data: deptTask = [], isLoading: loadingTask } =
+  //   useListDepartmentTaskQuery(dept);
 
   var rawList = [];
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.bucket) {
-        console.log(item, "if");
+      if (item.sourceModel == "Unassigned") {
         rawList.push(item);
       }
     });
-
-    rawList.filter((item) => item.bucket == "");
   } else if (taskType == "bucket") {
     allList.map((item) => {
-      if (item.bucket) {
-        console.log(item, "if");
+      if (item.sourceModel == "Bucket") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "checklist") {
+    allList.map((item) => {
+      if (item.sourceModel == "Checklist") {
         rawList.push(item);
       }
     });
@@ -50,7 +52,7 @@ export const TaskBoard = (data) => {
 
   var board;
 
-  if (!loadingTask) {
+  if (!loadingAllTask) {
     const groupBy = (array, key) => {
       // Return the end result
       return array.reduce((result, currentValue) => {
@@ -118,7 +120,7 @@ export const TaskBoard = (data) => {
 
   return (
     <Box>
-      {loadingTask ? (
+      {loadingAllTask ? (
         "Loading... "
       ) : (
         <>

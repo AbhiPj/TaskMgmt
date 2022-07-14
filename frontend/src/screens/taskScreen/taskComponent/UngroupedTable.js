@@ -50,7 +50,7 @@ export const UngropuedTable = (data) => {
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.sourceModel) {
+      if (item.sourceModel == "Unassigned") {
         rawList.push(item);
       }
     });
@@ -110,7 +110,7 @@ export const UngropuedTable = (data) => {
       validate: (row) => (row.priority || "").length !== 0,
     },
     { title: "Assigned to", field: "assignedTo", width: 200 },
-    { title: "Date Due", field: "dateDue", type: "date", width: 130 },
+    { title: "Date Due", field: "dueDate", type: "date", width: 130 },
   ];
 
   return (

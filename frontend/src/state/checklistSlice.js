@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 
 export const checklistSlice = apiSlice.injectEndpoints({
-  tagTypes: ["Checklist", "Task"],
+  tagTypes: ["Checklist"],
   endpoints: (build) => ({
     addChecklist: build.mutation({
       query(body) {
@@ -27,6 +27,21 @@ export const checklistSlice = apiSlice.injectEndpoints({
     detailChecklistTask: build.query({
       query: (id) => `/checklist/detail/${id}`,
       providesTags: (result, error, id) => [
+        { type: "Checklist", id },
+        { type: "Checklist", id: "LIST" },
+      ],
+    }),
+
+    addChecklistTask: build.mutation({
+      query(data) {
+        const { id, ...checklistTasks } = data;
+        return {
+          url: `/checklist/addchecklisttask/${id}`,
+          method: "POST",
+          body: checklistTasks,
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
         { type: "Checklist", id },
         { type: "Checklist", id: "LIST" },
       ],

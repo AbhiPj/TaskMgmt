@@ -61,7 +61,7 @@ export const TaskForm = (taskId) => {
     setProgress(detailTask.progress);
     setPriority(detailTask.priority);
     setAssignedTo(detailTask.assignedTo);
-    setEndDate(detailTask.dateDue);
+    setEndDate(detailTask.dueDate);
   }, [loadingTask]);
 
   const [editTask] = useEditTaskMutation();
@@ -75,7 +75,7 @@ export const TaskForm = (taskId) => {
         description: description,
         priority: priority,
         assignedTo: assignedTo,
-        dateDue: endDate,
+        dueDate: endDate,
         startDate: startDate,
         progress: progress,
         department: department,

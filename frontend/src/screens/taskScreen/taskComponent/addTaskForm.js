@@ -45,18 +45,18 @@ export const AddTaskForm = (data) => {
   const [endDate, setEndDate] = React.useState(new Date(data.date?.endDate));
 
   const handleSubmit = () => {
-    var taskType = "";
+    var taskType = "Unassigned";
     if (bucket != "") {
       taskType = "Bucket";
     }
     const addTaskObj = {
-      sourceId: bucket,
+      sourceInfo: bucket,
       sourceModel: taskType,
       name: task,
       description: description,
       priority: priority,
       assignedTo: assignedTo,
-      dateDue: endDate,
+      dueDate: endDate,
       startDate: startDate,
       progress: progress,
       department: department,

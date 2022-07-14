@@ -46,7 +46,7 @@ export const AddChecklistTaskForm = (id) => {
         description: description,
         priority: priority,
         assignedTo: assignedTo,
-        dateDue: endDate,
+        dueDate: endDate,
         startDate: startDate,
         progress: progress,
         department: department,

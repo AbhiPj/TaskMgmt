@@ -41,9 +41,9 @@ export const DashboardScreen = () => {
 
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
-  const dept = "IT";
-  const { data: deptTask = [], isLoading: loadingTask } =
-    useListDepartmentTaskQuery(dept);
+  // const dept = "IT";
+  // const { data: deptTask = [], isLoading: loadingTask } =
+  //   useListDepartmentTaskQuery(dept);
 
   var rawList = [];
   var bucketList = [];

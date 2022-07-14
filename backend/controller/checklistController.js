@@ -105,6 +105,11 @@ export const generateTask = asyncHandler(async (req, res) => {
     checklist.checklistTasks.map((item) => {
       const task = new Task({
         name: item.name,
+        priority: item.priority,
+        progress: item.progress,
+        department: item.department,
+        startDate: item.startDate,
+        dueDate: item.dueDate,
         description: item.description,
         sourceInfo: req.params.id,
         sourceModel: "Checklist",

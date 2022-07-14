@@ -47,7 +47,7 @@ export const Schedule = () => {
   } = useListDepartmentTaskQuery(dept);
 
   const filteredTask = rawList.map(
-    ({ name: title, _id: id, startDate: start, dateDue: end }) => ({
+    ({ name: title, _id: id, startDate: start, dueDate: end }) => ({
       id,
       title,
       start: new Date(start),
@@ -69,7 +69,7 @@ export const Schedule = () => {
       id: event.id,
       body: {
         startDate: start,
-        dateDue: end,
+        dueDate: end,
       },
     };
     editTask(updatedTask);
@@ -81,7 +81,7 @@ export const Schedule = () => {
       id: event.id,
       body: {
         startDate: start,
-        dateDue: end,
+        dueDate: end,
       },
     };
     editTask(updatedTask);

@@ -40,15 +40,19 @@ export const BucketBoard = (data) => {
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.bucket) {
-        console.log(item, "if");
+      if (!item.sourceModel) {
         rawList.push(item);
       }
     });
   } else if (taskType == "bucket") {
     allList.map((item) => {
-      if (item.bucket) {
-        console.log(item, "if");
+      if (item.sourceModel == "Bucket") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "checklist") {
+    allList.map((item) => {
+      if (item.sourceModel == "Checklist") {
         rawList.push(item);
       }
     });
