@@ -76,6 +76,10 @@ export const taskSlice = apiSlice.injectEndpoints({
         { type: "Task", id: "LIST" },
       ],
     }),
+    generateChecklistTask: build.mutation({
+      query: (id) => `/checklist/generatetask/${id}`,
+      invalidatesTags: [{ type: "Task", id: "LIST" }],
+    }),
   }),
   overrideExisting: false,
 });
@@ -88,4 +92,5 @@ export const {
   useDetailTaskQuery,
   useEditTaskMutation,
   useDeleteTaskMutation,
+  useGenerateChecklistTaskMutation,
 } = taskSlice;

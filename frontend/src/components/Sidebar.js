@@ -33,11 +33,6 @@ export function Sidebar() {
     navigate(path);
   };
 
-  const caseRoute = (a) => {
-    let path = `/case`;
-    navigate(path);
-  };
-
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
@@ -85,15 +80,6 @@ export function Sidebar() {
                   <PlaylistAddCheckIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Checklist"} />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem key={"Case"} disablePadding onClick={caseRoute}>
-              <ListItemButton>
-                <ListItemIcon>
-                  <WorkIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Case"} />
               </ListItemButton>
             </ListItem>
           </List>

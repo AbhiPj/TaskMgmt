@@ -5,6 +5,7 @@ import {
   detailChecklist,
   editChecklist,
   addChecklistTask,
+  generateTask,
 } from "../controller/checklistController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.route("/list").get(listChecklist);
 router.route("/detail/:id").get(detailChecklist);
 router.route("/edit/:id").put(editChecklist);
 router.route("/addChecklistTask/:id").post(addChecklistTask);
+router.route("/generatetask/:id").get(generateTask);
 
 export default router;

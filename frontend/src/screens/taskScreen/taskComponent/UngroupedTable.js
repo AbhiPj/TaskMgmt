@@ -50,13 +50,19 @@ export const UngropuedTable = (data) => {
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.bucket) {
+      if (!item.sourceModel) {
         rawList.push(item);
       }
     });
   } else if (taskType == "bucket") {
     allList.map((item) => {
-      if (item.bucket) {
+      if (item.sourceModel == "Bucket") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "checklist") {
+    allList.map((item) => {
+      if (item.sourceModel == "Checklist") {
         rawList.push(item);
       }
     });

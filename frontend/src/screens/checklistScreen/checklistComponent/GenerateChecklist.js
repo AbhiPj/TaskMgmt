@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -11,20 +12,35 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useAddCaseMutation } from "../../../state/caseSlice";
-export const GenerateChecklist = (rawList) => {
+import { useListChecklistQuery } from "../../../state/checklistSlice";
+import { useGenerateChecklistTaskMutation } from "../../../state/taskSlice";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+
+export const GenerateChecklist = () => {
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+  const { vertical, horizontal, open } = state;
+
+  const { data: rawList = [], isLoading: checklistLoading } =
+    useListChecklistQuery();
+
   console.log(rawList, "rwawkt");
   const [addCase] = useAddCaseMutation();
+  const [generateTask] = useGenerateChecklistTaskMutation();
 
   const [name, setName] = useState("");
   const [checklist, setChecklist] = useState();
 
   const handleSubmit = () => {
-    const caseObj = {
-      name: name,
-      checklist: checklist,
-    };
-    addCase(caseObj);
-    console.log(caseObj, "caseObj submit");
+    generateTask(checklist);
+    setState({ open: true });
   };
 
   return (
@@ -32,7 +48,7 @@ export const GenerateChecklist = (rawList) => {
       <>
         <Box sx={{ padding: 5, width: 500 }}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
                 variant="filled"
                 inputProps={{ style: { fontSize: 14 } }}
@@ -43,7 +59,7 @@ export const GenerateChecklist = (rawList) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Checklist</InputLabel>
@@ -60,7 +76,7 @@ export const GenerateChecklist = (rawList) => {
                   label="checklist"
                   onChange={(e) => setChecklist(e.target.value)}
                 >
-                  {rawList.data.map((item) => {
+                  {rawList.map((item) => {
                     return <MenuItem value={item._id}>{item.name}</MenuItem>;
                   })}
                 </Select>
@@ -72,6 +88,21 @@ export const GenerateChecklist = (rawList) => {
               Submit
             </Button>
           </Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={open}
+            onClose={handleClose}
+            // message="Task Generated"
+            key={vertical + horizontal}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Task Generated!
+            </Alert>
+          </Snackbar>
         </Box>
       </>
     </>

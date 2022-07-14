@@ -12,6 +12,14 @@ import mongoose from "mongoose";
 
 const taskSchema = mongoose.Schema(
   {
+    sourceInfo: {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: "sourceModel",
+    },
+    sourceModel: {
+      type: String,
+      enum: ["Checklist", "Bucket"],
+    },
     name: { type: String },
     description: { type: String },
     priority: { type: String },

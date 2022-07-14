@@ -11,6 +11,8 @@ export const addTask = (req, res) => {
     progress,
     department,
     bucket,
+    sourceInfo,
+    sourceModel,
   } = req.body;
 
   const task = new Task({
@@ -23,6 +25,8 @@ export const addTask = (req, res) => {
     startDate,
     progress,
     bucket,
+    sourceInfo,
+    sourceModel,
   });
 
   const addedTask = task.save();
@@ -44,8 +48,10 @@ export const listTask = (req, res) => {
   //   res.status(400);
   //   throw new Error("Task List Not Found. Try again.");
 
+  const taskExists = Task.find();
+
   Task.find()
-    .populate("bucket")
+    .populate("sourceInfo")
 
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));

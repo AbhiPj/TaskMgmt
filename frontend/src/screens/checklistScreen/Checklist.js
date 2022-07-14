@@ -18,6 +18,7 @@ import { CustomAppbar } from "../../components/Appbar";
 import { useListChecklistQuery } from "../../state/checklistSlice";
 import { useNavigate } from "react-router-dom";
 import { AddChecklistForm } from "./checklistComponent/AddChecklistForm";
+import { EditChecklistForm } from "./checklistComponent/EditChecklistForm";
 import { GenerateChecklist } from "./checklistComponent/GenerateChecklist";
 
 export const Checklist = () => {
@@ -26,7 +27,10 @@ export const Checklist = () => {
     sessionStorage.setItem("taskType", "unassigned");
   }
   const [addChecklistOpen, setAddChecklistOpen] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
   const [generateOpen, setGenerateOpen] = React.useState(false);
+
+  const [checklistId, setChecklistId] = React.useState();
 
   const {
     data: rawList = [],
@@ -51,6 +55,10 @@ export const Checklist = () => {
 
   const handleAddChecklistClose = () => {
     setAddChecklistOpen(false);
+  };
+
+  const handleEditClose = () => {
+    setEditOpen(false);
   };
 
   const handleGenerateClose = () => {
@@ -150,10 +158,9 @@ export const Checklist = () => {
                 icon: () => <EditIcon />,
                 tooltip: "Edit",
                 onClick: (e, data) => {
-                  // console.log(data);
-                  // setEditOpen(true);
-                  // var id = data._id;
-                  // setBucketId(id);
+                  setEditOpen(true);
+                  var id = data._id;
+                  setChecklistId(id);
                 },
               },
             ]}
@@ -162,8 +169,11 @@ export const Checklist = () => {
         <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
           <AddChecklistForm></AddChecklistForm>
         </Dialog>
+        <Dialog open={editOpen} onClose={handleEditClose}>
+          <EditChecklistForm id={checklistId}></EditChecklistForm>
+        </Dialog>
         <Dialog open={generateOpen} onClose={handleGenerateClose}>
-          <GenerateChecklist></GenerateChecklist>
+          <GenerateChecklist id={checklistId}></GenerateChecklist>
         </Dialog>
       </>
       {/* )} */}

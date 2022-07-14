@@ -131,7 +131,6 @@ export const TaskForm = (taskId) => {
                   </InputLabel>
                   <Select
                     sx={{
-                      // backgroundColor: "rgba(230,230,230,0.6)",
                       height: 40,
                       fontSize: 14,
                     }}

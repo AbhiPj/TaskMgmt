@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -19,12 +19,19 @@ import {
 } from "./checklistComponent/AddChecklistTaskForm";
 import { useDetailChecklistTaskQuery } from "../../state/checklistSlice";
 import { useParams } from "react-router-dom";
+import { EditChecklistTask } from "./checklistComponent/EditChecklistTask";
 
 export const ChecklistTask = () => {
-  const [addChecklistOpen, setAddChecklistOpen] = React.useState(false);
+  const [addChecklistOpen, setAddChecklistOpen] = useState(false);
+  const [editChecklistOpen, setEditChecklistOpen] = useState(false);
+  const [taskId, setTaskId] = useState();
 
   const handleAddChecklistClose = () => {
     setAddChecklistOpen(false);
+  };
+
+  const handleEditChecklistClose = () => {
+    setEditChecklistOpen(false);
   };
 
   const { id } = useParams();
@@ -141,9 +148,9 @@ export const ChecklistTask = () => {
                 tooltip: "Edit",
                 onClick: (e, data) => {
                   // console.log(data);
-                  // setEditOpen(true);
-                  // var id = data._id;
-                  // setBucketId(id);
+                  setEditChecklistOpen(true);
+                  var id = data._id;
+                  setTaskId(id);
                 },
               },
             ]}
@@ -151,6 +158,9 @@ export const ChecklistTask = () => {
         </Box>
         <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
           <AddChecklistTaskForm id={id}></AddChecklistTaskForm>
+        </Dialog>
+        <Dialog open={editChecklistOpen} onClose={handleEditChecklistClose}>
+          <EditChecklistTask id={taskId}></EditChecklistTask>
         </Dialog>
       </>
       {/* )} */}
