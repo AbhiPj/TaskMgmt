@@ -1,6 +1,6 @@
+import asyncHandler from "express-async-handler";
 import { Checklist } from "../models/checklistModel.js";
 import { Task } from "../models/taskModel.js";
-import asyncHandler from "express-async-handler";
 
 export const addChecklist = (req, res) => {
   const {
@@ -56,7 +56,7 @@ export const editChecklist = (req, res) => {
       checklist.description = description || checklist.description;
       checklist
         .save()
-        .then(() => res.json("checklist task added"))
+        .then(() => res.json("checklist task edited "))
         .catch((err) => res.status(400).json("error" + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
@@ -81,33 +81,71 @@ export const addChecklistTask = (req, res) => {
 };
 
 export const editChecklistTask = asyncHandler(async (req, res) => {
-  const { checklistTask, id } = req.body;
+  const { checklistTask, id } = req.body.task;
 
   const checklist = await Checklist.findById(req.params.id);
 
   if (checklist) {
-    // res.json(checklist.checklistTasks);
+    // console.log(checklist.checklistTasks);
+    checklist?.checklistTasks.map((item, index) => {
+      if (item._id.toString() == id) {
+        checklist.checklistTasks[index].name =
+          checklistTask.name || checklist.checklistTasks[index].name;
+
+        checklist.checklistTasks[index].description =
+          checklistTask.description ||
+          checklist.checklistTasks[index].description;
+
+        checklist.checklistTasks[index].priority =
+          checklistTask.priority || checklist.checklistTasks[index].priority;
+
+        checklist.checklistTasks[index].assignedTo =
+          checklistTask.assignedTo ||
+          checklist.checklistTasks[index].assignedTo;
+
+        checklist.checklistTasks[index].progress =
+          checklistTask.progress || checklist.checklistTasks[index].progress;
+
+        checklist.checklistTasks[index].department =
+          checklistTask.department ||
+          checklist.checklistTasks[index].department;
+
+        const checklistSave = checklist.save();
+        res.json(checklistSave);
+      }
+    });
+  } else {
+    res.status(404);
+    throw new Error("checklist not found");
+  }
+});
+
+export const detailChecklistTask = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  const checklist = await Checklist.findById(req.params.id);
+
+  if (checklist) {
     checklist?.checklistTasks.map((item, index) => {
       if (item._id == id) {
         res.json(checklist.checklistTasks[index]);
       } else {
+        res.json("error ");
       }
     });
+  } else {
+    res.status(404);
+    throw new Error("checklist not found");
   }
-
-  // checklist?.checklistTasks.map((item, index) => {
-  //   if (item._id == id) {
-  //     console.log(checklist.checklistTasks[index]);
-  //   } else {
-  //   }
-  // });
 });
 
 export const generateTask = asyncHandler(async (req, res) => {
-  const checklist = Checklist.findById(req.params.id);
+  const checklist = await Checklist.findById(req.params.id);
 
   if (checklist) {
-    checklist.checklistTasks.map((item) => {
+    // console.log(checklist);
+
+    checklist?.checklistTasks.map((item) => {
       const task = new Task({
         name: item.name,
         priority: item.priority,
@@ -124,6 +162,6 @@ export const generateTask = asyncHandler(async (req, res) => {
     res.status(201).json("Checklist Created");
   } else {
     res.status(400);
-    throw new Error("Checklist  Not Found. Try again.");
+    throw new Error("Checklist generation failed.");
   }
 });

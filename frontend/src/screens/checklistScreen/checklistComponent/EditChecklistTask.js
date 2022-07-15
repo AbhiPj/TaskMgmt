@@ -15,16 +15,26 @@ import Select from "@mui/material/Select";
 import { useListUserQuery } from "../../../state/userSlice";
 import { useListBucketQuery } from "../../../state/bucketSlice";
 import { useDetailTaskQuery } from "../../../state/taskSlice";
+import {
+  useDetailChecklistTaskQuery,
+  useEditChecklistTaskMutation,
+} from "../../../state/checklistTaskSlice";
 export const EditChecklistTask = (taskId) => {
+  console.log(taskId, "taskId");
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const { data: bucketList = [], isLoading: loadingBucket } =
     useListBucketQuery();
 
-  const {
-    data: detailTask = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useDetailTaskQuery(taskId?.id);
+  const { data: detailTask = [], isLoading: loadingTask } =
+    useDetailChecklistTaskQuery(taskId?.id);
+
+  const [editChecklistTask] = useEditChecklistTaskMutation();
+
+  // const {
+  //   data: detailTask = [],
+  //   isLoading: loadingTask,
+  //   error: error,
+  // } = useDetailTaskQuery(taskId?.id);
   console.log(taskId.id, "id task");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -49,10 +59,23 @@ export const EditChecklistTask = (taskId) => {
 
   const handleSubmit = () => {
     const checklistObj = {
-      name: name,
-      description: description,
+      checklistId: taskId.checklistId,
+      task: {
+        id: taskId?.id,
+        checklistTask: {
+          name: name,
+          description: description,
+          priority: priority,
+          assignedTo: assignedTo,
+          // dueDate: endDate,
+          // startDate: startDate,
+          progress: progress,
+          department: department,
+          bucket: bucket,
+        },
+      },
     };
-    //   addChecklist(checklistObj);
+    editChecklistTask(checklistObj);
   };
   return (
     <>

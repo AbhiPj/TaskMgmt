@@ -177,7 +177,7 @@ export const Boards = () => {
                     }
                   }}
                 >
-                  <MenuItem value={"unassigned"}>unassigned</MenuItem>
+                  <MenuItem value={"unassigned"}>Unassigned</MenuItem>
                   <MenuItem value={"bucket"}> Buckets</MenuItem>
                   <MenuItem value={"checklist"}> Checklist</MenuItem>
                 </Select>

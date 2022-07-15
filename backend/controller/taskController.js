@@ -133,3 +133,20 @@ export const deleteTask = (req, res) => {
     .then((task) => res.json("Task deleted"))
     .catch((err) => res.status(400).json("Error: " + err));
 };
+
+export const addTaskComment = asyncHandler(async (req, res) => {
+  const { name, comment } = req.body;
+
+  const task = await Task.findById(req.params.id);
+  taskComment = {
+    name: name,
+    comment: comment,
+  };
+  if (task) {
+    task.comment.push(taskComment);
+    task.save();
+  } else {
+    res.status(400);
+    throw new Error("Error");
+  }
+});

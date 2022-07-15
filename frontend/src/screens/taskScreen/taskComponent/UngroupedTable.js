@@ -159,7 +159,7 @@ export const UngropuedTable = (data) => {
             icon: () => <DeleteIcon />,
             tooltip: "Delete",
             onClick: (e, data) => {
-              var id = data._id;
+              var id = data.id;
               deleteTask(id);
             },
           },

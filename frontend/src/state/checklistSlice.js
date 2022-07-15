@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 
 export const checklistSlice = apiSlice.injectEndpoints({
-  tagTypes: ["Checklist"],
+  tagTypes: ["Checklist", "ChecklistTask"],
   endpoints: (build) => ({
     addChecklist: build.mutation({
       query(body) {
@@ -12,6 +12,21 @@ export const checklistSlice = apiSlice.injectEndpoints({
         };
       },
       invalidatesTags: [{ type: "Checklist", id: "LIST" }],
+    }),
+
+    editChecklist: build.mutation({
+      query(data) {
+        const { id, ...body } = data;
+        return {
+          url: `/checklist/edit/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Checklist", id },
+        { type: "Checklist", id: "LIST" },
+      ],
     }),
     listChecklist: build.query({
       query: (status) => `/checklist/list`,
@@ -24,7 +39,7 @@ export const checklistSlice = apiSlice.injectEndpoints({
           : [{ type: "Checklist", id: "LIST" }],
     }),
 
-    detailChecklistTask: build.query({
+    detailChecklist: build.query({
       query: (id) => `/checklist/detail/${id}`,
       providesTags: (result, error, id) => [
         { type: "Checklist", id },
@@ -32,20 +47,50 @@ export const checklistSlice = apiSlice.injectEndpoints({
       ],
     }),
 
-    addChecklistTask: build.mutation({
-      query(data) {
-        const { id, ...checklistTasks } = data;
-        return {
-          url: `/checklist/addchecklisttask/${id}`,
-          method: "POST",
-          body: checklistTasks,
-        };
-      },
-      invalidatesTags: (result, error, { id }) => [
-        { type: "Checklist", id },
-        { type: "Checklist", id: "LIST" },
-      ],
-    }),
+    // addChecklistTask: build.mutation({
+    //   query(data) {
+    //     const { id, ...checklistTasks } = data;
+    //     return {
+    //       url: `/checklist/addchecklisttask/${id}`,
+    //       method: "POST",
+    //       body: checklistTasks,
+    //     };
+    //   },
+    //   invalidatesTags: (result, error, { id }) => [
+    //     { type: "ChecklistTask", id },
+    //     { type: "ChecklistTask", id: "LIST" },
+    //   ],
+    // }),
+
+    // editChecklistTask: build.mutation({
+    //   query(data) {
+    //     const { checklistId, ...task } = data;
+    //     return {
+    //       url: `/checklist/editchecklisttask/${checklistId}`,
+    //       method: "PUT",
+    //       body: task,
+    //     };
+    //   },
+    //   invalidatesTags: (result, error, { id }) => [
+    //     { type: "Checklist", id },
+    //     { type: "Checklist", id: "LIST" },
+    //   ],
+    // }),
+
+    // detailChecklistTask: build.query({
+    //   query(data) {
+    //     const { id, ...checklistTask } = data;
+    //     return {
+    //       url: `/checklist/detailChecklistTask/${id}`,
+    //       method: "PUT",
+    //       body: checklistTask,
+    //     };
+    //   },
+    //   providesTags: (result, error, id) => [
+    //     { type: "ChecklistTask", id },
+    //     { type: "ChecklistTask", id: "LIST" },
+    //   ],
+    // }),
   }),
   overrideExisting: false,
 });
@@ -53,6 +98,9 @@ export const checklistSlice = apiSlice.injectEndpoints({
 export const {
   useAddChecklistMutation,
   useListChecklistQuery,
-  useAddChecklistTaskMutation,
-  useDetailChecklistTaskQuery,
+  useEditChecklistMutation,
+  useDetailChecklistQuery,
+  // useAddChecklistTaskMutation,
+  // useEditChecklistTaskMutation,
+  // useDetailChecklistTaskQuery,
 } = checklistSlice;

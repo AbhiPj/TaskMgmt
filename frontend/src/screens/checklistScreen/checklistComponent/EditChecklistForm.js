@@ -10,22 +10,30 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useDetailChecklistTaskQuery } from "../../../state/checklistSlice";
+import {
+  useDetailChecklistQuery,
+  useEditChecklistMutation,
+} from "../../../state/checklistSlice";
 
 export const EditChecklistForm = (id) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const { data: rawList = [], isLoading: loadingChecklistDetail } =
-    useDetailChecklistTaskQuery(id.id);
+    useDetailChecklistQuery(id.id);
+  const [editChecklist] = useEditChecklistMutation();
 
   const handleSubmit = () => {
     const checklistObj = {
-      name: name,
-      description: description,
+      id: id.id,
+      body: {
+        name: name,
+        description: description,
+      },
     };
+    editChecklist(checklistObj);
     // addChecklist(checklistObj);
-    EditChecklistForm(checklistObj);
+    // EditChecklistForm(checklistObj);
   };
   console.log(loadingChecklistDetail);
 

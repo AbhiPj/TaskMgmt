@@ -7,8 +7,10 @@ import {
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
-import { Dialog } from "@mui/material";
-
+import { Card, CardContent, Dialog, Divider, Typography } from "@mui/material";
+import ModeCommentIcon from "@mui/icons-material/ModeComment";
+import CommentIcon from "@mui/icons-material/Comment";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
   // console.log(taskType);
@@ -87,23 +89,31 @@ export const TaskBoard = (data) => {
             id: key + 1,
             title: value,
             cards: filteredResult[value],
-            cardStyle: { backgroundColor: "#f8e8fa" },
+            cardStyle: { backgroundColor: "white" },
           });
         } else if (value == "Medium") {
           emptyArr.push({
             id: key + 1,
             title: value,
             cards: filteredResult[value],
-            cardStyle: { backgroundColor: "#faf6e8" },
+            cardStyle: { backgroundColor: "white" },
           });
         } else if (value == "High") {
           emptyArr.push({
             id: key + 1,
             title: value,
             cards: filteredResult[value],
-            cardStyle: { backgroundColor: "#e8faed" },
+            cardStyle: { backgroundColor: "white" },
           });
         }
+        // else {
+        //   emptyArr.push({
+        //     id: key + 1,
+        //     title: "None",
+        //     cards: filteredResult[value],
+        //     cardStyle: { backgroundColor: "#e8faed" },
+        //   });
+        // }
       } else {
         emptyArr.push({
           id: key + 1,
@@ -118,6 +128,10 @@ export const TaskBoard = (data) => {
     };
   }
 
+  const components = {
+    Card: card,
+  };
+
   return (
     <Box>
       {loadingAllTask ? (
@@ -125,12 +139,13 @@ export const TaskBoard = (data) => {
       ) : (
         <>
           <Board
+            components={components}
             data={board}
             style={{
-              boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
-              border: "2px solid #e6e6e6",
-              borderRadius: "10px",
-              backgroundColor: "white",
+              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
+              // border: "2px solid #e6e6e6",
+              // borderRadius: "10px",
+              backgroundColor: "#f2f3f5",
               overflowX: "auto",
               height: "85vh",
               width: "1200px",
@@ -139,12 +154,12 @@ export const TaskBoard = (data) => {
             }}
             cardStyle={{
               backgroundColor: "#ededed",
-              boxShadow: "2px 1px 4px #888888",
+              boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
               border: "1px solid #e8e6eb",
               width: "1900px",
             }}
             laneStyle={{
-              backgroundColor: "white",
+              backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {
               setTaskId(id);
@@ -176,5 +191,64 @@ export const TaskBoard = (data) => {
         </>
       )}
     </Box>
+  );
+};
+
+export const card = (props) => {
+  const {
+    showDeleteButton,
+    style,
+    tagStyle,
+    onClick,
+    onDelete,
+    onChange,
+    className,
+    id,
+    title,
+    label,
+    description,
+    tags,
+    cardDraggable,
+    editable,
+    t,
+  } = props;
+
+  // console.log(props, "pros");
+  return (
+    <Card
+      sx={{ width: 240, height: "auto", minHeight: 140, mb: 1 }}
+      data-id={id}
+      onClick={onClick}
+      style={style}
+      // className={className}
+    >
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="h5" component="div">
+          {/* {title} */}
+        </Typography>
+        {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          adjective
+        </Typography> */}
+        <Typography variant="caption" sx={{ mt: 4 }}>
+          {description}
+        </Typography>
+      </CardContent>
+      <Divider sx={{ mt: 3 }}></Divider>
+      <Box display={"flex"} alignItems={"center"} sx={{ padding: 1.4 }}>
+        {/* <ModeCommentIcon /> */}
+        <CommentIcon fontSize="small" />
+        <Typography ml={1.3} fontSize={12}>
+          33
+        </Typography>
+        {/* <ChatBubbleOutlineIcon fontSize="small"></ChatBubbleOutlineIcon> */}
+      </Box>
+
+      {/* <CardActions>
+        <Button size="small">Learn More</Button>
+      </CardActions> */}
+    </Card>
   );
 };

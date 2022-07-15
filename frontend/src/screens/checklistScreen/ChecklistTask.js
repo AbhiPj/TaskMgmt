@@ -17,7 +17,7 @@ import {
   AddChecklistTaskForm,
   ChecklistTaskForm,
 } from "./checklistComponent/AddChecklistTaskForm";
-import { useDetailChecklistTaskQuery } from "../../state/checklistSlice";
+import { useDetailChecklistQuery } from "../../state/checklistSlice";
 import { useParams } from "react-router-dom";
 import { EditChecklistTask } from "./checklistComponent/EditChecklistTask";
 
@@ -35,26 +35,43 @@ export const ChecklistTask = () => {
   };
 
   const { id } = useParams();
+  const checklistId = id;
   const {
     data: rawList = [],
     isLoading: loadingChecklist,
     error: error,
-  } = useDetailChecklistTaskQuery(id);
+  } = useDetailChecklistQuery(checklistId);
   console.log(rawList);
 
   const columns = [
     {
       title: "Task",
       field: "name",
-      width: 300,
+      width: 150,
       validate: (row) => (row.name || "").length !== 0,
     },
     {
       title: "Description",
       field: "description",
       validate: (row) => (row.description || "").length !== 0,
-      // width: 600,
+      width: 600,
     },
+    {
+      title: "Priority",
+      field: "priority",
+      width: 130,
+      lookup: { Low: "Low", Medium: "Medium", High: "High" },
+      validate: (row) => (row.priority || "").length !== 0,
+    },
+    {
+      title: "Department",
+      field: "department",
+      width: 130,
+      lookup: { IT: "IT", Finance: "Finance" },
+      validate: (row) => (row.priority || "").length !== 0,
+    },
+    { title: "Assigned to", field: "assignedTo", width: 200 },
+    { title: "Date Due", field: "dueDate", type: "date", width: 130 },
   ];
 
   return (
@@ -157,10 +174,13 @@ export const ChecklistTask = () => {
           />
         </Box>
         <Dialog open={addChecklistOpen} onClose={handleAddChecklistClose}>
-          <AddChecklistTaskForm id={id}></AddChecklistTaskForm>
+          <AddChecklistTaskForm id={checklistId}></AddChecklistTaskForm>
         </Dialog>
         <Dialog open={editChecklistOpen} onClose={handleEditChecklistClose}>
-          <EditChecklistTask id={taskId}></EditChecklistTask>
+          <EditChecklistTask
+            id={taskId}
+            checklistId={checklistId}
+          ></EditChecklistTask>
         </Dialog>
       </>
       {/* )} */}

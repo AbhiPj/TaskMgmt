@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
-// const commentSchema = mongoose.Schema(
-//   {
-//     name: { type: String },
-//     comment: { type: String },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
+const commentSchema = mongoose.Schema(
+  {
+    name: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    comment: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const taskSchema = mongoose.Schema(
   {
@@ -28,8 +28,7 @@ const taskSchema = mongoose.Schema(
     department: { type: String },
     startDate: { type: Date },
     dueDate: { type: Date },
-
-    // comment: [commentSchema],
+    comment: [commentSchema],
   },
   {
     timestamp: true,
