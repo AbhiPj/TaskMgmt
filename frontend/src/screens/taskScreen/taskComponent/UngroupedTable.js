@@ -113,17 +113,38 @@ export const UngropuedTable = (data) => {
     { title: "Date Due", field: "dueDate", type: "date", width: 130 },
   ];
 
+  const filteredList = rawList.map(
+    ({
+      name,
+      _id: id,
+      description: description,
+      department,
+      assignedTo,
+      priority,
+      dueDate,
+      sourceInfo,
+    }) => ({
+      name,
+      dueDate,
+      priority,
+      id,
+      description,
+      department,
+      assignedTo: assignedTo?.name,
+    })
+  );
+
   return (
     <>
       <MaterialTable
         onRowClick={(e, data) => {
           setEditOpen(true);
-          var id = data._id;
+          var id = data.id;
           setTaskId(id);
         }}
         title=""
         columns={columns}
-        data={rawList}
+        data={filteredList}
         options={{
           headerStyle: {
             backgroundColor: "#Ccd3e6",

@@ -15,10 +15,6 @@ export const UserBoard = (data) => {
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
   var userArray = [];
-  const dept = "IT";
-
-  const { data: deptTask = [], isLoading: loadingDeptTask } =
-    useListDepartmentTaskQuery(dept);
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
 
@@ -26,15 +22,19 @@ export const UserBoard = (data) => {
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.bucket) {
-        console.log(item, "if");
+      if (item.sourceModel == "Unassigned") {
         rawList.push(item);
       }
     });
   } else if (taskType == "bucket") {
     allList.map((item) => {
-      if (item.bucket) {
-        console.log(item, "if");
+      if (item.sourceModel == "Bucket") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "checklist") {
+    allList.map((item) => {
+      if (item.sourceModel == "Checklist") {
         rawList.push(item);
       }
     });
@@ -59,7 +59,7 @@ export const UserBoard = (data) => {
 
   var board;
 
-  if (!loadingAllTask && !loadingDeptTask) {
+  if (!loadingAllTask) {
     const groupBy = (array, key) => {
       return array.reduce((result, currentValue) => {
         (result[currentValue[key]] = result[currentValue[key]] || []).push(
@@ -74,7 +74,7 @@ export const UserBoard = (data) => {
         title,
         id,
         description,
-        assignedTo,
+        assignedTo: assignedTo?.name,
       })
     );
 
@@ -107,7 +107,7 @@ export const UserBoard = (data) => {
 
   return (
     <>
-      {loadingUser && loadingAllTask && loadingDeptTask ? (
+      {loadingUser && loadingAllTask ? (
         "Loading... "
       ) : (
         <>
@@ -160,7 +160,7 @@ export const UserBoard = (data) => {
               const updatedTask = {
                 id: cardDetails.id,
                 body: {
-                  assignedTo: newAssigned,
+                  assignedTo: targetLaneId,
                 },
               };
               editTask(updatedTask);

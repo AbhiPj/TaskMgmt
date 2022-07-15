@@ -66,9 +66,28 @@ export const BucketTaskScreen = () => {
     setAddBucketOpen(false);
   };
 
-  const { data: data = [], isLoading: loadingAllTask } =
+  const { data: rawList = [], isLoading: loadingAllTask } =
     useListBucketTaskQuery(id);
-
+  const filteredList = rawList.map(
+    ({
+      name,
+      _id: id,
+      description: description,
+      department,
+      assignedTo,
+      priority,
+      dueDate,
+      sourceInfo,
+    }) => ({
+      name,
+      dueDate,
+      priority,
+      id,
+      description,
+      department,
+      assignedTo: assignedTo?.name,
+    })
+  );
   return (
     <>
       <Box sx={{ marginTop: 8 }}>
@@ -92,7 +111,7 @@ export const BucketTaskScreen = () => {
           }}
           title=""
           columns={columns}
-          data={data}
+          data={filteredList}
           options={{
             headerStyle: {
               backgroundColor: "#Ccd3e6",

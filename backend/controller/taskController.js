@@ -52,7 +52,8 @@ export const listTask = (req, res) => {
   const taskExists = Task.find();
 
   Task.find()
-    // .populate("sourceInfo")
+    .populate("sourceInfo")
+    .populate("assignedTo")
 
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -71,14 +72,14 @@ export const listBucketTask = (req, res) => {
   Task.find({
     sourceInfo: req.params.id,
   })
-    // .populate("bucket")
+    .populate("assignedTo")
     .then((task) => res.status(201).json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 export const detailTask = (req, res) => {
   Task.findById(req.params.id)
-    .populate("bucket")
+    // .populate("bucket")
     .then((task) => res.json(task))
     .catch((err) => res.status(400).json("Error: " + err));
 };
@@ -93,7 +94,7 @@ export const editTask = (req, res) => {
     startDate,
     progress,
     department,
-    bucket,
+    sourceInfo,
     // comment,
   } = req.body.body;
 
@@ -107,7 +108,7 @@ export const editTask = (req, res) => {
       task.startDate = startDate || task.startDate;
       task.progress = progress || task.progress;
       task.department = department || task.department;
-      task.bucket = bucket || task.bucket;
+      task.sourceInfo = sourceInfo || task.sourceInfo;
 
       // task.comment = comment || task.comment;
       task

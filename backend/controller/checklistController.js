@@ -80,26 +80,31 @@ export const addChecklistTask = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-export const editChecklistTask = (req, res) => {
-  const { checklistTasks } = req.body;
+export const editChecklistTask = asyncHandler(async (req, res) => {
+  const { checklistTask, id } = req.body;
 
-  const checklist = Checklist.findById(req.params.id);
+  const checklist = await Checklist.findById(req.params.id);
 
-  var checklistArr = checklist.checklistTasks;
+  if (checklist) {
+    // res.json(checklist.checklistTasks);
+    checklist?.checklistTasks.map((item, index) => {
+      if (item._id == id) {
+        res.json(checklist.checklistTasks[index]);
+      } else {
+      }
+    });
+  }
 
-  Checklist.findById(req.params.id)
-    .then((checklist) => {
-      checklist.checklistTasks.push(checklistTasks);
-      checklist
-        .save()
-        .then(() => res.json("checklist task added"))
-        .catch((err) => res.status(400).json("error" + err));
-    })
-    .catch((err) => res.status(400).json("Error: " + err));
-};
+  // checklist?.checklistTasks.map((item, index) => {
+  //   if (item._id == id) {
+  //     console.log(checklist.checklistTasks[index]);
+  //   } else {
+  //   }
+  // });
+});
 
 export const generateTask = asyncHandler(async (req, res) => {
-  const checklist = await Checklist.findById(req.params.id);
+  const checklist = Checklist.findById(req.params.id);
 
   if (checklist) {
     checklist.checklistTasks.map((item) => {

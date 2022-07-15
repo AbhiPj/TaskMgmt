@@ -24,7 +24,7 @@ const taskSchema = mongoose.Schema(
     description: { type: String },
     priority: { type: String },
     progress: { type: String },
-    assignedTo: { type: String },
+    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     department: { type: String },
     startDate: { type: Date },
     dueDate: { type: Date },

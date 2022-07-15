@@ -69,6 +69,7 @@ export const DashboardScreen = () => {
       }
     });
   }
+
   // setData(rawList);
 
   const handleEditClose = () => {

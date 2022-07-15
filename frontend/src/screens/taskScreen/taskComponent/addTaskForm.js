@@ -110,7 +110,7 @@ export const AddTaskForm = (data) => {
                   onChange={(e) => setAssignedTo(e.target.value)}
                 >
                   {userList.map((item) => {
-                    return <MenuItem value={item.name}>{item.name}</MenuItem>;
+                    return <MenuItem value={item._id}>{item.name}</MenuItem>;
                   })}
                 </Select>
               </FormControl>

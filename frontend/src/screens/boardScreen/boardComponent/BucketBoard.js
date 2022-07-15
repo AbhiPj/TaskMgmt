@@ -28,19 +28,11 @@ export const BucketBoard = (data) => {
   const { data: bucketList = [], isLoading: loadingBucket } =
     useListBucketQuery();
 
-  const dept = "IT";
-
-  const {
-    data: deptTask = [],
-    isLoading: loadingDeptTask,
-    error: error,
-  } = useListDepartmentTaskQuery(dept);
-
   var rawList = [];
 
   if (taskType == "unassigned") {
     allList.map((item) => {
-      if (!item.sourceModel) {
+      if (item.sourceModel == "Unassigned") {
         rawList.push(item);
       }
     });
@@ -57,9 +49,9 @@ export const BucketBoard = (data) => {
       }
     });
   }
-  console.log(rawList, "rawlist");
+  // console.log(rawList, "rawlist");
 
-  if (!loadingAllTask && !loadingDeptTask) {
+  if (!loadingAllTask) {
     const groupBy = (array, key) => {
       // Return the end result
 
@@ -76,23 +68,23 @@ export const BucketBoard = (data) => {
         name: title,
         _id: id,
         description: description,
-        bucket,
         department,
+        sourceInfo,
       }) => ({
         title,
         id,
         description,
         department,
-        bucket: bucket?.name,
-        bucketId: bucket?._id,
+        bucket: sourceInfo?.name,
+        bucketId: sourceInfo?._id,
       })
     );
 
-    // var newFilteredList = filteredList.filter(
-    //   (item) => !data.data.includes(item.bucket)
-    // );
+    // console.log(filteredList, "Filtered list");
 
     const filteredResult = groupBy(filteredList, "bucket");
+
+    console.log(filteredResult, "filteredResult");
 
     var newBucketList = bucketList.filter(
       (item) => !data.data.includes(item.name)
@@ -104,13 +96,13 @@ export const BucketBoard = (data) => {
       if (filteredResult[item.name]) {
         emptyArr.push({
           id: item._id,
-          title: item.name,
+          title: item?.name,
           cards: filteredResult[item.name],
         });
       } else {
         emptyArr.push({
           id: item._id,
-          title: item.name,
+          title: item?.name,
           cards: [],
         });
       }
@@ -119,11 +111,13 @@ export const BucketBoard = (data) => {
     board = {
       lanes: emptyArr,
     };
+
+    console.log(emptyArr, "empteyas");
   }
 
   return (
     <Box>
-      {loadingAllTask && loadingDeptTask ? (
+      {loadingAllTask ? (
         "Loading... "
       ) : (
         <>
@@ -170,7 +164,7 @@ export const BucketBoard = (data) => {
               const updatedBucket = {
                 id: cardDetails.id,
                 body: {
-                  bucket: targetLaneId,
+                  sourceInfo: targetLaneId,
                 },
               };
               editTask(updatedBucket);
