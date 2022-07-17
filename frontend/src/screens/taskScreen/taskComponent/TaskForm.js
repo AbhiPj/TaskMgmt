@@ -87,12 +87,14 @@ export const TaskForm = (taskId) => {
 
   const handleComment = () => {
     const commentObj = {
-      name: "John",
-      comment: comment,
-      taskId: taskId.taskId,
+      id: taskId.taskId,
+      comment: {
+        userId: "62b9a3417242fc59df13369a",
+        comment: comment,
+      },
     };
 
-    console.log(commentObj, "comment");
+    // console.log(commentObj, "comment");
     addComment(commentObj);
   };
 
@@ -350,7 +352,7 @@ export const TaskForm = (taskId) => {
                 <TaskComment data={detailTask}></TaskComment>
               </Grid> */}
             </Grid>
-            <TaskComment data={taskId.taskId}></TaskComment>
+            <TaskComment data={taskId.taskId} task={detailTask}></TaskComment>
           </Box>
         </Box>
       )}

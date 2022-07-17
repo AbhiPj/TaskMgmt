@@ -8,6 +8,7 @@ import Board from "react-trello";
 import { useListUserQuery } from "../../../state/userSlice";
 import { Dialog } from "@mui/material";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
+import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
 
 export const UserBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
@@ -70,11 +71,18 @@ export const UserBoard = (data) => {
     };
 
     const filteredList = rawList.map(
-      ({ name: title, _id: id, description: description, assignedTo }) => ({
+      ({
+        name: title,
+        _id: id,
+        description: description,
+        assignedTo,
+        comment,
+      }) => ({
         title,
         id,
         description,
         assignedTo: assignedTo?.name,
+        comment,
       })
     );
 
@@ -105,6 +113,11 @@ export const UserBoard = (data) => {
 
   const [taskId, setTaskId] = React.useState();
 
+  const components = {
+    Card: CustomCard,
+    LaneHeader: LaneHeader,
+  };
+
   return (
     <>
       {loadingUser && loadingAllTask ? (
@@ -113,16 +126,17 @@ export const UserBoard = (data) => {
         <>
           <Board
             data={board}
+            components={components}
             style={{
-              border: "1px solid #e6e6e6",
-              borderRadius: "10px",
-              backgroundColor: "white",
+              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
+              // border: "2px solid #e6e6e6",
+              // borderRadius: "10px",
+              backgroundColor: "#f2f3f5",
               overflowX: "auto",
               height: "85vh",
-              boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
               width: "1200px",
-              marginLeft: "-60px",
-              marginTop: "-55px",
+              marginLeft: "-80px",
+              marginTop: "-65px",
             }}
             cardStyle={{
               backgroundColor: "#ededed",
@@ -131,7 +145,7 @@ export const UserBoard = (data) => {
               width: "1900px",
             }}
             laneStyle={{
-              backgroundColor: "white",
+              backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {
               setTaskId(id);

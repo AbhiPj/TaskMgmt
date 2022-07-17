@@ -9,6 +9,7 @@ import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import { useListBucketQuery } from "../../../state/bucketSlice";
 import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
+import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
 
 export const BucketBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
@@ -70,11 +71,14 @@ export const BucketBoard = (data) => {
         description: description,
         department,
         sourceInfo,
+        comment,
       }) => ({
         title,
         id,
         description,
         department,
+        comment,
+
         bucket: sourceInfo?.name,
         bucketId: sourceInfo?._id,
       })
@@ -115,6 +119,10 @@ export const BucketBoard = (data) => {
     console.log(emptyArr, "empteyas");
   }
 
+  const components = {
+    Card: CustomCard,
+    LaneHeader: LaneHeader,
+  };
   return (
     <Box>
       {loadingAllTask ? (
@@ -122,26 +130,29 @@ export const BucketBoard = (data) => {
       ) : (
         <>
           <Board
+            components={components}
             data={board}
             style={{
-              boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
-              border: "2px solid #e6e6e6",
-              borderRadius: "10px",
-              backgroundColor: "white",
+              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
+              // border: "2px solid #e6e6e6",
+              // borderRadius: "10px",
+              backgroundColor: "#f2f3f5",
               overflowX: "auto",
               height: "85vh",
               width: "1200px",
-              marginLeft: "-60px",
-              marginTop: "-55px",
+              marginLeft: "-80px",
+              marginTop: "-65px",
             }}
-            cardStyle={{
-              backgroundColor: "#ededed",
-              boxShadow: "2px 1px 4px #888888",
-              border: "1px solid #e8e6eb",
-              width: "1900px",
-            }}
+            cardStyle={
+              {
+                // backgroundColor: "#ededed",
+                // boxShadow: "2px 1px 4px #888888",
+                // border: "1px solid #e8e6eb",
+                // width: "1900px",
+              }
+            }
             laneStyle={{
-              backgroundColor: "white",
+              backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {
               setTaskId(id);

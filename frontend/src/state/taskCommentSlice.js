@@ -5,10 +5,11 @@ export const taskCommentSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     addComment: build.mutation({
       query(body) {
+        const { comment, id } = body;
         return {
-          url: "/comment/add",
+          url: `/task/comment/add/${id}`,
           method: "POST",
-          body,
+          body: comment,
         };
       },
       invalidatesTags: [{ type: "Comment", id: "LIST" }],

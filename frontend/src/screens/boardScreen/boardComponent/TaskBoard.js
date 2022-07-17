@@ -1,4 +1,5 @@
 import React from "react";
+import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
 import {
   useEditTaskMutation,
   useListDepartmentTaskQuery,
@@ -7,10 +8,18 @@ import {
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
-import { Card, CardContent, Dialog, Divider, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  Divider,
+  Typography,
+} from "@mui/material";
 import ModeCommentIcon from "@mui/icons-material/ModeComment";
 import CommentIcon from "@mui/icons-material/Comment";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
   // console.log(taskType);
@@ -66,11 +75,18 @@ export const TaskBoard = (data) => {
     };
 
     const filteredList = rawList.map(
-      ({ name: title, _id: id, description: description, priority }) => ({
+      ({
+        name: title,
+        _id: id,
+        description: description,
+        priority,
+        comment,
+      }) => ({
         title,
         id,
         description,
         priority,
+        comment,
       })
     );
 
@@ -123,13 +139,16 @@ export const TaskBoard = (data) => {
       }
     });
 
+    console.log(emptyArr);
+
     board = {
       lanes: emptyArr,
     };
   }
 
   const components = {
-    Card: card,
+    Card: CustomCard,
+    LaneHeader: LaneHeader,
   };
 
   return (
@@ -149,15 +168,17 @@ export const TaskBoard = (data) => {
               overflowX: "auto",
               height: "85vh",
               width: "1200px",
-              marginLeft: "-60px",
-              marginTop: "-55px",
+              marginLeft: "-80px",
+              marginTop: "-65px",
             }}
-            cardStyle={{
-              backgroundColor: "#ededed",
-              boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
-              border: "1px solid #e8e6eb",
-              width: "1900px",
-            }}
+            cardStyle={
+              {
+                // backgroundColor: "#ededed",
+                // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
+                // border: "1px solid #e8e6eb",
+                // width: "1900px",
+              }
+            }
             laneStyle={{
               backgroundColor: "#f2f3f5",
             }}
@@ -191,64 +212,5 @@ export const TaskBoard = (data) => {
         </>
       )}
     </Box>
-  );
-};
-
-export const card = (props) => {
-  const {
-    showDeleteButton,
-    style,
-    tagStyle,
-    onClick,
-    onDelete,
-    onChange,
-    className,
-    id,
-    title,
-    label,
-    description,
-    tags,
-    cardDraggable,
-    editable,
-    t,
-  } = props;
-
-  // console.log(props, "pros");
-  return (
-    <Card
-      sx={{ width: 240, height: "auto", minHeight: 140, mb: 1 }}
-      data-id={id}
-      onClick={onClick}
-      style={style}
-      // className={className}
-    >
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
-          {title}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {/* {title} */}
-        </Typography>
-        {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography> */}
-        <Typography variant="caption" sx={{ mt: 4 }}>
-          {description}
-        </Typography>
-      </CardContent>
-      <Divider sx={{ mt: 3 }}></Divider>
-      <Box display={"flex"} alignItems={"center"} sx={{ padding: 1.4 }}>
-        {/* <ModeCommentIcon /> */}
-        <CommentIcon fontSize="small" />
-        <Typography ml={1.3} fontSize={12}>
-          33
-        </Typography>
-        {/* <ChatBubbleOutlineIcon fontSize="small"></ChatBubbleOutlineIcon> */}
-      </Box>
-
-      {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
-    </Card>
   );
 };

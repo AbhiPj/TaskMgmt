@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useListCommentQuery } from "../../../state/taskCommentSlice";
 
 export const TaskComment = (detailTask) => {
+  console.log(detailTask.task, "detail task");
   const {
     data: commentList = [],
     isLoading: loadingComment,
@@ -28,7 +29,7 @@ export const TaskComment = (detailTask) => {
               bgcolor: "background.paper",
             }}
           >
-            {commentList.map((item) => {
+            {detailTask.task?.comment.map((item) => {
               return (
                 <>
                   <ListItem key={item._id} alignItems="flex-start">
@@ -39,7 +40,7 @@ export const TaskComment = (detailTask) => {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={item.name}
+                      primary={item.userId}
                       secondary={
                         <React.Fragment>
                           <Typography

@@ -135,16 +135,18 @@ export const deleteTask = (req, res) => {
 };
 
 export const addTaskComment = asyncHandler(async (req, res) => {
-  const { name, comment } = req.body;
+  const { userId, comment } = req.body;
 
   const task = await Task.findById(req.params.id);
-  taskComment = {
-    name: name,
+  const taskComment = {
+    userId: userId,
     comment: comment,
   };
+
   if (task) {
     task.comment.push(taskComment);
     task.save();
+    res.json(task);
   } else {
     res.status(400);
     throw new Error("Error");
