@@ -44,6 +44,8 @@ function Layout() {
     <>
       <Box
         sx={{
+          display: "flex",
+
           backgroundColor: "#F2f3f5",
           minHeight: "100vh",
           height: "auto",
@@ -51,7 +53,15 @@ function Layout() {
         }}
       >
         <Sidebar />
-        <Outlet />
+        <Box
+          // backgroundColor="white"
+          component="main"
+          mt={4}
+          mx={2}
+          sx={{ flexGrow: 1, padding: 3 }}
+        >
+          <Outlet />
+        </Box>
         {/* <Footer /> */}
       </Box>
     </>

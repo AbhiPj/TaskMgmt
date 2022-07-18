@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TaskBoard } from "./boardComponent/TaskBoard";
-import { createTheme, Stack, ThemeProvider } from "@mui/material";
+import { createTheme, Divider, Stack, ThemeProvider } from "@mui/material";
 import { Box } from "@mui/system";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -19,6 +19,8 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 
 import { useListUserQuery } from "../../state/userSlice";
 import { useListBucketQuery } from "../../state/bucketSlice";
+import { CustomAppbar } from "../../components/Appbar";
+import { FilterAppBar } from "../../components/FilterAppBar";
 
 export const Boards = () => {
   const getTask = sessionStorage.getItem("taskType");
@@ -135,7 +137,14 @@ export const Boards = () => {
 
   return (
     <>
-      <Box sx={{ marginTop: 16 }}>
+      <Box>
+        <CustomAppbar></CustomAppbar>
+      </Box>
+      <Box sx={{ marginBottom: 3 }}>
+        <FilterAppBar></FilterAppBar>
+        {/* <Divider></Divider> */}
+      </Box>
+      {/* <Box sx={{ padding: 2 }}>
         <ThemeProvider theme={theme}>
           <AppBar
             color="neutral"
@@ -143,13 +152,6 @@ export const Boards = () => {
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
             <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              ></IconButton>
               <Typography variant="h6" component="div">
                 TaskManager
               </Typography>
@@ -268,19 +270,13 @@ export const Boards = () => {
             </Toolbar>
           </AppBar>
         </ThemeProvider>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{
-          width: 880,
-          marginLeft: 40,
+          padding: 3,
         }}
       >
-        {/* <Stack direction="row-reverse" sx={{ marginTop: 1, marginBottom: 1 }}>
-          <Box>aaa</Box>
-        </Stack> */}
-        {/* <TaskBoard></TaskBoard> */}
-        {/* <UserBoard></UserBoard> */}
         {renderBoard()}
       </Box>
     </>

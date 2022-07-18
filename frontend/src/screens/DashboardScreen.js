@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Dialog,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -24,6 +25,7 @@ import { AddTaskForm } from "./taskScreen/taskComponent/addTaskForm";
 import { BucketForm } from "./bucketScreen/BucketForm";
 import { UngropuedTable } from "./taskScreen/taskComponent/UngroupedTable";
 import { useListUserQuery } from "../state/userSlice";
+import { FilterAppBar } from "../components/FilterAppBar";
 
 export const DashboardScreen = () => {
   const getTask = sessionStorage.getItem("taskType");
@@ -93,29 +95,33 @@ export const DashboardScreen = () => {
         <Box>
           <CustomAppbar></CustomAppbar>
         </Box>
+        {/* <Box>
+          <FilterAppBar></FilterAppBar>
+      
+        </Box> */}
+
         <Box
           sx={{
-            marginLeft: 34,
-            marginTop: 11,
+            // marginLeft: 39,
+            // marginTop: 5,
             display: "flex",
-            justifyContent: "space-between",
           }}
         >
-          <ButtonGroup sx={{ marginRight: 4 }}>
-            <Button
-              onClick={() => {
-                setAddOpen(true);
-              }}
-            >
-              Add Task
-            </Button>
-          </ButtonGroup>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setAddOpen(true);
+            }}
+          >
+            Add Task
+          </Button>
         </Box>
-        <Box sx={{ color: blue, marginRight: 4 }}></Box>
+        <Box sx={{ color: blue }}></Box>
         <Box
+          fullWidth
           sx={{
-            width: 1250,
-            marginLeft: 32,
+            // width: 1250,
+            // marginLeft: 32,
             marginTop: 3,
           }}
         >

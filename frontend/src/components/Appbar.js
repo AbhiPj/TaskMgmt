@@ -67,21 +67,42 @@ export const CustomAppbar = (props) => {
       <ThemeProvider theme={theme}>
         <AppBar
           color="neutral"
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          // position="fixed"
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: 50 }}
         >
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            ></IconButton>
+          <Toolbar sx={{ height: 10 }}>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               TaskManager
             </Typography>
-            {/* <FormControl
+
+            <Stack direction="row-reverse" color="#f5f5f5">
+              <ButtonGroup
+                variant="standard"
+                aria-label="outlined button group"
+              >
+                <Button color="inherit" onClick={listRoute}>
+                  List
+                </Button>
+                <Button color="inherit" onClick={boardRoute}>
+                  Board
+                </Button>
+                <Button color="inherit" onClick={chartRoute}>
+                  Chart
+                </Button>
+                <Button color="inherit" onClick={scheduleRoute}>
+                  Schedule
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
+    </Box>
+  );
+};
+
+{
+  /* <FormControl
               sx={{ m: 1, width: 150, marginRight: 95, marginLeft: 10 }}
               size="small"
             >
@@ -109,29 +130,5 @@ export const CustomAppbar = (props) => {
                 <MenuItem value={"bucket"}> Buckets</MenuItem>
                 <MenuItem value={"checklist"}> Checklist</MenuItem>
               </Select>
-            </FormControl> */}
-            <Stack direction="row-reverse" color="#f5f5f5">
-              <ButtonGroup
-                variant="standard"
-                aria-label="outlined button group"
-              >
-                <Button color="inherit" onClick={listRoute}>
-                  List
-                </Button>
-                <Button color="inherit" onClick={boardRoute}>
-                  Board
-                </Button>
-                <Button color="inherit" onClick={chartRoute}>
-                  Chart
-                </Button>
-                <Button color="inherit" onClick={scheduleRoute}>
-                  Schedule
-                </Button>
-              </ButtonGroup>
-            </Stack>
-          </Toolbar>
-        </AppBar>
-      </ThemeProvider>
-    </Box>
-  );
-};
+            </FormControl> */
+}
