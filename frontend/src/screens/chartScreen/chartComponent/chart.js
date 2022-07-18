@@ -10,9 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Doughnut, Pie } from "react-chartjs-2";
-import { Paper } from "@material-ui/core";
-import { Box } from "@mui/system";
 import { useListUserQuery } from "../../../state/userSlice";
+import { Box, Paper } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -64,6 +63,7 @@ export const userOption = {
 };
 
 export const BarChart = (datas) => {
+  console.log(datas, "Datas");
   const priorityArr = ["High", "Medium", "Low"];
   var priorityData = [];
 

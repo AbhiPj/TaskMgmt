@@ -24,7 +24,7 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path="/*" element={<Layout />}>
-            <Route path="dashboard" element={<DashboardScreen />} />
+            <Route path="list" element={<DashboardScreen />} />
             <Route path="board" element={<Boards />} />
             <Route path="chart" element={<Chart />} />
             <Route path="schedule" element={<Schedule />} />
@@ -45,7 +45,6 @@ function Layout() {
       <Box
         sx={{
           display: "flex",
-
           backgroundColor: "#F2f3f5",
           minHeight: "100vh",
           height: "auto",

@@ -1,27 +1,49 @@
 import React from "react";
-import { Grid } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Grid } from "@mui/material";
 import { BarChart, BarChart2, PieChart } from "./chartComponent/chart";
 import {
   useListDepartmentTaskQuery,
   useListTaskQuery,
 } from "../../state/taskSlice";
-import { Container } from "@material-ui/core";
 import { CustomAppbar } from "../../components/Appbar";
+import { FilterAppBar } from "../../components/FilterAppBar";
 export const Chart = () => {
-  // const { data: rawList = [], isLoading: loadingTask } = useListTaskQuery();
+  const taskType = sessionStorage.getItem("taskType");
 
-  const dept = "IT";
+  const { data: allList = [], isLoading: loadingTask } = useListTaskQuery();
+
+  // const dept = "IT";
+  // const {
+  //   data: rawList = [],
+  //   isLoading: loadingTask,
+  //   error: error,
+  // } = useListDepartmentTaskQuery(dept);
+
+  var rawList = [];
+
+  if (taskType == "unassigned") {
+    allList.map((item) => {
+      if (item.sourceModel == "Unassigned") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "bucket") {
+    allList.map((item) => {
+      if (item.sourceModel == "Bucket") {
+        rawList.push(item);
+      }
+    });
+  } else if (taskType == "checklist") {
+    allList.map((item) => {
+      if (item.sourceModel == "Checklist") {
+        rawList.push(item);
+      }
+    });
+  }
 
   var userGroup = [];
   var taskCompletion = [];
   var result = [];
-
-  const {
-    data: rawList = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useListDepartmentTaskQuery(dept);
 
   if (!loadingTask) {
     const groupBy = (array, key) => {
@@ -37,18 +59,25 @@ export const Chart = () => {
     userGroup = groupBy(rawList, "assignedTo");
     taskCompletion = groupBy(rawList, "progress");
   }
+  const chartData = {
+    result: result,
+    userGroup: userGroup,
+    taskCompletion: taskCompletion,
+  };
   return (
     <>
       {loadingTask ? (
         "Loading... "
       ) : (
         <>
-          <Box sx={{ marginTop: 8 }}>
+          <Box sx={{}}>
             <CustomAppbar></CustomAppbar>
           </Box>
-
-          <Container>
-            <Box sx={{ flexGrow: 1, marginTop: 10, marginLeft: 15 }}>
+          <Box sx={{}}>
+            <FilterAppBar component={"Chart"}></FilterAppBar>
+          </Box>
+          {/* <Box>
+            <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={8}>
                   <Box>
@@ -69,7 +98,7 @@ export const Chart = () => {
                 </Grid>
               </Grid>
             </Box>
-          </Container>
+          </Box> */}
         </>
       )}
     </>

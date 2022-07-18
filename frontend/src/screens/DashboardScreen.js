@@ -95,10 +95,9 @@ export const DashboardScreen = () => {
         <Box>
           <CustomAppbar></CustomAppbar>
         </Box>
-        {/* <Box>
-          <FilterAppBar></FilterAppBar>
-      
-        </Box> */}
+        <Box sx={{}}>
+          <FilterAppBar component={"List"}></FilterAppBar>
+        </Box>
 
         <Box
           sx={{
@@ -141,7 +140,6 @@ export const DashboardScreen = () => {
           <BucketForm></BucketForm>
         </Dialog>
       </>
-      {/* )} */};
     </>
   );
 };

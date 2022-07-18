@@ -74,26 +74,6 @@ export const CustomAppbar = (props) => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               TaskManager
             </Typography>
-
-            <Stack direction="row-reverse" color="#f5f5f5">
-              <ButtonGroup
-                variant="standard"
-                aria-label="outlined button group"
-              >
-                <Button color="inherit" onClick={listRoute}>
-                  List
-                </Button>
-                <Button color="inherit" onClick={boardRoute}>
-                  Board
-                </Button>
-                <Button color="inherit" onClick={chartRoute}>
-                  Chart
-                </Button>
-                <Button color="inherit" onClick={scheduleRoute}>
-                  Schedule
-                </Button>
-              </ButtonGroup>
-            </Stack>
           </Toolbar>
         </AppBar>
       </ThemeProvider>

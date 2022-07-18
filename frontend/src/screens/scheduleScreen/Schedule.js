@@ -13,6 +13,7 @@ import {
 } from "../../state/taskSlice";
 import { TaskForm } from "../taskScreen/taskComponent/TaskForm";
 import { AddTaskForm } from "../taskScreen/taskComponent/addTaskForm";
+import { FilterAppBar } from "../../components/FilterAppBar";
 
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
@@ -93,11 +94,14 @@ export const Schedule = () => {
         "Loading... "
       ) : (
         <>
-          <Box sx={{ marginTop: 10 }}>
+          <Box sx={{}}>
             <CustomAppbar></CustomAppbar>
           </Box>
+          <Box sx={{}}>
+            <FilterAppBar component={"Schedule"}></FilterAppBar>
+          </Box>
 
-          <Box sx={{ marginTop: 4, marginLeft: 30 }}>
+          <Box sx={{}}>
             <DnDCalendar
               defaultDate={moment().toDate()}
               defaultView="month"
