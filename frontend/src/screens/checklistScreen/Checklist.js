@@ -72,11 +72,11 @@ export const Checklist = () => {
         "Loading..."
       ) : ( */}
       <>
-        <Box sx={{ marginTop: 8 }}>
+        <Box sx={{}}>
           <CustomAppbar></CustomAppbar>
         </Box>
 
-        <Box sx={{ marginLeft: 30, marginTop: 12 }}>
+        <Box sx={{}}>
           <Box
             sx={{
               display: "flex",
@@ -103,13 +103,7 @@ export const Checklist = () => {
             </Button>
           </Box>
         </Box>
-        <Box
-          sx={{
-            width: 1250,
-            marginLeft: 32,
-            marginTop: 3,
-          }}
-        >
+        <Box sx={{}}>
           <MaterialTable
             components={{
               Toolbar: (props) => (

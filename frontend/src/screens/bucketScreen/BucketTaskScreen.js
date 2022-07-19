@@ -93,13 +93,7 @@ export const BucketTaskScreen = () => {
       <Box sx={{ marginTop: 8 }}>
         <CustomAppbar></CustomAppbar>
       </Box>
-      <Box
-        sx={{
-          width: 1250,
-          marginLeft: 32,
-          marginTop: 12,
-        }}
-      >
+      <Box sx={{}}>
         <MaterialTable
           components={{
             Toolbar: (props) => <div>{/* <MTableToolbar {...props} /> */}</div>,

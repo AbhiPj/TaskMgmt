@@ -21,6 +21,7 @@ import { BucketBoard } from "../screens/boardScreen/boardComponent/BucketBoard";
 import { ChartGroup } from "../screens/chartScreen/chartComponent/ChartGroup";
 import { ScheduleFilter } from "../screens/scheduleScreen/scheduleComponent/ScheduleFilter";
 import { ChecklistBoard } from "../screens/boardScreen/boardComponent/ChecklistBoard";
+import { useListChecklistQuery } from "../state/checklistSlice";
 
 export const FilterAppBar = (props) => {
   const getTask = sessionStorage.getItem("taskType");
@@ -32,9 +33,12 @@ export const FilterAppBar = (props) => {
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
   const { data: bucketList = [], isLoading: loadingBucket } =
     useListBucketQuery();
+  const { data: checklistTask = [], isLoading: loadingChecklist } =
+    useListChecklistQuery();
 
   var userArr = [];
   var bucketArr = [];
+  var checklistArr = [];
 
   if (!loadingBucket) {
     bucketList.map((item) => {
@@ -43,9 +47,16 @@ export const FilterAppBar = (props) => {
   }
   if (!loadingUser) {
     userList.map((item) => {
-      if (item.department == "IT") {
-        userArr.push(item.name);
-      }
+      // if (item.department == "IT") {
+      userArr.push(item.name);
+      // }
+    });
+  }
+  if (!loadingChecklist) {
+    checklistTask.map((item) => {
+      // if (item.department == "IT") {
+      checklistArr.push(item.name);
+      // }
     });
   }
 
@@ -60,7 +71,7 @@ export const FilterAppBar = (props) => {
     },
   };
 
-  const [data, setData] = React.useState(["Low", "Medium", "High"]);
+  const [data, setData] = React.useState(["Low", "Medium", "High", "None"]);
 
   function getStyles(name, filterTask, theme) {
     return {
@@ -173,9 +184,10 @@ export const FilterAppBar = (props) => {
               }
             }}
           >
+            <MenuItem value={"checklist"}> Checklist</MenuItem>
             <MenuItem value={"unassigned"}>Unassigned</MenuItem>
             <MenuItem value={"bucket"}> Buckets</MenuItem>
-            <MenuItem value={"checklist"}> Checklist</MenuItem>
+            {/* <MenuItem value={"checklist"}> Checklist</MenuItem> */}
           </Select>
         </FormControl>
         <Stack direction="row" spacing={2}>
@@ -235,13 +247,25 @@ export const FilterAppBar = (props) => {
                       setData(userArr);
                     } else if (e.target.value == "bucket") {
                       setData(bucketArr);
+                    } else if (e.target.value == "checklist") {
+                      setData(checklistArr);
                     }
                   }}
                 >
+                  {taskType == "checklist" ? (
+                    <MenuItem value={"checklist"}> Checklist</MenuItem>
+                  ) : (
+                    <></>
+                  )}
+                  {taskType == "bucket" ? (
+                    <MenuItem value={"bucket"}> Bucket</MenuItem>
+                  ) : (
+                    <></>
+                  )}
                   <MenuItem value={"priority"}>Priority</MenuItem>
                   <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
-                  <MenuItem value={"bucket"}> Bucket</MenuItem>
-                  <MenuItem value={"checklist"}> Checklist</MenuItem>
+                  {/* <MenuItem value={"bucket"}> Bucket</MenuItem> */}
+                  {/* <MenuItem value={"checklist"}> Checklist</MenuItem> */}
                 </Select>
               </FormControl>
             </>

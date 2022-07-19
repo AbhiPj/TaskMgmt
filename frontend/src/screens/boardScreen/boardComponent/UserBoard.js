@@ -19,6 +19,9 @@ export const UserBoard = (data) => {
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
 
+  if (!loadingUser) {
+    console.log(userList, "userlist");
+  }
   var rawList = [];
 
   if (taskType == "unassigned") {
@@ -41,15 +44,17 @@ export const UserBoard = (data) => {
     });
   }
 
-  if (!loadingUser) {
-    userList.map((item) => {
-      if (item.department == "IT") {
-        userArray.push(item.name);
-      }
-    });
-  }
+  // if (!loadingUser) {
+  //   userList.map((item) => {
+  //     // if (item.department == "IT") {
+  //     userArray.push(item.name);
+  //     // }
+  //   });
+  // }
+  // userArray.push("None");
+  console.log(userList, "userlist");
 
-  var newArr = userArray.filter((item) => !data.data.includes(item));
+  var newArr = userList.filter((item) => !data.data.includes(item.name));
 
   const [editTask] = useEditTaskMutation();
   const [editOpen, setEditOpen] = React.useState(false);
@@ -82,30 +87,43 @@ export const UserBoard = (data) => {
         id,
         description,
         assignedTo: assignedTo?.name,
+        userId: assignedTo?._id,
         comment,
       })
     );
+    // console.log(filteredList, "filteredList");
 
     const filteredResult = groupBy(filteredList, "assignedTo");
+
+    console.log(filteredResult, "Filtered result");
     var emptyArr = [];
 
-    newArr.map((value, key) => {
-      // var color = Math.floor(Math.random() * 16777215).toString(16);
-      // console.log(color);
-      if (filteredResult[value]) {
+    newArr.map((item) => {
+      if (filteredResult[item.name]) {
         emptyArr.push({
-          id: key + 1,
-          title: value,
-          cards: filteredResult[value],
+          id: item?._id,
+          title: item?.name,
+          // userId: userId,
+          cards: filteredResult[item.name],
         });
       } else {
         emptyArr.push({
-          id: key + 1,
-          title: value,
+          id: item._id,
+          title: item?.name,
           cards: [],
         });
       }
+      // if (filteredResult["undefined"]) {
+      //   emptyArr.push({
+      //     id: item?._id,
+      //     title: "None",
+      //     // userId: userId,
+      //     cards: filteredResult[item.name],
+      //   });
+      // }
     });
+
+    console.log(emptyArr, "empt");
     board = {
       lanes: emptyArr,
     };
@@ -128,12 +146,9 @@ export const UserBoard = (data) => {
             data={board}
             components={components}
             style={{
-              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
-              // border: "2px solid #e6e6e6",
-              // borderRadius: "10px",
               backgroundColor: "#f2f3f5",
               overflowX: "auto",
-              height: "85vh",
+              height: "100%",
               width: "1200px",
               marginLeft: "-80px",
               marginTop: "-65px",
@@ -159,17 +174,18 @@ export const UserBoard = (data) => {
               cardDetails,
               e
             ) => {
-              const laneArr = board.lanes;
+              const laneArr = board?.lanes;
+              console.log(cardDetails, "cardetails");
               var userArr = [];
 
               laneArr.map((item) => {
                 userArr.push(item.title);
               });
-              console.log(userArr, "userArr");
-              var assignedCol = targetLaneId - 1;
-              var newAssigned = userArray[assignedCol];
-              console.log(userArray[assignedCol], "user target");
-              console.log(cardDetails.id);
+              // console.log(userArr, "userArr");
+              // var assignedCol = targetLaneId - 1;
+              // var newAssigned = userArray[assignedCol];
+              // console.log(userArray[assignedCol], "user target");
+              // console.log(cardDetails.id);
 
               const updatedTask = {
                 id: cardDetails.id,

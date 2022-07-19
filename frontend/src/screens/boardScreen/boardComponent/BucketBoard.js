@@ -133,12 +133,9 @@ export const BucketBoard = (data) => {
             components={components}
             data={board}
             style={{
-              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
-              // border: "2px solid #e6e6e6",
-              // borderRadius: "10px",
               backgroundColor: "#f2f3f5",
               overflowX: "auto",
-              height: "85vh",
+              height: "100%",
               width: "1200px",
               marginLeft: "-80px",
               marginTop: "-65px",

@@ -68,10 +68,10 @@ export const Bucket = () => {
 
   return (
     <>
-      <Box sx={{ marginTop: 8 }}>
+      <Box sx={{}}>
         <CustomAppbar></CustomAppbar>
       </Box>
-      <Box sx={{ marginLeft: 34, marginTop: 12 }}>
+      <Box sx={{}}>
         <ButtonGroup>
           <Button
             onClick={() => {
@@ -85,8 +85,7 @@ export const Bucket = () => {
       {/* <Box sx={{ color: blue, marginRight: 4 }}></Box> */}
       <Box
         sx={{
-          width: 1250,
-          marginLeft: 32,
+          // width: 1250,
           marginTop: 3,
         }}
       >

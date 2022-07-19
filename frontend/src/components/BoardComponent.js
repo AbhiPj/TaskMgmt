@@ -30,7 +30,6 @@ export const CustomCard = (props) => {
     t,
   } = props;
 
-  console.log(props, "pros");
   return (
     <Card
       sx={{

@@ -2,37 +2,17 @@ import React from "react";
 import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
 import {
   useEditTaskMutation,
-  useListDepartmentTaskQuery,
   useListTaskQuery,
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Card,
-  CardContent,
-  Dialog,
-  Divider,
-  Typography,
-} from "@mui/material";
-import ModeCommentIcon from "@mui/icons-material/ModeComment";
-import CommentIcon from "@mui/icons-material/Comment";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import { Dialog } from "@mui/material";
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
-  // console.log(taskType);
-
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
-  // const dept = "IT";
-
-  // const { data: deptTask = [], isLoading: loadingTask } =
-  //   useListDepartmentTaskQuery(dept);
-
   var rawList = [];
-
   if (taskType == "unassigned") {
     allList.map((item) => {
       if (item.sourceModel == "Unassigned") {
@@ -91,9 +71,9 @@ export const TaskBoard = (data) => {
     );
 
     const filteredResult = groupBy(filteredList, "priority");
-    // console.log(filteredResult, "filtered result");
+    console.log(filteredResult, "filtered result");
 
-    const priority = ["Low", "Medium", "High"]; //replace this with dynamic priority list later
+    const priority = ["Low", "Medium", "High", "None"];
     var emptyArr = [];
 
     var newArr = priority.filter((item) => !data.data.includes(item));
@@ -121,15 +101,14 @@ export const TaskBoard = (data) => {
             cards: filteredResult[value],
             cardStyle: { backgroundColor: "white" },
           });
+        } else if (value == "None") {
+          emptyArr.push({
+            id: key + 1,
+            title: "None",
+            cards: filteredResult[value],
+            cardStyle: { backgroundColor: "#e8faed" },
+          });
         }
-        // else {
-        //   emptyArr.push({
-        //     id: key + 1,
-        //     title: "None",
-        //     cards: filteredResult[value],
-        //     cardStyle: { backgroundColor: "#e8faed" },
-        //   });
-        // }
       } else {
         emptyArr.push({
           id: key + 1,
@@ -185,7 +164,7 @@ export const TaskBoard = (data) => {
               cardDetails,
               e
             ) => {
-              const priority = ["Low", "Medium", "High"];
+              const priority = ["Low", "Medium", "High", "None"];
               var priorityColumn = targetLaneId - 1;
               var newPriority = priority[priorityColumn];
               const updatedTask = {

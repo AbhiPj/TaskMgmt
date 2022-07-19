@@ -80,10 +80,10 @@ export const ChecklistTask = () => {
       {/* "Loading..." */}
       {/* ) : ( */}
       <>
-        <Box sx={{ marginTop: 8 }}>
+        <Box sx={{}}>
           <CustomAppbar></CustomAppbar>
         </Box>
-        <Box sx={{ marginLeft: 32, marginTop: 12 }}>
+        <Box sx={{}}>
           <Box sx={{ mr: 2 }}>
             <Card sx={{ minWidth: 400, mb: 2 }}>
               <CardContent>
@@ -121,8 +121,6 @@ export const ChecklistTask = () => {
         </Box>
         <Box
           sx={{
-            width: 1250,
-            marginLeft: 32,
             marginTop: 3,
           }}
         >
