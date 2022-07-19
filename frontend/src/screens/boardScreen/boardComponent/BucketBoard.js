@@ -70,11 +70,13 @@ export const BucketBoard = (data) => {
         _id: id,
         description: description,
         department,
+        progress,
         sourceInfo,
         comment,
       }) => ({
         title,
         id,
+        progress,
         description,
         department,
         comment,

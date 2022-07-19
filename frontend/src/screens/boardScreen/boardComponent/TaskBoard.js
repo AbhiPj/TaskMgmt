@@ -1,33 +1,31 @@
 import React from "react";
 import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
-import {
-  useEditTaskMutation,
-  useListTaskQuery,
-} from "../../../state/taskSlice";
+import { useEditTaskMutation, useListTaskQuery } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
+
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
   var rawList = [];
-  if (taskType == "unassigned") {
+  if (taskType === "unassigned") {
     allList.map((item) => {
-      if (item.sourceModel == "Unassigned") {
+      if (item.sourceModel === "Unassigned") {
         rawList.push(item);
       }
     });
-  } else if (taskType == "bucket") {
+  } else if (taskType === "bucket") {
     allList.map((item) => {
-      if (item.sourceModel == "Bucket") {
+      if (item.sourceModel === "Bucket") {
         rawList.push(item);
       }
     });
-  } else if (taskType == "checklist") {
+  } else if (taskType === "checklist") {
     allList.map((item) => {
-      if (item.sourceModel == "Checklist") {
+      if (item.sourceModel === "Checklist") {
         rawList.push(item);
       }
     });
@@ -47,25 +45,18 @@ export const TaskBoard = (data) => {
     const groupBy = (array, key) => {
       // Return the end result
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {}); // empty object is the initial value for result object
     };
 
     const filteredList = rawList.map(
-      ({
-        name: title,
-        _id: id,
-        description: description,
-        priority,
-        comment,
-      }) => ({
+      ({ name: title, _id: id, description, priority, comment, progress }) => ({
         title,
         id,
         description,
         priority,
+        progress,
         comment,
       })
     );
@@ -80,28 +71,28 @@ export const TaskBoard = (data) => {
 
     newArr.map((value, key) => {
       if (filteredResult[value]) {
-        if (value == "Low") {
+        if (value === "Low") {
           emptyArr.push({
             id: key + 1,
             title: value,
             cards: filteredResult[value],
             cardStyle: { backgroundColor: "white" },
           });
-        } else if (value == "Medium") {
+        } else if (value === "Medium") {
           emptyArr.push({
             id: key + 1,
             title: value,
             cards: filteredResult[value],
             cardStyle: { backgroundColor: "white" },
           });
-        } else if (value == "High") {
+        } else if (value === "High") {
           emptyArr.push({
             id: key + 1,
             title: value,
             cards: filteredResult[value],
             cardStyle: { backgroundColor: "white" },
           });
-        } else if (value == "None") {
+        } else if (value === "None") {
           emptyArr.push({
             id: key + 1,
             title: "None",
@@ -156,14 +147,7 @@ export const TaskBoard = (data) => {
               setTaskId(id);
               setEditOpen(true);
             }}
-            handleDragEnd={(
-              cardId,
-              sourceLaneId,
-              targetLaneId,
-              position,
-              cardDetails,
-              e
-            ) => {
+            handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, cardDetails, e) => {
               const priority = ["Low", "Medium", "High", "None"];
               var priorityColumn = targetLaneId - 1;
               var newPriority = priority[priorityColumn];

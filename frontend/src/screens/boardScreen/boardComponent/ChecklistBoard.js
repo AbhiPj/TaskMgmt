@@ -70,12 +70,14 @@ export const ChecklistBoard = (data) => {
         _id: id,
         description: description,
         department,
+        progress,
         sourceInfo,
         comment,
       }) => ({
         title,
         id,
         description,
+        progress,
         department,
         comment,
 
