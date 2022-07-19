@@ -1,5 +1,4 @@
 import React from "react";
-import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
 import {
   useEditTaskMutation,
   useListDepartmentTaskQuery,
@@ -7,29 +6,28 @@ import {
 } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
+import { useListBucketQuery } from "../../../state/bucketSlice";
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Card,
-  CardContent,
-  Dialog,
-  Divider,
-  Typography,
-} from "@mui/material";
-import ModeCommentIcon from "@mui/icons-material/ModeComment";
-import CommentIcon from "@mui/icons-material/Comment";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
-export const TaskBoard = (data) => {
+import { Dialog } from "@mui/material";
+import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
+import { useListChecklistQuery } from "../../../state/checklistSlice";
+
+export const ChecklistBoard = (data) => {
+  console.log(data, "data");
   const taskType = sessionStorage.getItem("taskType");
-  // console.log(taskType);
-
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
+  const [editTask] = useEditTaskMutation();
+  const [editOpen, setEditOpen] = React.useState(false);
+  const [taskId, setTaskId] = React.useState();
 
-  // const dept = "IT";
+  const handleEditClose = () => {
+    setEditOpen(false);
+  };
 
-  // const { data: deptTask = [], isLoading: loadingTask } =
-  //   useListDepartmentTaskQuery(dept);
+  var board;
+
+  const { data: checkList = [], isLoading: loadingBucket } =
+    useListChecklistQuery();
 
   var rawList = [];
 
@@ -52,20 +50,12 @@ export const TaskBoard = (data) => {
       }
     });
   }
-
-  const [editTask] = useEditTaskMutation();
-  const [editOpen, setEditOpen] = React.useState(false);
-  const [taskId, setTaskId] = React.useState();
-
-  const handleEditClose = () => {
-    setEditOpen(false);
-  };
-
-  var board;
+  // console.log(rawList, "rawlist");
 
   if (!loadingAllTask) {
     const groupBy = (array, key) => {
       // Return the end result
+
       return array.reduce((result, currentValue) => {
         (result[currentValue[key]] = result[currentValue[key]] || []).push(
           currentValue
@@ -79,78 +69,60 @@ export const TaskBoard = (data) => {
         name: title,
         _id: id,
         description: description,
-        priority,
+        department,
+        sourceInfo,
         comment,
       }) => ({
         title,
         id,
         description,
-        priority,
+        department,
         comment,
+
+        checklist: sourceInfo?.name,
+        checklistId: sourceInfo?._id,
       })
     );
 
-    const filteredResult = groupBy(filteredList, "priority");
-    // console.log(filteredResult, "filtered result");
+    console.log(filteredList, "Filtered list");
 
-    const priority = ["Low", "Medium", "High"]; //replace this with dynamic priority list later
+    const filteredResult = groupBy(filteredList, "checklist");
+
+    // console.log(filteredResult, "filteredResult");
+
+    var newChecklist = checkList.filter(
+      (item) => !data.data.includes(item.name)
+    );
+
     var emptyArr = [];
 
-    var newArr = priority.filter((item) => !data.data.includes(item));
-
-    newArr.map((value, key) => {
-      if (filteredResult[value]) {
-        if (value == "Low") {
-          emptyArr.push({
-            id: key + 1,
-            title: value,
-            cards: filteredResult[value],
-            cardStyle: { backgroundColor: "white" },
-          });
-        } else if (value == "Medium") {
-          emptyArr.push({
-            id: key + 1,
-            title: value,
-            cards: filteredResult[value],
-            cardStyle: { backgroundColor: "white" },
-          });
-        } else if (value == "High") {
-          emptyArr.push({
-            id: key + 1,
-            title: value,
-            cards: filteredResult[value],
-            cardStyle: { backgroundColor: "white" },
-          });
-        }
-        // else {
-        //   emptyArr.push({
-        //     id: key + 1,
-        //     title: "None",
-        //     cards: filteredResult[value],
-        //     cardStyle: { backgroundColor: "#e8faed" },
-        //   });
-        // }
+    newChecklist.map((item) => {
+      if (filteredResult[item.name]) {
+        emptyArr.push({
+          id: item._id,
+          title: item?.name,
+          cards: filteredResult[item.name],
+        });
       } else {
         emptyArr.push({
-          id: key + 1,
-          title: value,
+          id: item._id,
+          title: item?.name,
           cards: [],
         });
       }
     });
 
-    console.log(emptyArr);
-
     board = {
       lanes: emptyArr,
     };
+
+    // console.log(emptyArr, "empteyas");
   }
 
   const components = {
     Card: CustomCard,
     LaneHeader: LaneHeader,
   };
-
   return (
     <Box>
       {loadingAllTask ? (
@@ -161,16 +133,25 @@ export const TaskBoard = (data) => {
             components={components}
             data={board}
             style={{
+              // boxShadow: "4px 5px 10px rgb(0 0 0 / 3%)",
+              // border: "2px solid #e6e6e6",
+              // borderRadius: "10px",
               backgroundColor: "#f2f3f5",
               overflowX: "auto",
-              height: "100%",
+              height: "85vh",
               width: "1200px",
               marginLeft: "-80px",
               marginTop: "-65px",
             }}
-            cardStyle={{}}
+            cardStyle={
+              {
+                // backgroundColor: "#ededed",
+                // boxShadow: "2px 1px 4px #888888",
+                // border: "1px solid #e8e6eb",
+                // width: "1900px",
+              }
+            }
             laneStyle={{
-              height: "100%",
               backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {
@@ -185,16 +166,19 @@ export const TaskBoard = (data) => {
               cardDetails,
               e
             ) => {
-              const priority = ["Low", "Medium", "High"];
-              var priorityColumn = targetLaneId - 1;
-              var newPriority = priority[priorityColumn];
-              const updatedTask = {
+              const laneArr = board.lanes;
+              var bucketArr = [];
+
+              laneArr.map((item) => {
+                bucketArr.push(item.title);
+              });
+              const updatedBucket = {
                 id: cardDetails.id,
                 body: {
-                  priority: newPriority,
+                  sourceInfo: targetLaneId,
                 },
               };
-              editTask(updatedTask);
+              editTask(updatedBucket);
             }}
           />
           <Dialog open={editOpen} onClose={handleEditClose}>

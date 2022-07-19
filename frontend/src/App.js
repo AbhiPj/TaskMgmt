@@ -17,24 +17,26 @@ import { Bucket } from "./screens/bucketScreen/Bucket";
 import { BucketTaskScreen } from "./screens/bucketScreen/BucketTaskScreen";
 import { Checklist } from "./screens/checklistScreen/Checklist";
 import { ChecklistTask } from "./screens/checklistScreen/ChecklistTask";
+import { NotFound } from "./screens/NotFound";
 
 export const App = () => {
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/*" element={<Layout />}>
-            <Route path="list" element={<DashboardScreen />} />
-            <Route path="board" element={<Boards />} />
-            <Route path="chart" element={<Chart />} />
-            <Route path="schedule" element={<Schedule />} />
-            <Route path="bucket" element={<Bucket />} />
-            <Route path="checklist" element={<Checklist />} />
-            <Route path="bucket/task/:id" element={<BucketTaskScreen />} />
-            <Route path="checklist/task/:id" element={<ChecklistTask />} />
-          </Route>
-        </Routes>
-      </Router>
+      {/* <Router> */}
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="list" element={<DashboardScreen />} />
+          <Route path="board" element={<Boards />} />
+          <Route path="chart" element={<Chart />} />
+          <Route path="schedule" element={<Schedule />} />
+          <Route path="bucket" element={<Bucket />} />
+          <Route path="checklist" element={<Checklist />} />
+          <Route path="bucket/task/:id" element={<BucketTaskScreen />} />
+          <Route path="checklist/task/:id" element={<ChecklistTask />} />
+        </Route>
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
+      {/* </Router> */}
     </>
   );
 };

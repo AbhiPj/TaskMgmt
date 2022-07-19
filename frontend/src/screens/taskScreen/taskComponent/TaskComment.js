@@ -18,7 +18,7 @@ export const TaskComment = (detailTask) => {
 
   return (
     <>
-      {loadingComment ? (
+      {!detailTask.task.comment ? (
         " Loading..."
       ) : (
         <>
@@ -29,7 +29,7 @@ export const TaskComment = (detailTask) => {
               bgcolor: "background.paper",
             }}
           >
-            {detailTask.task?.comment.map((item) => {
+            {detailTask?.task?.comment.map((item) => {
               return (
                 <>
                   <ListItem key={item._id} alignItems="flex-start">

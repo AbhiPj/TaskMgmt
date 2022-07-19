@@ -19,7 +19,7 @@ export function Sidebar() {
   let navigate = useNavigate();
 
   const taskRoute = (a) => {
-    let path = `/dashboard`;
+    let path = `/list`;
     navigate(path);
   };
 

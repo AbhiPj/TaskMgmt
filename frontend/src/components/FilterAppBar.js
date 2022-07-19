@@ -1,20 +1,14 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+
 import {
   Button,
   ButtonGroup,
   createTheme,
-  Grid,
   OutlinedInput,
   Stack,
-  ThemeProvider,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-// import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -24,12 +18,9 @@ import { useListBucketQuery } from "../state/bucketSlice";
 import { TaskBoard } from "../screens/boardScreen/boardComponent/TaskBoard";
 import { UserBoard } from "../screens/boardScreen/boardComponent/UserBoard";
 import { BucketBoard } from "../screens/boardScreen/boardComponent/BucketBoard";
-import {
-  BarChart2,
-  BarChart,
-  PieChart,
-} from "../screens/chartScreen/chartComponent/chart";
 import { ChartGroup } from "../screens/chartScreen/chartComponent/ChartGroup";
+import { ScheduleFilter } from "../screens/scheduleScreen/scheduleComponent/ScheduleFilter";
+import { ChecklistBoard } from "../screens/boardScreen/boardComponent/ChecklistBoard";
 
 export const FilterAppBar = (props) => {
   const getTask = sessionStorage.getItem("taskType");
@@ -71,22 +62,22 @@ export const FilterAppBar = (props) => {
 
   const [data, setData] = React.useState(["Low", "Medium", "High"]);
 
-  function getStyles(name, personName, theme) {
+  function getStyles(name, filterTask, theme) {
     return {
       fontWeight:
-        personName.indexOf(name) === -1
+        filterTask.indexOf(name) === -1
           ? theme.typography.fontWeightRegular
           : theme.typography.fontWeightMedium,
     };
   }
 
-  const [personName, setPersonName] = React.useState([]);
+  const [filterTask, setFilterTask] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setFilterTask(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
@@ -137,14 +128,18 @@ export const FilterAppBar = (props) => {
   function renderComponent() {
     if (props.component == "Board") {
       if (group == "priority") {
-        return <TaskBoard data={personName}></TaskBoard>;
+        return <TaskBoard data={filterTask}></TaskBoard>;
       } else if (group == "assignedTo") {
-        return <UserBoard data={personName}></UserBoard>;
+        return <UserBoard data={filterTask}></UserBoard>;
       } else if (group == "bucket") {
-        return <BucketBoard data={personName}></BucketBoard>;
+        return <BucketBoard data={filterTask}></BucketBoard>;
+      } else if (group == "checklist") {
+        return <ChecklistBoard data={filterTask}></ChecklistBoard>;
       }
     } else if (props.component == "Chart") {
       return <ChartGroup></ChartGroup>;
+    } else if (props.component == "Schedule") {
+      return <ScheduleFilter></ScheduleFilter>;
     }
   }
   return (
@@ -191,7 +186,7 @@ export const FilterAppBar = (props) => {
                   sx={{ color: "inherit" }}
                   multiple
                   displayEmpty
-                  value={personName}
+                  value={filterTask}
                   onChange={handleChange}
                   input={<OutlinedInput />}
                   renderValue={(selected) => {
@@ -211,7 +206,7 @@ export const FilterAppBar = (props) => {
                     <MenuItem
                       key={name}
                       value={name}
-                      style={getStyles(name, personName, theme)}
+                      style={getStyles(name, filterTask, theme)}
                     >
                       {name}
                     </MenuItem>
@@ -246,6 +241,7 @@ export const FilterAppBar = (props) => {
                   <MenuItem value={"priority"}>Priority</MenuItem>
                   <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
                   <MenuItem value={"bucket"}> Bucket</MenuItem>
+                  <MenuItem value={"checklist"}> Checklist</MenuItem>
                 </Select>
               </FormControl>
             </>
