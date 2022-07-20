@@ -122,7 +122,7 @@ export const LaneHeader = (props) => {
         <Typography sx={{ fontSize: 17 }}>{title}</Typography>
         <Typography sx={{ fontSize: 17, color: "#7e8185" }}>{cards?.length}</Typography>
       </Box>
-      <Divider></Divider>
+      {/* <Divider></Divider> */}
       {/* <Box sx={{ marginTop: 1, marginBottom: 2 }}>
           <Button fullWidth variant="outlined">
             Add Task

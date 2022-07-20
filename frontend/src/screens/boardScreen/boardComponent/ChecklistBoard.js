@@ -26,8 +26,7 @@ export const ChecklistBoard = (data) => {
 
   var board;
 
-  const { data: checkList = [], isLoading: loadingBucket } =
-    useListChecklistQuery();
+  const { data: checkList = [], isLoading: loadingBucket } = useListChecklistQuery();
 
   var rawList = [];
 
@@ -57,9 +56,7 @@ export const ChecklistBoard = (data) => {
       // Return the end result
 
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {}); // empty object is the initial value for result object
     };
@@ -92,9 +89,7 @@ export const ChecklistBoard = (data) => {
 
     // console.log(filteredResult, "filteredResult");
 
-    var newChecklist = checkList.filter(
-      (item) => !data.data.includes(item.name)
-    );
+    var newChecklist = checkList.filter((item) => !data.data.includes(item.name));
 
     var emptyArr = [];
 
@@ -139,8 +134,6 @@ export const ChecklistBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              marginLeft: "-80px",
-              marginTop: "-65px",
             }}
             cardStyle={
               {
@@ -157,14 +150,7 @@ export const ChecklistBoard = (data) => {
               setTaskId(id);
               setEditOpen(true);
             }}
-            handleDragEnd={(
-              cardId,
-              sourceLaneId,
-              targetLaneId,
-              position,
-              cardDetails,
-              e
-            ) => {
+            handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, cardDetails, e) => {
               const laneArr = board.lanes;
               var bucketArr = [];
 

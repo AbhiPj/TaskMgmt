@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Divider,
-  Grid,
-  Stack,
-  TextareaAutosize,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, Grid, Stack, TextareaAutosize, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,18 +10,14 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import {
-  useEditTaskMutation,
-  useAddTaskMutation,
-} from "../../../state/taskSlice";
+import { useEditTaskMutation, useAddTaskMutation } from "../../../state/taskSlice";
 
 import { useListBucketQuery } from "../../../state/bucketSlice";
 import { useListUserQuery } from "../../../state/userSlice";
 
 export const AddTaskForm = (data) => {
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
-  const { data: bucketList = [], isLoading: loadingBucket } =
-    useListBucketQuery();
+  const { data: bucketList = [], isLoading: loadingBucket } = useListBucketQuery();
 
   const [addTask] = useAddTaskMutation();
 
@@ -39,9 +28,7 @@ export const AddTaskForm = (data) => {
   const [priority, setPriority] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [progress, setProgress] = useState("");
-  const [startDate, setStartDate] = React.useState(
-    new Date(data?.date?.startDate)
-  );
+  const [startDate, setStartDate] = React.useState(new Date(data?.date?.startDate));
   const [endDate, setEndDate] = React.useState(new Date(data.date?.endDate));
 
   const handleSubmit = () => {
@@ -93,9 +80,7 @@ export const AddTaskForm = (data) => {
 
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Assigned To
-                </InputLabel>
+                <InputLabel id="demo-simple-select-label">Assigned To</InputLabel>
                 <Select
                   sx={{
                     height: 40,
@@ -118,16 +103,14 @@ export const AddTaskForm = (data) => {
 
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Department
-                </InputLabel>
+                <InputLabel id="demo-simple-select-label">Department</InputLabel>
                 <Select
                   sx={{
                     height: 40,
                     fontSize: 14,
                   }}
-                  variant="filled"
                   labelId="demo-simple-select-label"
+                  variant="filled"
                   size="small"
                   id="demo-simple-select"
                   value={department}
@@ -249,10 +232,7 @@ export const AddTaskForm = (data) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography
-                variant="body2"
-                sx={{ marginTop: 1, marginBottom: 1 }}
-              >
+              <Typography variant="body2" sx={{ marginTop: 1, marginBottom: 1 }}>
                 Notes :
               </Typography>
               <TextareaAutosize

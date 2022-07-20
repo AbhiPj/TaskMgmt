@@ -26,8 +26,7 @@ export const BucketBoard = (data) => {
 
   var board;
 
-  const { data: bucketList = [], isLoading: loadingBucket } =
-    useListBucketQuery();
+  const { data: bucketList = [], isLoading: loadingBucket } = useListBucketQuery();
 
   var rawList = [];
 
@@ -57,9 +56,7 @@ export const BucketBoard = (data) => {
       // Return the end result
 
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {}); // empty object is the initial value for result object
     };
@@ -92,9 +89,7 @@ export const BucketBoard = (data) => {
 
     console.log(filteredResult, "filteredResult");
 
-    var newBucketList = bucketList.filter(
-      (item) => !data.data.includes(item.name)
-    );
+    var newBucketList = bucketList.filter((item) => !data.data.includes(item.name));
 
     var emptyArr = [];
 
@@ -139,8 +134,6 @@ export const BucketBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              marginLeft: "-80px",
-              marginTop: "-65px",
             }}
             cardStyle={
               {
@@ -157,14 +150,7 @@ export const BucketBoard = (data) => {
               setTaskId(id);
               setEditOpen(true);
             }}
-            handleDragEnd={(
-              cardId,
-              sourceLaneId,
-              targetLaneId,
-              position,
-              cardDetails,
-              e
-            ) => {
+            handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, cardDetails, e) => {
               const laneArr = board.lanes;
               var bucketArr = [];
 

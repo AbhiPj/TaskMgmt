@@ -68,22 +68,13 @@ export const UserBoard = (data) => {
   if (!loadingAllTask) {
     const groupBy = (array, key) => {
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {});
     };
 
     const filteredList = rawList.map(
-      ({
-        name: title,
-        _id: id,
-        description: description,
-        progress,
-        assignedTo,
-        comment,
-      }) => ({
+      ({ name: title, _id: id, description: description, progress, assignedTo, comment }) => ({
         title,
         id,
         description,
@@ -152,8 +143,6 @@ export const UserBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              marginLeft: "-80px",
-              marginTop: "-65px",
             }}
             cardStyle={{
               backgroundColor: "#ededed",
@@ -168,14 +157,7 @@ export const UserBoard = (data) => {
               setTaskId(id);
               setEditOpen(true);
             }}
-            handleDragEnd={(
-              cardId,
-              sourceLaneId,
-              targetLaneId,
-              position,
-              cardDetails,
-              e
-            ) => {
+            handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, cardDetails, e) => {
               const laneArr = board?.lanes;
               console.log(cardDetails, "cardetails");
               var userArr = [];

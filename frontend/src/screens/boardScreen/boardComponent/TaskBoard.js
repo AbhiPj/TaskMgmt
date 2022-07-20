@@ -135,8 +135,10 @@ export const TaskBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              marginLeft: "-80px",
-              marginTop: "-65px",
+              // marginLeft: "-80px",
+              // marginTop: "-65px",
+              padding: "0",
+              margin: "0",
             }}
             cardStyle={{}}
             laneStyle={{

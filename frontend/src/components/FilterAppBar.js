@@ -1,13 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 
-import {
-  Button,
-  ButtonGroup,
-  createTheme,
-  OutlinedInput,
-  Stack,
-} from "@mui/material";
+import { Button, ButtonGroup, createTheme, Divider, OutlinedInput, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -31,10 +25,8 @@ export const FilterAppBar = (props) => {
   }
 
   const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
-  const { data: bucketList = [], isLoading: loadingBucket } =
-    useListBucketQuery();
-  const { data: checklistTask = [], isLoading: loadingChecklist } =
-    useListChecklistQuery();
+  const { data: bucketList = [], isLoading: loadingBucket } = useListBucketQuery();
+  const { data: checklistTask = [], isLoading: loadingChecklist } = useListChecklistQuery();
 
   var userArr = [];
   var bucketArr = [];
@@ -160,15 +152,16 @@ export const FilterAppBar = (props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingBottom: 7,
+          paddingBottom: 0.4,
+          width: "100%",
         }}
       >
-        <FormControl size="small">
+        <FormControl sx={{ width: 120, marginLeft: 2 }} size="small">
           <InputLabel sx={{ color: "inherit" }} id="demo-select-small">
             Task Type
           </InputLabel>
           <Select
-            sx={{ color: "inherit" }}
+            sx={{ color: "inherit", height: 30, fontSize: 12 }}
             labelId="demo-simple-select-label"
             id="demo-select-small"
             value={taskType}
@@ -190,12 +183,12 @@ export const FilterAppBar = (props) => {
             {/* <MenuItem value={"checklist"}> Checklist</MenuItem> */}
           </Select>
         </FormControl>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={1}>
           {props.component == "Board" ? (
             <>
               <FormControl sx={{ width: 150 }} size="small">
                 <Select
-                  sx={{ color: "inherit" }}
+                  sx={{ color: "inherit", height: 30, fontSize: 12 }}
                   multiple
                   displayEmpty
                   value={filterTask}
@@ -215,11 +208,7 @@ export const FilterAppBar = (props) => {
                     <em>Placeholder</em>
                   </MenuItem>
                   {data.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, filterTask, theme)}
-                    >
+                    <MenuItem key={name} value={name} style={getStyles(name, filterTask, theme)}>
                       {name}
                     </MenuItem>
                   ))}
@@ -234,7 +223,7 @@ export const FilterAppBar = (props) => {
                   Group By
                 </InputLabel>
                 <Select
-                  sx={{ color: "inherit" }}
+                  sx={{ color: "inherit", height: 30, fontSize: 12 }}
                   labelId="demo-simple-select-label"
                   id="demo-select-small"
                   value={group}
@@ -257,11 +246,7 @@ export const FilterAppBar = (props) => {
                   ) : (
                     <></>
                   )}
-                  {taskType == "bucket" ? (
-                    <MenuItem value={"bucket"}> Bucket</MenuItem>
-                  ) : (
-                    <></>
-                  )}
+                  {taskType == "bucket" ? <MenuItem value={"bucket"}> Bucket</MenuItem> : <></>}
                   <MenuItem value={"priority"}>Priority</MenuItem>
                   <MenuItem value={"assignedTo"}>Assigned To</MenuItem>
                   {/* <MenuItem value={"bucket"}> Bucket</MenuItem> */}
@@ -273,20 +258,19 @@ export const FilterAppBar = (props) => {
             <></>
           )}
 
-          <ButtonGroup variant="standard" aria-label="outlined button group">
-            {links.map(({ title, path }) => (
-              <Link
-                style={{ textDecoration: "none", color: "inherit" }}
-                key={title}
-                to={path}
-              >
-                <Button color="inherit">{title}</Button>
-              </Link>
-            ))}
-          </ButtonGroup>
+          {/* <ButtonGroup variant="standard" aria-label="outlined button group"> */}
+          {links.map(({ title, path }) => (
+            <Link style={{ textDecoration: "none", color: "inherit" }} key={title} to={path}>
+              <Button sx={{ fontSize: 12 }} color="inherit">
+                {title}
+              </Button>
+            </Link>
+          ))}
+          {/* </ButtonGroup> */}
         </Stack>
       </Box>
-      <Box sx={{ paddingLeft: 4, paddingTop: 0 }}>{renderComponent()}</Box>
+      <Divider sx={{ marginBottom: 1 }}></Divider>
+      <Box sx={{}}>{renderComponent()}</Box>
     </>
   );
 };

@@ -1,12 +1,7 @@
 import "./App.css";
 
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar";
 import { Box } from "@mui/material";
 import { DashboardScreen } from "./screens/DashboardScreen";
@@ -50,7 +45,7 @@ function Layout() {
           backgroundColor: "#F2f3f5",
           minHeight: "100vh",
           height: "auto",
-          padding: 1,
+          // padding: 1,
         }}
       >
         <Sidebar />
@@ -58,8 +53,8 @@ function Layout() {
           // backgroundColor="white"
           component="main"
           mt={4}
-          mx={2}
-          sx={{ flexGrow: 1, padding: 3 }}
+          // mx={2}
+          sx={{ flexGrow: 1, paddingY: 4 }}
         >
           <Outlet />
         </Box>
