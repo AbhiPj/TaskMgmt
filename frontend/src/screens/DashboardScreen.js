@@ -99,33 +99,35 @@ export const DashboardScreen = () => {
           <FilterAppBar component={"List"}></FilterAppBar>
         </Box>
 
-        <Box
-          sx={{
-            // marginLeft: 39,
-            // marginTop: 5,
-            display: "flex",
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={() => {
-              setAddOpen(true);
+        <Box sx={{ paddingX: 4, paddingY: 2 }}>
+          <Box
+            sx={{
+              // marginLeft: 39,
+              // marginTop: 5,
+              display: "flex",
             }}
           >
-            Add Task
-          </Button>
-        </Box>
-        <Box sx={{ color: blue }}></Box>
-        <Box
-          fullWidth
-          sx={{
-            // width: 1250,
-            // marginLeft: 32,
-            marginTop: 3,
-          }}
-        >
-          {/* {renderTable()} */}
-          <UngropuedTable></UngropuedTable>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setAddOpen(true);
+              }}
+            >
+              Add Task
+            </Button>
+          </Box>
+          <Box sx={{ color: blue }}></Box>
+          <Box
+            fullWidth
+            sx={{
+              // width: 1250,
+              // marginLeft: 32,
+              marginTop: 3,
+            }}
+          >
+            {/* {renderTable()} */}
+            <UngropuedTable></UngropuedTable>
+          </Box>
         </Box>
 
         <Dialog open={editOpen} onClose={handleEditClose}>

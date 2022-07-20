@@ -150,6 +150,8 @@ export const FilterAppBar = (props) => {
       <Box
         sx={{
           display: "flex",
+          backgroundColor: "white",
+          paddingY: 1,
           justifyContent: "space-between",
           alignItems: "center",
           paddingBottom: 0.4,

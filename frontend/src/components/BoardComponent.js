@@ -2,6 +2,10 @@ import Box from "@mui/material/Box";
 import { Button, Card, CardContent, Dialog, Divider, styled, Typography } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
 import LinearProgress, { linearProgressClasses } from "@mui/material/LinearProgress";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 export const CustomCard = (props) => {
   const {
     showDeleteButton,
@@ -64,13 +68,35 @@ export const CustomCard = (props) => {
       // style={style}
       // className={className}
     >
+      {/* <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Accordion 1</Typography>
+        </AccordionSummary>
+
+      </Accordion> */}
       <CardContent sx={{ whiteSpace: "pre-wrap" }}>
-        <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
-          {title}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 1,
+          }}
+        >
+          <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
+            {title}
+          </Typography>
+          <Box sx={{ width: 20 }}>
+            <img src={`https://avatars.dicebear.com/api/identicon/:${id}.svg`}></img>
+          </Box>
+        </Box>
         {renderProgressBar(progress)}
 
-        <Typography
+        {/* <Typography
           sx={{
             fontSize: 12,
             marginTop: 2,
@@ -79,8 +105,17 @@ export const CustomCard = (props) => {
           }}
         >
           {description}
+        </Typography> */}
+        <Typography
+          sx={{
+            fontSize: 12,
+            marginTop: 2,
+            color: "#878787",
+            fontStyle: "italic",
+          }}
+        >
+          Status: {progress ? progress : "None"}
         </Typography>
-
         {/* </Box> */}
       </CardContent>
       <Divider sx={{ mt: 3 }}></Divider>
@@ -122,7 +157,7 @@ export const LaneHeader = (props) => {
         <Typography sx={{ fontSize: 17 }}>{title}</Typography>
         <Typography sx={{ fontSize: 17, color: "#7e8185" }}>{cards?.length}</Typography>
       </Box>
-      {/* <Divider></Divider> */}
+      {/* <Div></Div ider> */}
       {/* <Box sx={{ marginTop: 1, marginBottom: 2 }}>
           <Button fullWidth variant="outlined">
             Add Task

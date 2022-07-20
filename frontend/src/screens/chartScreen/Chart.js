@@ -1,10 +1,7 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import { BarChart, BarChart2, PieChart } from "./chartComponent/chart";
-import {
-  useListDepartmentTaskQuery,
-  useListTaskQuery,
-} from "../../state/taskSlice";
+import { useListDepartmentTaskQuery, useListTaskQuery } from "../../state/taskSlice";
 import { CustomAppbar } from "../../components/Appbar";
 import { FilterAppBar } from "../../components/FilterAppBar";
 export const Chart = () => {
@@ -48,9 +45,7 @@ export const Chart = () => {
   if (!loadingTask) {
     const groupBy = (array, key) => {
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {}); //
     };
@@ -76,29 +71,6 @@ export const Chart = () => {
           <Box sx={{}}>
             <FilterAppBar component={"Chart"}></FilterAppBar>
           </Box>
-          {/* <Box>
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={8}>
-                  <Box>
-                    <BarChart datas={result}></BarChart>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12} md={4}>
-                  <Box>
-                    <PieChart data={taskCompletion}></PieChart>
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Box>
-                    <BarChart2 data={userGroup}></BarChart2>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box> */}
         </>
       )}
     </>

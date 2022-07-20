@@ -54,7 +54,7 @@ function Layout() {
           component="main"
           mt={4}
           // mx={2}
-          sx={{ flexGrow: 1, paddingY: 4 }}
+          sx={{ flexGrow: 1, paddingY: 2.3 }}
         >
           <Outlet />
         </Box>

@@ -53,9 +53,7 @@ export const ChartGroup = () => {
   if (!loadingTask) {
     const groupBy = (array, key) => {
       return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-          currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
       }, {}); //
     };
@@ -67,7 +65,7 @@ export const ChartGroup = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{ paddingX: 4, paddingY: 2 }}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={8}>
