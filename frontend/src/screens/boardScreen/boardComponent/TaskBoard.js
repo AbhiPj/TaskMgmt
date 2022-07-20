@@ -1,10 +1,11 @@
 import React from "react";
-import { CustomCard, LaneHeader } from "../../../components/BoardComponent";
+import { CustomCard, LaneFooter, LaneHeader } from "../../../components/BoardComponent";
 import { useEditTaskMutation, useListTaskQuery } from "../../../state/taskSlice";
 import Board from "react-trello";
 import { TaskForm } from "../../taskScreen/taskComponent/TaskForm";
 import Box from "@mui/material/Box";
 import { Dialog } from "@mui/material";
+import PropTypes from "prop-types";
 
 export const TaskBoard = (data) => {
   const taskType = sessionStorage.getItem("taskType");
@@ -109,16 +110,24 @@ export const TaskBoard = (data) => {
       }
     });
 
-    console.log(emptyArr);
+    console.log(emptyArr, "empty");
 
     board = {
       lanes: emptyArr,
     };
   }
 
+  // LaneFooter.propTypes = {
+  //   cards: PropTypes.object,
+  // };
+
+  LaneFooter.defaultProps = {
+    cards: emptyArr,
+  };
   const components = {
     Card: CustomCard,
     LaneHeader: LaneHeader,
+    NewLaneSection: LaneFooter,
   };
 
   return (
@@ -128,6 +137,7 @@ export const TaskBoard = (data) => {
       ) : (
         <>
           <Board
+            collapsibleLanes
             components={components}
             data={board}
             style={{

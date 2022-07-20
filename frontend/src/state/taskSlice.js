@@ -1,3 +1,4 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 
 export const taskSlice = apiSlice.injectEndpoints({
@@ -17,30 +18,21 @@ export const taskSlice = apiSlice.injectEndpoints({
       query: (status) => `/task/list`,
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "Task", id })),
-              { type: "Task", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "Task", id })), { type: "Task", id: "LIST" }]
           : [{ type: "Task", id: "LIST" }],
     }),
     listDepartmentTask: build.query({
       query: (department) => `/task/list/${department}`,
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "Task", id })),
-              { type: "Task", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "Task", id })), { type: "Task", id: "LIST" }]
           : [{ type: "Task", id: "LIST" }],
     }),
     listBucketTask: build.query({
       query: (id) => `/task/buckettask/${id}`,
       providesTags: (result) =>
         result
-          ? [
-              ...result.map(({ id }) => ({ type: "Task", id })),
-              { type: "Task", id: "LIST" },
-            ]
+          ? [...result.map(({ id }) => ({ type: "Task", id })), { type: "Task", id: "LIST" }]
           : [{ type: "Task", id: "LIST" }],
     }),
     detailTask: build.query({
@@ -94,3 +86,21 @@ export const {
   useDeleteTaskMutation,
   useGenerateChecklistTaskMutation,
 } = taskSlice;
+
+export const taskStateSlice = createSlice({
+  name: "TaskState",
+  initialState: { showComplete: false },
+  reducers: {
+    taskState: (state) => {
+      if (state.showComplete == false) {
+        state.showComplete = true;
+      } else if (state.showComplete == true) {
+        state.showComplete = false;
+      }
+    },
+  },
+});
+
+export const { taskState } = taskStateSlice.actions;
+
+export default taskStateSlice.reducer;
