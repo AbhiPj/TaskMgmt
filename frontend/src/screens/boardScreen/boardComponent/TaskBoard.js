@@ -52,10 +52,21 @@ export const TaskBoard = (data) => {
     };
 
     const filteredList = rawList.map(
-      ({ name: title, _id: id, description, priority, comment, progress }) => ({
+      ({
+        name: title,
+        _id: id,
+        description,
+        priority,
+        comment,
+        progress,
+        assignedTo,
+        dueDate,
+      }) => ({
         title,
         id,
         description,
+        assignedTo,
+        dueDate,
         priority,
         progress,
         comment,
@@ -145,8 +156,6 @@ export const TaskBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              // marginLeft: "-80px",
-              // marginTop: "-65px",
               padding: "0",
               margin: "0",
             }}

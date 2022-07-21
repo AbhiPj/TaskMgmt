@@ -1,49 +1,105 @@
+import React from "react";
 import Box from "@mui/material/Box";
-import { Button, Card, CardContent, Dialog, Divider, styled, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Dialog,
+  Divider,
+  IconButton,
+  styled,
+  Typography,
+} from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
 import LinearProgress, { linearProgressClasses } from "@mui/material/LinearProgress";
 import Accordion from "@mui/material/Accordion";
+import TextField from "@mui/material/TextField";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useSelector, useDispatch } from "react-redux";
-import { taskState } from "../state/taskSlice";
+import { taskState, useEditTaskMutation } from "../state/taskSlice";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useListUserQuery } from "../state/userSlice";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 export const CustomCard = (props) => {
-  const showComplete = useSelector((state) => state.taskState.showComplete);
-  console.log(showComplete, "Show complete ");
-
   const {
     showDeleteButton,
     style,
     tagStyle,
     onClick,
     onDelete,
+    assignedTo,
     onChange,
     className,
     id,
     title,
     comment,
     progress,
+    priority,
     label,
     description,
     tags,
     cardDraggable,
     editable,
+    dueDate,
     commentLength,
     t,
   } = props;
 
+  const [editTask] = useEditTaskMutation();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [dueDateState, setDuDateState] = React.useState(new Date(dueDate));
+
+  const handleDueDateChange = (newValue) => {
+    setDuDateState(newValue);
+    const updatedTask = {
+      id: id,
+      body: {
+        dueDate: newValue,
+      },
+    };
+    editTask(updatedTask);
+  };
+
+  const open = Boolean(anchorEl);
+  const handleIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(null);
+    const { userId, taskId } = event.currentTarget.dataset;
+    const updatedTask = {
+      id: taskId,
+      body: {
+        assignedTo: userId,
+      },
+    };
+    editTask(updatedTask);
+  };
+  var color = "";
+
+  const showComplete = useSelector((state) => state.taskState.showComplete);
   const renderProgressBar = (data) => {
     var value = 0;
-    var color = "";
     if (data == "Ongoing") {
       value = 50;
-      color = "#4281db";
+      color = "#dbdb65";
     } else if (data == "Completed") {
       value = 100;
-      color = "#4281db";
+      color = "#60d184";
     }
     return (
       <>
@@ -59,82 +115,147 @@ export const CustomCard = (props) => {
     },
     [`& .${linearProgressClasses.bar}`]: {
       borderRadius: 5,
-      backgroundColor: theme.palette.mode === "light" ? "#4281db" : "#308fe8",
+      backgroundColor: theme.palette.mode === "light" ? color : "#308fe8",
     },
   }));
 
+  const { data: userList = [], isLoading: loadingUser } = useListUserQuery();
+  const renderMenuItem = () => {
+    return userList.map((item) => (
+      <MenuItem data-user-id={item._id} data-task-id={id} onClick={handleMenuClick}>
+        {item.name}
+      </MenuItem>
+    ));
+  };
+  const hideInput = true;
   return (
     <>
-      {progress != "Completed" ? (
-        <>
-          <Card
-            sx={{
-              maxWidth: 250,
-              height: "auto",
-              minHeight: 150,
-              mb: 1,
-              borderRadius: 0.5,
-            }}
-            elevation={4}
-            data-id={id}
-            onClick={onClick}
+      {/* {progress != "Completed" ? ( */}
+      <>
+        <Card
+          sx={{
+            maxWidth: 250,
+            height: "auto",
+            minHeight: 150,
+            mb: 1,
+            borderRadius: 0.5,
+          }}
+          elevation={4}
+          data-id={id}
+        >
+          <CardContent sx={{ whiteSpace: "pre-wrap" }} onClick={onClick}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "start",
+                marginBottom: 1,
+              }}
+            >
+              <Typography sx={{ fontSize: 13.3 }} color="text.primary" gutterBottom>
+                {title}
+              </Typography>
+              {/* <Box sx={{ width: 20, flexShrink: 0, marginLeft: 2 }}>
+                  <img src={`https://avatars.dicebear.com/api/identicon/:${id}.svg`}></img>
+                </Box> */}
+            </Box>
+            {renderProgressBar(progress)}
+            <Typography
+              sx={{
+                fontSize: 12,
+                marginTop: 2,
+                color: "#878787",
+                // fontStyle: "italic",
+              }}
+            >
+              <Box>
+                Status: {progress ? progress : "None"}
+                {priority ? <>Priority : {priority}</> : <></>}
+              </Box>
+            </Typography>
+            {/* </Box> */}
+          </CardContent>
+          <Divider sx={{ mt: 3 }}></Divider>
+          <Box
+            color={"#717073"}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            sx={{ paddingY: 0.3, minHeight: 44 }}
           >
-            <CardContent sx={{ whiteSpace: "pre-wrap" }}>
+            {dueDate ? (
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "start",
-                  marginBottom: 1,
+                  alignItems: "center",
+                  justifyItems: "flex-start",
+                  gap: 1.2,
                 }}
               >
-                <Typography sx={{ fontSize: 13.3 }} color="text.primary" gutterBottom>
-                  {title}
-                </Typography>
-                <Box sx={{ width: 20, flexShrink: 0, marginLeft: 2 }}>
-                  <img src={`https://avatars.dicebear.com/api/identicon/:${id}.svg`}></img>
-                </Box>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    // label="Start Date"
+                    size="small"
+                    // inputFormat="MM/dd/yyyy"
+                    value={dueDateState}
+                    onChange={handleDueDateChange}
+                    renderInput={
+                      hideInput
+                        ? ({ inputRef, inputProps, InputProps }) => (
+                            <Box ref={inputRef}>{InputProps?.endAdornment}</Box>
+                          )
+                        : (params) => <TextField {...params} />
+                    }
+                  />
+                </LocalizationProvider>
+                <Typography fontSize={12}>Due </Typography>
               </Box>
-              {renderProgressBar(progress)}
+            ) : (
+              <></>
+            )}
 
-              {/* <Typography
-          sx={{
-            fontSize: 12,
-            marginTop: 2,
-            color: "#878787",
-            fontStyle: "italic",
+            {assignedTo ? (
+              <Box sx={{}}>
+                <IconButton
+                  sx={{ marginRight: 2 }}
+                  aria-controls={open ? "demo-positioned-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleIconClick}
+                >
+                  <PersonAddIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            ) : (
+              <></>
+            )}
+          </Box>
+
+          {/* <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions> */}
+        </Card>
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
           }}
         >
-          {description}
-        </Typography> */}
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  marginTop: 2,
-                  color: "#878787",
-                  // fontStyle: "italic",
-                }}
-              >
-                Status: {progress ? progress : "None"}
-              </Typography>
-              {/* </Box> */}
-            </CardContent>
-            <Divider sx={{ mt: 3 }}></Divider>
-            <Box color={"#717073"} display={"flex"} alignItems={"center"} sx={{ padding: 1.4 }}>
-              <CommentIcon color="inherit" fontSize="small" />
-              <Typography ml={1.3} fontSize={12}>
-                {comment?.length}
-              </Typography>
-            </Box>
-
-            {/* <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions> */}
-          </Card>
-        </>
-      ) : (
-        <> </>
-      )}
+          {renderMenuItem()}
+        </Menu>
+      </>
+      {/* ) : ( */}
+      <> </>
+      {/* )} */}
 
       {showComplete && progress === "Completed" ? (
         <>
