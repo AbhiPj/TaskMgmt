@@ -8,6 +8,7 @@ import { Dialog } from "@mui/material";
 import PropTypes from "prop-types";
 
 export const TaskBoard = (data) => {
+  console.log(data, "filter taks");
   const taskType = sessionStorage.getItem("taskType");
   const { data: allList = [], isLoading: loadingAllTask } = useListTaskQuery();
 
@@ -31,6 +32,17 @@ export const TaskBoard = (data) => {
       }
     });
   }
+  var taskFilter = [];
+
+  taskFilter = rawList.filter((item) => !data.data.includes(item.progress));
+
+  // if (data.data.includes("Completed")) {
+  //   taskFilter = rawList.filter((item) => !data.data.includes(item.progress));
+  // } else {
+  //   taskFilter = rawList.filter(
+  //     (item) => item.progress == "Ongoing" || item.progress == "Not started"
+  //   );
+  // }
 
   const [editTask] = useEditTaskMutation();
   const [editOpen, setEditOpen] = React.useState(false);
@@ -51,7 +63,7 @@ export const TaskBoard = (data) => {
       }, {}); // empty object is the initial value for result object
     };
 
-    const filteredList = rawList.map(
+    const filteredList = taskFilter.map(
       ({
         name: title,
         _id: id,
@@ -156,11 +168,10 @@ export const TaskBoard = (data) => {
               overflowX: "auto",
               height: "100%",
               width: "1200px",
-              padding: "0",
-              margin: "0",
             }}
             cardStyle={{}}
             laneStyle={{
+              width: 240,
               height: "100%",
               backgroundColor: "#f2f3f5",
             }}

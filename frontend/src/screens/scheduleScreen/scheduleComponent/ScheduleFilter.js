@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  useEditTaskMutation,
-  useListTaskQuery,
-} from "../../../state/taskSlice";
+import { useEditTaskMutation, useListTaskQuery } from "../../../state/taskSlice";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import moment from "moment";
@@ -36,11 +33,7 @@ export const ScheduleFilter = () => {
     setTaskId(data.id);
   };
 
-  const {
-    data: allList = [],
-    isLoading: loadingTask,
-    error: error,
-  } = useListTaskQuery();
+  const { data: allList = [], isLoading: loadingTask, error: error } = useListTaskQuery();
 
   var rawList = [];
 
@@ -64,14 +57,12 @@ export const ScheduleFilter = () => {
     });
   }
 
-  const filteredTask = rawList.map(
-    ({ name: title, _id: id, startDate: start, dueDate: end }) => ({
-      id,
-      title,
-      start: new Date(start),
-      end: new Date(end),
-    })
-  );
+  const filteredTask = rawList.map(({ name: title, _id: id, startDate: start, dueDate: end }) => ({
+    id,
+    title,
+    start: new Date(start),
+    end: new Date(end),
+  }));
 
   const onSelectSlot = (data) => {
     setDate({
@@ -107,7 +98,7 @@ export const ScheduleFilter = () => {
 
   return (
     <>
-      <Box sx={{}}>
+      <Box sx={{ paddingY: 2 }}>
         <DnDCalendar
           defaultDate={moment().toDate()}
           defaultView="month"

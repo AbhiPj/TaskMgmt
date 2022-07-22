@@ -89,14 +89,14 @@ export const {
 
 export const taskStateSlice = createSlice({
   name: "TaskState",
-  initialState: { showComplete: false },
+  initialState: { showComplete: "" },
   reducers: {
-    taskState: (state) => {
-      if (state.showComplete == false) {
-        state.showComplete = true;
-      } else if (state.showComplete == true) {
-        state.showComplete = false;
-      }
+    taskState: (state, action) => {
+      // if (state.showComplete == false) {
+      //   state.showComplete = true;
+      // } else if (state.showComplete == true) {
+      state.showComplete = action.payload;
+      // }
     },
   },
 });

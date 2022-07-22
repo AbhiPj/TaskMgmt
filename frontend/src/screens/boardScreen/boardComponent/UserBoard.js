@@ -44,6 +44,8 @@ export const UserBoard = (data) => {
     });
   }
 
+  var taskFilter = [];
+  taskFilter = rawList.filter((item) => !data.data.includes(item.progress));
   // if (!loadingUser) {
   //   userList.map((item) => {
   //     // if (item.department == "IT") {
@@ -73,10 +75,21 @@ export const UserBoard = (data) => {
       }, {});
     };
 
-    const filteredList = rawList.map(
-      ({ name: title, _id: id, description: description, progress, assignedTo, comment }) => ({
+    const filteredList = taskFilter.map(
+      ({
+        name: title,
+        _id: id,
+        description: description,
+        priority,
+        progress,
+        dueDate,
+        assignedTo,
+        comment,
+      }) => ({
         title,
         id,
+        priority,
+        dueDate,
         description,
         progress,
         assignedTo: assignedTo?.name,
@@ -151,6 +164,8 @@ export const UserBoard = (data) => {
               width: "1900px",
             }}
             laneStyle={{
+              width: 240,
+              height: "100%",
               backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {

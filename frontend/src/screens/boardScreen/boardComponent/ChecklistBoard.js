@@ -49,7 +49,8 @@ export const ChecklistBoard = (data) => {
       }
     });
   }
-  // console.log(rawList, "rawlist");
+  var taskFilter = [];
+  taskFilter = rawList.filter((item) => !data.data.includes(item.progress));
 
   if (!loadingAllTask) {
     const groupBy = (array, key) => {
@@ -61,18 +62,24 @@ export const ChecklistBoard = (data) => {
       }, {}); // empty object is the initial value for result object
     };
 
-    const filteredList = rawList.map(
+    const filteredList = taskFilter.map(
       ({
         name: title,
         _id: id,
         description: description,
         department,
+        priority,
+        assignedTo,
+        dueDate,
         progress,
         sourceInfo,
         comment,
       }) => ({
         title,
         id,
+        dueDate,
+        priority,
+        assignedTo,
         description,
         progress,
         department,
@@ -144,6 +151,8 @@ export const ChecklistBoard = (data) => {
               }
             }
             laneStyle={{
+              width: 240,
+              height: "100%",
               backgroundColor: "#f2f3f5",
             }}
             onCardClick={(id) => {

@@ -129,16 +129,15 @@ export const CustomCard = (props) => {
   };
   const hideInput = true;
   return (
-    <>
-      {/* {progress != "Completed" ? ( */}
+    <Box sx={{ width: 235, paddingX: 1 }}>
+      {/* {progress != "Completed" && ( */}
       <>
         <Card
           sx={{
-            maxWidth: 250,
             height: "auto",
             minHeight: 150,
             mb: 1,
-            borderRadius: 0.5,
+            borderRadius: 2,
           }}
           elevation={4}
           data-id={id}
@@ -165,17 +164,22 @@ export const CustomCard = (props) => {
                 fontSize: 12,
                 marginTop: 2,
                 color: "#878787",
-                // fontStyle: "italic",
               }}
             >
-              <Box>
-                Status: {progress ? progress : "None"}
-                {priority ? <>Priority : {priority}</> : <></>}
-              </Box>
+              Status: {progress ? progress : "None"}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 12,
+                marginTop: 0.1,
+                color: "#878787",
+              }}
+            >
+              {priority ? <>Priority : {priority}</> : <></>}
             </Typography>
             {/* </Box> */}
           </CardContent>
-          <Divider sx={{ mt: 3 }}></Divider>
+          <Divider sx={{ mt: 0.4 }}></Divider>
           <Box
             color={"#717073"}
             display={"flex"}
@@ -183,38 +187,37 @@ export const CustomCard = (props) => {
             alignItems={"center"}
             sx={{ paddingY: 0.3, minHeight: 44 }}
           >
-            {dueDate ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyItems: "flex-start",
-                  gap: 1.2,
-                }}
-              >
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    // label="Start Date"
-                    size="small"
-                    // inputFormat="MM/dd/yyyy"
-                    value={dueDateState}
-                    onChange={handleDueDateChange}
-                    renderInput={
-                      hideInput
-                        ? ({ inputRef, inputProps, InputProps }) => (
-                            <Box ref={inputRef}>{InputProps?.endAdornment}</Box>
-                          )
-                        : (params) => <TextField {...params} />
-                    }
-                  />
-                </LocalizationProvider>
-                <Typography fontSize={12}>Due </Typography>
-              </Box>
-            ) : (
-              <></>
-            )}
-
-            {assignedTo ? (
+            <div>
+              {dueDate && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyItems: "flex-start",
+                    gap: 1.2,
+                  }}
+                >
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      // label="Start Date"
+                      size="small"
+                      // inputFormat="MM/dd/yyyy"
+                      value={dueDateState}
+                      onChange={handleDueDateChange}
+                      renderInput={
+                        hideInput
+                          ? ({ inputRef, inputProps, InputProps }) => (
+                              <Box ref={inputRef}>{InputProps?.endAdornment}</Box>
+                            )
+                          : (params) => <TextField {...params} />
+                      }
+                    />
+                  </LocalizationProvider>
+                  <Typography fontSize={11}>Due </Typography>
+                </Box>
+              )}
+            </div>
+            {assignedTo && (
               <Box sx={{}}>
                 <IconButton
                   sx={{ marginRight: 2 }}
@@ -226,8 +229,6 @@ export const CustomCard = (props) => {
                   <PersonAddIcon fontSize="small" />
                 </IconButton>
               </Box>
-            ) : (
-              <></>
             )}
           </Box>
 
@@ -253,13 +254,11 @@ export const CustomCard = (props) => {
           {renderMenuItem()}
         </Menu>
       </>
-      {/* ) : ( */}
-      <> </>
       {/* )} */}
 
       {showComplete && progress === "Completed" ? (
         <>
-          <Accordion sx={{ width: 250 }}>
+          <Accordion sx={{}}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -278,7 +277,7 @@ export const CustomCard = (props) => {
       ) : (
         <></>
       )}
-    </>
+    </Box>
   );
 };
 
@@ -336,7 +335,7 @@ export const LaneFooter = (props) => {
     //   <ArrowDropDownIcon />
     // </Box>
     <>
-      <Accordion sx={{ width: 250 }}>
+      <Accordion sx={{}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

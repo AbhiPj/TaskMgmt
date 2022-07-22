@@ -1,7 +1,15 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 
-import { Button, ButtonGroup, createTheme, Divider, OutlinedInput, Stack } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  createTheme,
+  Divider,
+  ListSubheader,
+  OutlinedInput,
+  Stack,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -206,14 +214,37 @@ export const FilterAppBar = (props) => {
                   MenuProps={MenuProps}
                   inputProps={{ "aria-label": "Without label" }}
                 >
-                  <MenuItem disabled value="">
-                    <em>Placeholder</em>
-                  </MenuItem>
+                  {/* <MenuItem disabled value="">
+                    <em>Filter</em>
+                  </MenuItem> */}
+                  <ListSubheader sx={{ fontWeight: "bold" }}>{group} </ListSubheader>
                   {data.map((name) => (
                     <MenuItem key={name} value={name} style={getStyles(name, filterTask, theme)}>
                       {name}
                     </MenuItem>
                   ))}
+                  <ListSubheader sx={{ fontWeight: "bold" }}>Task Status </ListSubheader>
+                  <MenuItem
+                    key="Completed"
+                    value="Completed"
+                    style={getStyles("completed", filterTask, theme)}
+                  >
+                    Completed
+                  </MenuItem>
+                  <MenuItem
+                    key="Ongoing"
+                    value="Ongoing"
+                    style={getStyles("NotCompleted", filterTask, theme)}
+                  >
+                    Ongoing
+                  </MenuItem>
+                  <MenuItem
+                    key="NotStarted"
+                    value="Not started"
+                    style={getStyles("NotCompleted", filterTask, theme)}
+                  >
+                    Not Started
+                  </MenuItem>
                 </Select>
               </FormControl>
 
@@ -271,7 +302,7 @@ export const FilterAppBar = (props) => {
           {/* </ButtonGroup> */}
         </Stack>
       </Box>
-      <Divider sx={{ marginBottom: 1 }}></Divider>
+      <Divider sx={{}}></Divider>
       <Box sx={{}}>{renderComponent()}</Box>
     </>
   );
